@@ -1,18 +1,46 @@
-# Vue 3 + TypeScript + Vite
+<h1 align="center" id="title">testnummers.dev</h1>
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+<p align="center"><img src="https://socialify.git.ci/BramVanBerkel/testnummers/image?description=1&amp;descriptionEditable=&amp;font=Inter&amp;language=1&amp;name=1&amp;owner=1&amp;pattern=Plus&amp;theme=Auto" alt="project-image"></p>
 
-## Recommended IDE Setup
+<p align="center"><img src="https://img.shields.io/badge/Typescript-3178c6" alt="shields"><img src="https://img.shields.io/badge/Vue-33a06" alt="shields"><img src="https://img.shields.io/badge/Vite-646cff" alt="shields"><img src="https://img.shields.io/badge/Tailwind-0ea4e9" alt="shields"></p>
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+<h2>🚀 Demo</h2>
 
-## Type Support For `.vue` Imports in TS
+[testnummers.dev](testnummers.dev)
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+<h2>🛠️ Installation Steps:</h2>
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+<p>1. Clone the repository</p>
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+```
+git clone https://github.com/BramVanBerkel/testnummers.git
+```
+
+<p>2. Navigate to folder</p>
+
+```
+cd testnummers
+```
+
+<p>3. Install dependencies</p>
+
+```
+npm install
+```
+
+<p>4. Run development server</p>
+
+```
+npm run dev
+```
+
+
+
+<h2>💻 Built with</h2>
+
+Technologies used in the project:
+
+*   Typescript
+*   Vue
+*   Vite
+*   Tailwind
