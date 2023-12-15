@@ -46,9 +46,7 @@ function copy(value: string) {
   }, 2000)
 }
 
-onMounted(() => {
-  generate()
-})
+onMounted(() => generate())
 </script>
 
 <template>

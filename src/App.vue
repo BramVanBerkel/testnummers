@@ -1,5 +1,4 @@
-<script setup lang="ts">
-
+<script lang="ts" setup>
 import BSN from "./components/BSN.vue";
 </script>
 
@@ -23,7 +22,7 @@ import BSN from "./components/BSN.vue";
         <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4 sm:px-6">BSN</h1>
         <div class="px-4 py-5 sm:px-6">
           <div class="flex rounded-md shadow-sm">
-            <BSN />
+            <BSN/>
           </div>
         </div>
       </div>
