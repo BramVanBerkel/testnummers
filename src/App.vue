@@ -29,12 +29,10 @@ import IBAN from "./components/IBAN.vue";
       </div>
     </div>
     <div class="lg:max-w-md px-4 pb-12 sm:px-6 lg:px-8">
-      <div class="overflow-hidden bg-white rounded-lg shadow">
-        <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4 sm:px-6">IBAN</h1>
-        <div class="px-4 py-5 sm:px-6">
-          <div class="flex">
-            <IBAN/>
-          </div>
+      <div class="overflow-hidden bg-white rounded-lg shadow divide-y">
+        <h1 class="text-lg font-bold py-4 px-4 sm:px-6">IBAN</h1>
+        <div class="px-4 sm:px-6 py-5">
+          <IBAN/>
         </div>
       </div>
     </div>
