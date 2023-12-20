@@ -8,7 +8,6 @@ let success = ref<boolean>(false);
 let bankCode = ref<string>(banks[1].code)
 
 function generate() {
-  console.log(bankCode.value)
   IBAN.value = generateIBAN(bankCode.value);
 }
 
