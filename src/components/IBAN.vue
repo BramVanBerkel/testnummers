@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {generateBSN} from "../generators/BSNGenerator.ts";
+import {onMounted, ref, watch} from "vue";
 import {copyToClipboard} from "../helpers/copy.ts";
+import {banks, generateIBAN} from "../generators/IBANGenerator.ts";
 
-let BSN = ref<string>();
+let IBAN = ref<string>();
 let success = ref<boolean>(false);
+let bankCode = ref<string>(banks[1].code)
 
 function generate() {
-  BSN.value = generateBSN();
+  console.log(bankCode.value)
+  IBAN.value = generateIBAN(bankCode.value);
 }
 
 async function copy(value: string) {
@@ -30,9 +32,15 @@ onMounted(() => generate())
 </script>
 
 <template>
-  <div class="relative flex flex-grow items-stretch cursor-progress focus-within:z-10">
-    <input readonly @focus="select" type="text" name="BSN" id="BSN" :value="BSN"
-           class="block w-full rounded-none rounded-l-md border-0 pl-3.5 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:leading-6">
+  <div class="relative">
+    <div class="absolute inset-y-0 left-0 flex items-center">
+      <select id="bank" name="bank" @change="generate" v-model="bankCode"
+              class="h-full rounded-md border-0 bg-transparent py-0 pl-3 pr-7 text-gray-500 focus:ring-0 sm:text-sm">
+        <option v-for="bank in banks" :value="bank.code">{{ bank.name }}</option>
+      </select>
+    </div>
+    <input readonly type="text" name="IBAN" id="IBAN" :value="IBAN"
+           class="block w-full h-full rounded-l-md border-0 py-1.5 pl-32 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400"/>
   </div>
   <button type="button" @click="generate"
           class="relative -ml-px inline-flex items-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
@@ -42,7 +50,7 @@ onMounted(() => generate())
             d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
     </svg>
   </button>
-  <button type="button" @click="(BSN) ? copy(BSN) : null"
+  <button type="button" @click="(IBAN) ? copy(IBAN) : null"
           :class="[(success) ? ['text-green-600', 'bg-green-300', 'hover:bg-green-400'] : null]"
           class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 cursor-copy hover:bg-gray-50">
     <svg :class="{hidden: success}" class="-ml-0.5 w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"

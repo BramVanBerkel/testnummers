@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import BSN from "./components/BSN.vue";
+import IBAN from "./components/IBAN.vue";
 </script>
 
 <template>
@@ -16,7 +17,7 @@ import BSN from "./components/BSN.vue";
     </nav>
   </div>
 
-  <main class="-mt-32 pt-10 p columns-1 xl:columns-3 md:columns-2 xl:px-64">
+  <main class="-mt-32 pt-10 p columns-1 md:columns-2 xl:px-64">
     <div class="max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
       <div class="overflow-hidden bg-white rounded-lg shadow">
         <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4 sm:px-6">BSN</h1>
@@ -28,8 +29,13 @@ import BSN from "./components/BSN.vue";
       </div>
     </div>
     <div class="max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-      <div class="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
-        asdasd
+      <div class="overflow-hidden bg-white rounded-lg shadow">
+        <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4 sm:px-6">IBAN</h1>
+        <div class="px-4 py-5 sm:px-6">
+          <div class="flex">
+            <IBAN/>
+          </div>
+        </div>
       </div>
     </div>
     <div class="max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
