@@ -17,18 +17,18 @@ import IBAN from "./components/IBAN.vue";
     </nav>
   </div>
 
-  <main class="-mt-32 pt-10 p columns-1 md:columns-2 xl:px-64">
-    <div class="max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-      <div class="overflow-hidden bg-white rounded-lg shadow">
-        <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4 sm:px-6">BSN</h1>
-        <div class="px-4 py-5 sm:px-6">
-          <div class="flex rounded-md shadow-sm">
+  <main class="container mx-auto grid grid-cols-1 lg:grid-cols-2 justify-stretch -mt-32 pt-10 xl:px-24">
+    <div class="px-4 pb-12 sm:px-6 md:w-full lg:max-w-md">
+      <div class="bg-white rounded-lg shadow divide-y">
+        <h1 class="text-lg font-bold py-4 px-4 sm:px-6">BSN</h1>
+        <div class="px-4 sm:px-6 py-5">
+          <div class="rounded-md shadow-sm">
             <BSN/>
           </div>
         </div>
       </div>
     </div>
-    <div class="max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+    <div class="lg:max-w-md px-4 pb-12 sm:px-6 lg:px-8">
       <div class="overflow-hidden bg-white rounded-lg shadow">
         <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4 sm:px-6">IBAN</h1>
         <div class="px-4 py-5 sm:px-6">
@@ -38,27 +38,10 @@ import IBAN from "./components/IBAN.vue";
         </div>
       </div>
     </div>
-    <div class="max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+    <div class="lg:max-w-md px-4 pb-12 sm:px-6 lg:px-8">
       <div class="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
         asdasd
       </div>
     </div>
   </main>
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
