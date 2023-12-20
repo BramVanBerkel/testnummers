@@ -17,7 +17,7 @@ import IBAN from "./components/IBAN.vue";
     </nav>
   </div>
 
-  <main class="-mt-32 pt-10 p columns-1 md:columns-2 xl:px-64">
+  <main class="-mt-32 pt-10 columns-1 lg:columns-2">
     <div class="max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
       <div class="overflow-hidden bg-white rounded-lg shadow">
         <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4 sm:px-6">BSN</h1>

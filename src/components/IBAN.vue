@@ -31,15 +31,15 @@ onMounted(() => generate())
 </script>
 
 <template>
-  <div class="relative">
-    <div class="absolute inset-y-0 left-0 flex items-center">
+  <div class="relative flex flex-grow">
+    <div class="absolute inset-y-0 left-0">
       <select id="bank" name="bank" @change="generate" v-model="bankCode"
               class="h-full rounded-md border-0 bg-transparent py-0 pl-3 pr-7 text-gray-500 focus:ring-0 sm:text-sm">
         <option v-for="bank in banks" :value="bank.code">{{ bank.name }}</option>
       </select>
     </div>
-    <input readonly type="text" name="IBAN" id="IBAN" :value="IBAN"
-           class="block w-full h-full rounded-l-md border-0 py-1.5 pl-32 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400"/>
+    <input readonly type="text" name="IBAN" id="IBAN" :value="IBAN" @focus="select"
+           class="block w-full h-full rounded-l-md border-0 py-1.5 pl-32 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600"/>
   </div>
   <button type="button" @click="generate"
           class="relative -ml-px inline-flex items-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">

@@ -32,7 +32,7 @@ onMounted(() => generate())
 <template>
   <div class="relative flex flex-grow items-stretch cursor-progress focus-within:z-10">
     <input readonly @focus="select" type="text" name="BSN" id="BSN" :value="BSN"
-           class="block w-full rounded-none rounded-l-md border-0 pl-3.5 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:leading-6">
+           class="block w-full rounded-none rounded-l-md border-0 pl-3.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600">
   </div>
   <button type="button" @click="generate"
           class="relative -ml-px inline-flex items-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
