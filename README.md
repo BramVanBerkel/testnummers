@@ -40,7 +40,22 @@ npm run dev
 
 Technologies used in the project:
 
-*   Typescript
-*   Vue
-*   Vite
-*   Tailwind
+* Typescript
+* Vue
+* Vite
+* Tailwind
+
+<h2>📝 Todo</h2>
+* IBAN generator different countries
+* UUID Generator (v1/v2/v3/v4?)
+* Password generator
+  * Length
+  * Uppercase
+  * Lowercase
+  * Symbols
+* Contact information generator
+  * First name / Last name
+  * Email
+  * Address
+* Bcrypt generator
+* (?)Current IP address
