@@ -18,20 +18,20 @@ import IBAN from "./components/IBAN.vue";
   </div>
 
   <main class="-mt-32 pt-10 columns-1 lg:columns-2">
-    <div class="max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+    <div class="px-4 pb-12 lg:px-8">
       <div class="overflow-hidden bg-white rounded-lg shadow">
-        <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4 sm:px-6">BSN</h1>
-        <div class="px-4 py-5 sm:px-6">
+        <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4">BSN</h1>
+        <div class="px-4 py-5">
           <div class="flex rounded-md shadow-sm">
             <BSN/>
           </div>
         </div>
       </div>
     </div>
-    <div class="max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+    <div class="px-4 pb-12 lg:px-8">
       <div class="overflow-hidden bg-white rounded-lg shadow">
-        <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4 sm:px-6">IBAN</h1>
-        <div class="px-4 py-5 sm:px-6">
+        <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4">IBAN</h1>
+        <div class="px-4 py-5">
           <div class="flex">
             <IBAN/>
           </div>
