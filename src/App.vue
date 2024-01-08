@@ -17,48 +17,26 @@ import IBAN from "./components/IBAN.vue";
     </nav>
   </div>
 
-  <main class="-mt-32 pt-10 columns-1 lg:columns-2">
+  <main class="-mt-32 pt-10 grid grid-cols-1 lg:grid-cols-2">
     <div class="px-4 pb-12 lg:px-8">
-      <div class="overflow-hidden bg-white rounded-lg shadow">
+      <div class="bg-white rounded-lg shadow">
         <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4">BSN</h1>
         <div class="px-4 py-5">
-          <div class="flex rounded-md shadow-sm">
-            <BSN/>
+          <div class="flex">
+            <BSN />
           </div>
         </div>
       </div>
     </div>
     <div class="px-4 pb-12 lg:px-8">
-      <div class="overflow-hidden bg-white rounded-lg shadow">
+      <div class="bg-white rounded-lg shadow">
         <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4">IBAN</h1>
         <div class="px-4 py-5">
           <div class="flex">
-            <IBAN/>
+            <IBAN />
           </div>
         </div>
-      </div>
-    </div>
-    <div class="max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-      <div class="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
-        asdasd
       </div>
     </div>
   </main>
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
