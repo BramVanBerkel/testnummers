@@ -38,7 +38,7 @@ npm run dev
 
 <h2>💻 Built with</h2>
 
-Technologies used in the project:
+Technologies used:
 
 * Typescript
 * Vue
@@ -46,8 +46,8 @@ Technologies used in the project:
 * Tailwind
 
 <h2>📝 Todo</h2>
-* IBAN generator different countries
-* UUID Generator (v1/v2/v3/v4?)
+* IBAN generator different countries ❓
+* UUID different versions generator ❓
 * Password generator
   * Length
   * Uppercase
