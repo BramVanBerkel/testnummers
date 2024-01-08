@@ -36,15 +36,15 @@ onMounted(() => generate())
   <div class="relative flex flex-grow items-stretch cursor-progress focus-within:z-10">
     <input readonly @focus="select" type="text" name="BSN" id="BSN" :value="BSN"
            class="block w-full rounded-none rounded-l-md border-0 pl-3.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600">
+    <button type="button" @click="generate"
+            class="relative -ml-px inline-flex items-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+      <GenerateIcon class="-ml-0.5 w-6 h-6 text-gray-400"></GenerateIcon>
+    </button>
+    <button type="button" @click="(BSN) ? copy(BSN) : null"
+            :class="[(success) ? ['text-green-600', 'bg-green-300', 'hover:bg-green-400'] : null]"
+            class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 cursor-copy hover:bg-gray-50">
+      <CopyIcon :class="{hidden: success}" class="-ml-0.5 w-6 h-6 text-gray-400"></CopyIcon>
+      <CopiedIcon :class="{hidden: !success}" class="-ml-0.5 w-6 h-6 text-green-600"></CopiedIcon>
+    </button>
   </div>
-  <button type="button" @click="generate"
-          class="relative -ml-px inline-flex items-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-    <GenerateIcon class="-ml-0.5 w-6 h-6 text-gray-400"></GenerateIcon>
-  </button>
-  <button type="button" @click="(BSN) ? copy(BSN) : null"
-          :class="[(success) ? ['text-green-600', 'bg-green-300', 'hover:bg-green-400'] : null]"
-          class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 cursor-copy hover:bg-gray-50">
-    <CopyIcon :class="{hidden: success}" class="-ml-0.5 w-6 h-6 text-gray-400"></CopyIcon>
-    <CopiedIcon :class="{hidden: !success}" class="-ml-0.5 w-6 h-6 text-green-600"></CopiedIcon>
-  </button>
 </template>

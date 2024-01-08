@@ -2,6 +2,7 @@
 import BSN from "./components/BSN.vue";
 import IBAN from "./components/IBAN.vue";
 import UUID from "./components/UUID.vue";
+import Password from "./components/Password.vue";
 </script>
 
 <template>
@@ -45,6 +46,16 @@ import UUID from "./components/UUID.vue";
         <div class="px-4 py-5">
           <div class="flex">
             <UUID />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="px-4 pb-12 lg:px-8">
+      <div class="bg-white rounded-lg shadow">
+        <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4">Password</h1>
+        <div class="px-4 py-5">
+          <div class="flex flex-col">
+            <Password />
           </div>
         </div>
       </div>
