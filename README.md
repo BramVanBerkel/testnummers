@@ -6,7 +6,7 @@
 
 <h2>🚀 Demo</h2>
 
-[testnummers.dev](testnummers.dev)
+[testnummers.dev](https://testnummers.dev)
 
 <h2>🛠️ Installation Steps:</h2>
 
@@ -48,14 +48,9 @@ Technologies used:
 <h2>📝 Todo</h2>
 * IBAN generator different countries ❓
 * UUID different versions generator ❓
-* Password generator
-  * Length
-  * Uppercase
-  * Lowercase
-  * Symbols
 * Contact information generator
   * First name / Last name
   * Email
   * Address
-* Bcrypt generator
+* Bcrypt generator & validator
 * (?)Current IP address
