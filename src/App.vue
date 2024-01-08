@@ -10,7 +10,7 @@ import IBAN from "./components/IBAN.vue";
         <div
             class="relative flex h-16 items-center justify-between lg:border-b lg:border-indigo-400 lg:border-opacity-25">
           <div class="flex flex-1 px-2 lg:ml-6">
-            <span class="text-zinc-200 text-2xl font-mono">Testnummers.dev</span>
+            <span class="text-zinc-200 text-2xl title-font antialiased">Testnummers.dev</span>
           </div>
         </div>
       </div>
