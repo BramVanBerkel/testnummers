@@ -6,9 +6,13 @@ export type Bank = { name: string; code: string; }
 export const banks: Bank[] = [
     {name: 'ABN AMRO', code: 'ABNA'},
     {name: 'ASN', code: 'ASNB'},
+    {name: 'bunq', code: 'BUNQ'},
     {name: 'Deutsche Bank', code: 'DEUT'},
     {name: 'ING', code: 'INGB'},
+    {name: 'Knab', code: 'KNAB'},
     {name: 'Rabobank', code: 'RABO'},
+    {name: 'Regiobank', code: 'RBRB'},
+    {name: 'Revolut', code: 'REVO'},
     {name: 'SNS', code: 'ZWLB'},
     {name: 'Triodos', code: 'TRIO'},
     {name: 'Van Lanschot', code: 'FVLB'}
