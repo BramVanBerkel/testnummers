@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {copyToClipboard} from "../helpers/copy.ts";
 import GenerateIcon from "./icons/GenerateIcon.vue";
 import CopyIcon from "./icons/CopyIcon.vue";
