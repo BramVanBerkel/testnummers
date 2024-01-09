@@ -6,11 +6,10 @@ import Password from "./components/Password.vue";
 </script>
 
 <template>
-  <div class="bg-indigo-600 pb-32">
-    <nav class="border-b border-indigo-300 border-opacity-25 bg-indigo-600 lg:border-none">
+  <div class="bg-cyan-800 pb-32">
+    <nav>
       <div class="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
-        <div
-            class="relative flex h-16 items-center justify-between lg:border-b lg:border-indigo-400 lg:border-opacity-25">
+        <div class="relative flex h-16 items-center justify-between border-b border-cyan-400 border-opacity-25">
           <div class="flex flex-1 px-2 lg:ml-6">
             <span class="text-zinc-200 text-2xl title-font antialiased">Testnummers.dev</span>
           </div>
