@@ -47,7 +47,6 @@ Technologies used:
 
 <h2>📝 Todo</h2>
 * Add formatters / Linters
-* Add favicon
 * Add link to github
 * Move to node 20
 * IBAN generator different countries ❓

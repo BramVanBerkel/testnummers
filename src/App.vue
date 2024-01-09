@@ -3,6 +3,7 @@ import BSN from "./components/BSN.vue";
 import IBAN from "./components/IBAN.vue";
 import UUID from "./components/UUID.vue";
 import Password from "./components/Password.vue";
+import Footer from "./components/Footer.vue";
 </script>
 
 <template>
@@ -60,4 +61,5 @@ import Password from "./components/Password.vue";
       </div>
     </div>
   </main>
+  <Footer />
 </template>
