@@ -13,7 +13,7 @@ let generateSuccess = ref<boolean>(false);
 function generate(setSuccess: boolean = true) {
   BSN.value = generateBSN();
 
-  if(setSuccess) {
+  if (setSuccess) {
     generateSuccess.value = true;
 
     setTimeout(() => {
@@ -47,14 +47,17 @@ onMounted(() => generate(false))
            class="block w-full rounded-none rounded-l-md border-0 pl-3.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600">
     <button type="button" @click="generate()"
             class="relative -ml-px inline-flex items-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-      <GenerateIcon :class="{'rotate-45': generateSuccess, 'text-green-600': generateSuccess}" class="-ml-0.5 w-6 h-6 text-gray-400 transition-transform duration-300"></GenerateIcon>
+      <GenerateIcon :class="{'rotate-45': generateSuccess, 'text-green-600': generateSuccess}"
+                    class="-ml-0.5 w-6 h-6 text-gray-400 transition-transform duration-300"></GenerateIcon>
     </button>
     <button type="button" @click="(BSN) ? copy(BSN) : null"
             class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold group text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-      <CopyIcon :class="{hidden: copySuccess}" class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"></CopyIcon>
+      <CopyIcon :class="{hidden: copySuccess}"
+                class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"></CopyIcon>
       <CopiedIcon :class="{hidden: !copySuccess}" class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"></CopiedIcon>
 
-      <span :class="{'opacity-100': copySuccess, 'opacity-0': !copySuccess}" class="absolute inset-x-0 bottom-full mb-2.5 flex justify-center scale-100 translate-y-0 transition-opacity duration-300">
+      <span :class="{'opacity-100': copySuccess, 'opacity-0': !copySuccess}"
+            class="absolute inset-x-0 bottom-full mb-2.5 flex justify-center scale-100 translate-y-0 transition-opacity duration-300">
        <span
            class="rounded-md bg-gray-900 px-3 py-1 text-xs font-semibold leading-4 tracking-wide text-white drop-shadow-md filter">
           <svg

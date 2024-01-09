@@ -58,7 +58,7 @@ onMounted(() => generate(false))
                     class="-ml-0.5 w-6 h-6 text-gray-400 transition-transform duration-300"></GenerateIcon>
     </button>
     <button type="button" @click="(IBAN) ? copy(IBAN) : null"
-            class="relative -ml-px inline-flex items-center rounded-r-md px-2 sm:px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 cursor-copy hover:bg-gray-50">
+            class="relative -ml-px inline-flex items-center rounded-r-md px-2 sm:px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
       <CopyIcon :class="{hidden: copySuccess}"
                 class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"></CopyIcon>
       <CopiedIcon :class="{hidden: !copySuccess}" class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"></CopiedIcon>
