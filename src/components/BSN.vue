@@ -7,19 +7,28 @@ import CopyIcon from "./icons/CopyIcon.vue";
 import CopiedIcon from "./icons/CopiedIcon.vue";
 
 let BSN = ref<string>();
-let success = ref<boolean>(false);
+let copySuccess = ref<boolean>(false);
+let generateSuccess = ref<boolean>(false);
 
-function generate() {
+function generate(setSuccess: boolean = true) {
   BSN.value = generateBSN();
+
+  if(setSuccess) {
+    generateSuccess.value = true;
+
+    setTimeout(() => {
+      generateSuccess.value = false;
+    }, 300)
+  }
 }
 
 async function copy(value: string) {
   await copyToClipboard(value);
 
-  success.value = true;
+  copySuccess.value = true;
 
   setTimeout(() => {
-    success.value = false;
+    copySuccess.value = false;
   }, 2000)
 }
 
@@ -29,22 +38,35 @@ function select(event: FocusEvent) {
   target.select();
 }
 
-onMounted(() => generate())
+onMounted(() => generate(false))
 </script>
 
 <template>
-  <div class="relative flex flex-grow items-stretch cursor-progress focus-within:z-10">
+  <div class="relative flex flex-grow items-stretch focus-within:z-10">
     <input readonly @focus="select" type="text" name="BSN" id="BSN" :value="BSN"
            class="block w-full rounded-none rounded-l-md border-0 pl-3.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600">
-    <button type="button" @click="generate"
+    <button type="button" @click="generate()"
             class="relative -ml-px inline-flex items-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-      <GenerateIcon class="-ml-0.5 w-6 h-6 text-gray-400"></GenerateIcon>
+      <GenerateIcon :class="{'rotate-45': generateSuccess, 'text-green-600': generateSuccess}" class="-ml-0.5 w-6 h-6 text-gray-400 transition-transform duration-300"></GenerateIcon>
     </button>
     <button type="button" @click="(BSN) ? copy(BSN) : null"
-            :class="[(success) ? ['text-green-600', 'bg-green-300', 'hover:bg-green-400'] : null]"
-            class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 cursor-copy hover:bg-gray-50">
-      <CopyIcon :class="{hidden: success}" class="-ml-0.5 w-6 h-6 text-gray-400"></CopyIcon>
-      <CopiedIcon :class="{hidden: !success}" class="-ml-0.5 w-6 h-6 text-green-600"></CopiedIcon>
+            class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold group text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+      <CopyIcon :class="{hidden: copySuccess}" class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"></CopyIcon>
+      <CopiedIcon :class="{hidden: !copySuccess}" class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"></CopiedIcon>
+
+      <span :class="{'opacity-100': copySuccess, 'opacity-0': !copySuccess}" class="absolute inset-x-0 bottom-full mb-2.5 flex justify-center scale-100 translate-y-0 transition-opacity duration-300">
+       <span
+           class="rounded-md bg-gray-900 px-3 py-1 text-xs font-semibold leading-4 tracking-wide text-white drop-shadow-md filter">
+          <svg
+              aria-hidden="true" width="16" height="6" viewBox="0 0 16 6"
+              class="absolute left-1/2 top-full -ml-2 -mt-px text-gray-900">
+             <path fill-rule="evenodd" clip-rule="evenodd"
+                   d="M15 0H1V1.00366V1.00366V1.00371H1.01672C2.72058 1.0147 4.24225 2.74704 5.42685 4.72928C6.42941 6.40691 9.57154 6.4069 10.5741 4.72926C11.7587 2.74703 13.2803 1.0147 14.9841 1.00371H15V0Z"
+                   fill="currentColor"></path>
+          </svg>
+          Copied!
+       </span>
+    </span>
     </button>
   </div>
 </template>
