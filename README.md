@@ -47,7 +47,6 @@ Technologies used:
 
 <h2>📝 Todo</h2>
 * Add formatters / Linters
-* Add link to github
 * Move to node 20
 * IBAN generator different countries ❓
 * UUID different versions generator ❓
@@ -56,4 +55,4 @@ Technologies used:
   * Email
   * Address
 * Bcrypt generator & validator
-* (?)Current IP address
+* Unix timestamp parser & current unix timestamp
