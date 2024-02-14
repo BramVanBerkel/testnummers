@@ -1,36 +1,28 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import {copyToClipboard} from "../helpers/copy.ts";
 import {banks, generateIBAN} from "../generators/IBANGenerator.ts";
 import GenerateIcon from "./icons/GenerateIcon.vue";
 import CopyIcon from "./icons/CopyIcon.vue";
 import CopiedIcon from "./icons/CopiedIcon.vue";
+import {copy} from "../helpers/copy.ts";
 
-let IBAN = ref<string>();
-let copySuccess = ref<boolean>(false);
-let generateSuccess = ref<boolean>(false);
-let bankCode = ref<string>(banks[1].code)
-
-function generate(setSuccess: boolean = true) {
-  IBAN.value = generateIBAN(bankCode.value);
-
-  if (setSuccess) {
-    generateSuccess.value = true;
-
-    setTimeout(() => {
-      generateSuccess.value = false;
-    }, 300)
-  }
+const state = {
+  IBAN: ref<string>(),
+  copySuccess: ref<boolean>(false),
+  generateSuccess: ref<boolean>(false),
+  bankCode: ref<string>(banks[1].code),
 }
 
-async function copy(value: string) {
-  await copyToClipboard(value);
+function generate(setSuccess: boolean = true) {
+  state.IBAN.value = generateIBAN(state.bankCode.value);
 
-  copySuccess.value = true;
+  if (setSuccess) {
+    state.generateSuccess.value = true;
 
-  setTimeout(() => {
-    copySuccess.value = false;
-  }, 2000)
+    setTimeout(() => {
+      state.generateSuccess.value = false;
+    }, 300)
+  }
 }
 
 function select(event: FocusEvent) {
@@ -45,25 +37,25 @@ onMounted(() => generate(false))
 <template>
   <div class="relative flex flex-grow">
     <div class="absolute inset-y-0 left-0">
-      <select id="bank" name="bank" @change="generate()" v-model="bankCode"
+      <select id="bank" name="bank" @change="generate(false)" v-model="state.bankCode.value"
               class="h-full rounded-md border-0 bg-transparent py-0 pl-3 pr-7 text-xs sm:text-base text-gray-500 focus:ring-0">
         <option v-for="bank in banks" :value="bank.code">{{ bank.name }}</option>
       </select>
     </div>
-    <input readonly type="text" name="IBAN" id="IBAN" :value="IBAN" @focus="select"
+    <input readonly type="text" name="IBAN" id="IBAN" :value="state.IBAN.value" @focus="select"
            class="block w-full h-full rounded-l-md border-0 py-1.5 pl-32 sm:pl-36 pr-0 text-gray-900 text-sm sm:text-base ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600"/>
     <button type="button" @click="generate()"
             class="relative -ml-px inline-flex items-center px-2 sm:px-3 py-2 font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-      <GenerateIcon :class="{'rotate-45': generateSuccess, 'text-green-600': generateSuccess}"
+      <GenerateIcon :class="{'rotate-45': state.generateSuccess.value, 'text-green-600': state.generateSuccess.value}"
                     class="-ml-0.5 w-6 h-6 text-gray-400 transition-transform duration-300"></GenerateIcon>
     </button>
-    <button type="button" @click="(IBAN) ? copy(IBAN) : null"
+    <button type="button" @click="(state.IBAN.value) ? copy(state.IBAN.value, state.copySuccess) : null"
             class="relative -ml-px inline-flex items-center rounded-r-md px-2 sm:px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-      <CopyIcon :class="{hidden: copySuccess}"
+      <CopyIcon :class="{hidden: state.copySuccess.value}"
                 class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"></CopyIcon>
-      <CopiedIcon :class="{hidden: !copySuccess}" class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"></CopiedIcon>
+      <CopiedIcon :class="{hidden: !state.copySuccess.value}" class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"></CopiedIcon>
 
-      <span :class="{'opacity-100': copySuccess, 'opacity-0': !copySuccess}"
+      <span :class="{'opacity-100': state.copySuccess.value, 'opacity-0': !state.copySuccess.value}"
             class="absolute inset-x-0 bottom-full mb-2.5 flex justify-center scale-100 translate-y-0 transition-opacity duration-300">
        <span
            class="rounded-md bg-gray-900 px-3 py-1 text-xs font-semibold leading-4 tracking-wide text-white drop-shadow-md filter">

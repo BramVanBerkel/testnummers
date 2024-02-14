@@ -1,57 +1,48 @@
 <script setup lang="ts">
 import {onMounted, ref, watch} from "vue";
-import {copyToClipboard} from "../helpers/copy.ts";
 import GenerateIcon from "./icons/GenerateIcon.vue";
 import CopyIcon from "./icons/CopyIcon.vue";
 import CopiedIcon from "./icons/CopiedIcon.vue";
 import {generatePassword} from "../generators/PasswordGenerator.ts";
+import {copy} from "../helpers/copy.ts";
 
-let password = ref<string>();
 let passwordScore: 0 | 1 | 2 | 3 | 4 | 5;
 
-let length = ref<number>(16);
-let lowercase = ref<boolean>(true);
-let uppercase = ref<boolean>(true);
-let numbers = ref<boolean>(true);
-let symbols = ref<boolean>(true);
-
-let copySuccess = ref<boolean>(false);
-let generateSuccess = ref<boolean>(false);
+const state = {
+  password: ref<string>(),
+  length: ref<number>(16),
+  lowercase: ref<boolean>(true),
+  uppercase: ref<boolean>(true),
+  numbers: ref<boolean>(true),
+  symbols: ref<boolean>(true),
+  copySuccess: ref<boolean>(false),
+  generateSuccess: ref<boolean>(false),
+}
 
 function generate(setSuccess: boolean = true) {
-  password.value = generatePassword(length.value, lowercase.value, uppercase.value, numbers.value, symbols.value);
+  state.password.value = generatePassword(state.length.value, state.lowercase.value, state.uppercase.value, state.numbers.value, state.symbols.value);
 
-  if (password.value?.length === 0) {
+  if (state.password.value?.length === 0) {
     passwordScore = 0;
-  } else if (length.value < 4) {
+  } else if (state.length.value < 4) {
     passwordScore = 1;
-  } else if (length.value <= 7) {
+  } else if (state.length.value <= 7) {
     passwordScore = 2;
-  } else if (length.value <= 11) {
+  } else if (state.length.value <= 11) {
     passwordScore = 3;
-  } else if (length.value <= 15) {
+  } else if (state.length.value <= 15) {
     passwordScore = 4;
   } else {
     passwordScore = 5;
   }
 
   if (setSuccess) {
-    generateSuccess.value = true;
+    state.generateSuccess.value = true;
 
     setTimeout(() => {
-      generateSuccess.value = false;
+      state.generateSuccess.value = false;
     }, 300)
   }
-}
-
-async function copy(value: string) {
-  await copyToClipboard(value);
-
-  copySuccess.value = true;
-
-  setTimeout(() => {
-    copySuccess.value = false;
-  }, 2000)
 }
 
 function select(event: FocusEvent) {
@@ -62,25 +53,25 @@ function select(event: FocusEvent) {
 
 onMounted(() => generate(false))
 
-watch([length, lowercase, uppercase, numbers, symbols], () => generate())
+watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symbols], () => generate(false))
 </script>
 
 <template>
   <div class="relative flex flex-grow items-stretch focus-within:z-10">
-    <input readonly @focus="select" type="text" name="BSN" id="BSN" :value="password"
+    <input readonly @focus="select" type="text" name="BSN" id="BSN" :value="state.password.value"
            class="block w-full rounded-none rounded-l-md border-0 pl-3.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600">
     <button type="button" @click="generate()"
             class="relative -ml-px inline-flex items-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-      <GenerateIcon :class="{'rotate-45': generateSuccess, 'text-green-600': generateSuccess}"
+      <GenerateIcon :class="{'rotate-45': state.generateSuccess.value, 'text-green-600': state.generateSuccess.value}"
                     class="-ml-0.5 w-6 h-6 text-gray-400 transition-transform duration-300"></GenerateIcon>
     </button>
-    <button type="button" @click="(password) ? copy(password) : null"
+    <button type="button" @click="(state.password.value) ? copy(state.password.value, state.copySuccess) : null"
             class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-      <CopyIcon :class="{hidden: copySuccess}"
+      <CopyIcon :class="{hidden: state.copySuccess.value}"
                 class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"></CopyIcon>
-      <CopiedIcon :class="{hidden: !copySuccess}" class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"></CopiedIcon>
+      <CopiedIcon :class="{hidden: !state.copySuccess.value}" class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"></CopiedIcon>
 
-      <span :class="{'opacity-100': copySuccess, 'opacity-0': !copySuccess}"
+      <span :class="{'opacity-100': state.copySuccess.value, 'opacity-0': !state.copySuccess.value}"
             class="absolute inset-x-0 bottom-full mb-2.5 flex justify-center scale-100 translate-y-0 transition-opacity duration-300">
        <span
            class="rounded-md bg-gray-900 px-3 py-1 text-xs font-semibold leading-4 tracking-wide text-white drop-shadow-md filter">
@@ -111,30 +102,30 @@ watch([length, lowercase, uppercase, numbers, symbols], () => generate())
   <label class="block text-xs font-semibold text-gray-500 mb-2">Password length</label>
 
   <div class="flex items-stretch gap-2 max-w-2xl">
-    <input class="w-full" type="range" min="1" max="30" step="1" v-model="length">
-    <div v-text="length"></div>
+    <input class="w-full" type="range" min="1" max="30" step="1" v-model="state.length.value">
+    <div v-text="state.length.value"></div>
   </div>
 
 
   <div class="grid grid-cols-2 max-w-2xl">
     <label for="lowercase">
-      <input type="checkbox" class="h-4 w-4 mr-1 rounded border-gray-300" id="lowercase" v-model="lowercase">
+      <input type="checkbox" class="h-4 w-4 mr-1 rounded border-gray-300" id="lowercase" v-model="state.lowercase.value">
       <span class="text-sm font-semibold text-gray-500">Lowercase</span>
     </label>
 
     <label for="uppercase">
-      <input type="checkbox" class="h-4 w-4 mr-1 rounded border-gray-300" id="uppercase" v-model="uppercase">
+      <input type="checkbox" class="h-4 w-4 mr-1 rounded border-gray-300" id="uppercase" v-model="state.uppercase.value">
       <span class="text-sm font-semibold text-gray-500">Uppercase</span>
     </label>
 
 
     <label for="numbers">
-      <input type="checkbox" class="h-4 w-4 mr-1 rounded border-gray-300" id="numbers" v-model="numbers">
+      <input type="checkbox" class="h-4 w-4 mr-1 rounded border-gray-300" id="numbers" v-model="state.numbers.value">
       <span class="text-sm font-semibold text-gray-500">Numbers</span>
     </label>
 
     <label for="symbols">
-      <input type="checkbox" class="h-4 w-4 mr-1 rounded border-gray-300" id="symbols" v-model="symbols">
+      <input type="checkbox" class="h-4 w-4 mr-1 rounded border-gray-300" id="symbols" v-model="state.symbols.value">
       <span class="text-sm font-semibold text-gray-500">Symbols</span>
     </label>
   </div>
