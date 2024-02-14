@@ -46,11 +46,12 @@ Technologies used:
 * Tailwind
 
 <h2>📝 Todo</h2>
+
 * Add formatters / Linters
 * Move to node 20
 * IBAN generator different countries ❓
 * UUID different versions generator ❓
-* Contact information generator
+* Contact information generator:
   * First name / Last name
   * Email
   * Address
