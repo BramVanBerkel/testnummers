@@ -4,6 +4,7 @@ import IBAN from "./components/IBAN.vue";
 import UUID from "./components/UUID.vue";
 import Password from "./components/Password.vue";
 import Footer from "./components/Footer.vue";
+import Bcrypt from "./components/Bcrypt.vue";
 </script>
 
 <template>
@@ -19,7 +20,7 @@ import Footer from "./components/Footer.vue";
     </nav>
   </div>
 
-  <main class="-mt-32 pt-10 grid grid-cols-1 lg:grid-cols-2">
+  <main class="-mt-32 pt-10 columns-1 lg:columns-2">
     <div class="px-4 pb-12 lg:px-8">
       <div class="bg-white rounded-lg shadow">
         <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4">BSN</h1>
@@ -56,6 +57,16 @@ import Footer from "./components/Footer.vue";
         <div class="px-4 py-5">
           <div class="flex flex-col">
             <Password />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="px-4 pb-12 lg:px-8">
+      <div class="bg-white rounded-lg shadow">
+        <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4">Bcrypt</h1>
+        <div class="px-4 py-5">
+          <div class="flex flex-col">
+            <Bcrypt />
           </div>
         </div>
       </div>
