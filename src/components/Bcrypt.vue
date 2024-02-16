@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import {ref, watch} from "vue";
-import {generateBcrypt} from "../generators/BcryptGenerator.ts";
+import {checkBcrypt, generateBcrypt} from "../generators/BcryptGenerator.ts";
 import {copy} from "../helpers/copy.ts";
 import CopiedIcon from "./icons/CopiedIcon.vue";
 import CopyIcon from "./icons/CopyIcon.vue";
 import {debounce} from "../helpers/debounce.ts";
 
 const state = {
-  input: ref<string>(),
-  hash: ref<string>(),
+  generateInput: ref<string>(),
+  generateHash: ref<string>(),
+  checkInput: ref<string>(),
+  checkHash: ref<string>(),
+  checkSuccess: ref<boolean>(),
   copySuccess: ref<boolean>(false),
   generateSuccess: ref<boolean>(false),
 }
 
 function generate(setSuccess: boolean = true) {
-  console.log('generateBcrypt(state.input.value)', generateBcrypt(state.input.value));
+  console.log('generateBcrypt(state.input.value)', generateBcrypt(state.generateInput.value));
 
-  state.hash.value = generateBcrypt(state.input.value);
+  state.generateHash.value = generateBcrypt(state.generateInput.value);
 
   if (setSuccess) {
     state.generateSuccess.value = true;
@@ -27,27 +30,36 @@ function generate(setSuccess: boolean = true) {
   }
 }
 
+function check() {
+  console.log('checkBcrypt(state.checkInput.value, state.checkHash.value)', checkBcrypt(state.checkInput.value, state.checkHash.value))
+  state.checkSuccess.value = checkBcrypt(state.checkInput.value, state.checkHash.value);
+}
+
 function select(event: FocusEvent) {
   const target = event.target as HTMLInputElement;
 
   target.select();
 }
 
-watch(state.input, debounce(generate));
+watch(state.generateInput, debounce(generate));
+
+watch([state.checkInput, state.checkHash], debounce(check));
 </script>
 
 <template>
   <div class="-space-y-px">
-    <input type="text" name="input" id="input" v-model="state.input.value" placeholder="input"
+    <p class="pb-4 text-lg text-gray-500">Generate hash</p>
+    <input type="text" name="generateInput" id="generateInput" v-model="state.generateInput.value" placeholder="input"
            class="relative block w-full rounded-t-md border-0 pl-3.5 ring-1 ring-inset ring-gray-300 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600">
     <div class="relative flex">
-      <input type="text" readonly @focus="select" name="hash" id="hash" v-model="state.hash.value" placeholder="hash"
+      <input type="text" readonly @focus="select" name="generateHash" id="generateHash" v-model="state.generateHash.value" placeholder="hash"
              class="relative block w-full rounded-bl-md border-0 pl-3.5 ring-1 ring-inset ring-gray-300 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600">
-      <button type="button" @click="(state.hash) ? copy(state.hash.value, state.copySuccess) : null"
+      <button type="button" @click="(state.generateHash) ? copy(state.generateHash.value, state.copySuccess) : null"
               class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-br-md px-3 py-2 text-sm font-semibold group text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
         <CopyIcon :class="{hidden: state.copySuccess.value}"
                   class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"></CopyIcon>
-        <CopiedIcon :class="{hidden: !state.copySuccess.value}" class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"></CopiedIcon>
+        <CopiedIcon :class="{hidden: !state.copySuccess.value}"
+                    class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"></CopiedIcon>
 
         <span :class="{'opacity-100': state.copySuccess.value, 'opacity-0': !state.copySuccess.value}"
               class="absolute inset-x-0 bottom-full mb-2.5 flex justify-center scale-100 translate-y-0 transition-opacity duration-300">
@@ -65,5 +77,22 @@ watch(state.input, debounce(generate));
     </span>
       </button>
     </div>
+  </div>
+  <hr class="my-5 border border-gray-200">
+  <div class="-space-y-px">
+    <p class="pb-4 text-lg text-gray-500">Check hash</p>
+    <input type="text" name="checkInput" id="checkInput" v-model="state.checkInput.value" placeholder="input"
+           class="relative block w-full rounded-t-md border-0 pl-3.5 ring-1 ring-inset ring-gray-300 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+    :class="[
+        state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
+        state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : []
+    ]">
+    <input type="text" name="checkHash" id="checkHash" v-model="state.checkHash.value" placeholder="hash"
+           class="relative block w-full rounded-b-md border-0 pl-3.5 ring-1 ring-inset ring-gray-300 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+           :class="[
+        state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
+        state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : []
+    ]"
+    >
   </div>
 </template>
