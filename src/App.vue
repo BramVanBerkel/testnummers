@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import BSN from "./components/BSN.vue";
-import IBAN from "./components/IBAN.vue";
-import UUID from "./components/UUID.vue";
-import Password from "./components/Password.vue";
+import BSN from "./components/generators/BSN.vue";
+import IBAN from "./components/generators/IBAN.vue";
+import UUID from "./components/generators/UUID.vue";
+import Password from "./components/generators/Password.vue";
 import Footer from "./components/Footer.vue";
-import Bcrypt from "./components/Bcrypt.vue";
+import Bcrypt from "./components/generators/Bcrypt.vue";
 </script>
 
 <template>

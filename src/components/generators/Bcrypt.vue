@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {ref, watch} from "vue";
-import {checkBcrypt, generateBcrypt} from "../generators/BcryptGenerator.ts";
-import {copy} from "../helpers/copy.ts";
-import CopiedIcon from "./icons/CopiedIcon.vue";
-import CopyIcon from "./icons/CopyIcon.vue";
-import {debounce} from "../helpers/debounce.ts";
+import {checkBcrypt, generateBcrypt} from "../../generators/BcryptGenerator.ts";
+import {copy} from "../../helpers/copy.ts";
+import CopiedIcon from "../icons/CopiedIcon.vue";
+import CopyIcon from "../icons/CopyIcon.vue";
+import {debounce} from "../../helpers/debounce.ts";
 
 const state = {
   generateInput: ref<string>(),

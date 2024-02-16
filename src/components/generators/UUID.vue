@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import {generateBSN} from "../generators/BSNGenerator.ts";
-import {copy} from "../helpers/copy.ts";
-import GenerateIcon from "./icons/GenerateIcon.vue";
-import CopyIcon from "./icons/CopyIcon.vue";
-import CopiedIcon from "./icons/CopiedIcon.vue";
+import GenerateIcon from "../icons/GenerateIcon.vue";
+import CopyIcon from "../icons/CopyIcon.vue";
+import CopiedIcon from "../icons/CopiedIcon.vue";
+import {generateUUID} from "../../generators/UUIDGenerator.ts"
+import {copy} from "../../helpers/copy.ts";
 
 const state = {
-  BSN: ref<string>(),
+  UUID: ref<string>(),
   copySuccess: ref<boolean>(false),
   generateSuccess: ref<boolean>(false),
 }
 
 function generate(setSuccess: boolean = true) {
-  state.BSN.value = generateBSN();
+  state.UUID.value = generateUUID();
 
   if (setSuccess) {
     state.generateSuccess.value = true;
@@ -35,15 +35,15 @@ onMounted(() => generate(false))
 
 <template>
   <div class="relative flex flex-grow items-stretch focus-within:z-10">
-    <input readonly @focus="select" type="text" name="BSN" id="BSN" :value="state.BSN.value"
+    <input readonly @focus="select" type="text" name="BSN" id="BSN" :value="state.UUID.value"
            class="block w-full rounded-none rounded-l-md border-0 pl-3.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600">
     <button type="button" @click="generate()"
             class="relative -ml-px inline-flex items-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
       <GenerateIcon :class="{'rotate-45': state.generateSuccess.value, 'text-green-600': state.generateSuccess.value}"
                     class="-ml-0.5 w-6 h-6 text-gray-400 transition-transform duration-300"></GenerateIcon>
     </button>
-    <button type="button" @click="(state.BSN) ? copy(state.BSN.value, state.copySuccess) : null"
-            class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold group text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+    <button type="button" @click="(state.UUID.value) ? copy(state.UUID.value, state.copySuccess) : null"
+            class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
       <CopyIcon :class="{hidden: state.copySuccess.value}"
                 class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"></CopyIcon>
       <CopiedIcon :class="{hidden: !state.copySuccess.value}" class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"></CopiedIcon>

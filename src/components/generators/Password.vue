@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {onMounted, ref, watch} from "vue";
-import GenerateIcon from "./icons/GenerateIcon.vue";
-import CopyIcon from "./icons/CopyIcon.vue";
-import CopiedIcon from "./icons/CopiedIcon.vue";
-import {generatePassword} from "../generators/PasswordGenerator.ts";
-import {copy} from "../helpers/copy.ts";
+import GenerateIcon from "../icons/GenerateIcon.vue";
+import CopyIcon from "../icons/CopyIcon.vue";
+import CopiedIcon from "../icons/CopiedIcon.vue";
+import {generatePassword} from "../../generators/PasswordGenerator.ts";
+import {copy} from "../../helpers/copy.ts";
 
 let passwordScore: 0 | 1 | 2 | 3 | 4 | 5;
 
