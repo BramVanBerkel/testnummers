@@ -5,6 +5,7 @@ import CopyIcon from "../icons/CopyIcon.vue";
 import CopiedIcon from "../icons/CopiedIcon.vue";
 import {generatePassword} from "../../generators/PasswordGenerator.ts";
 import {copy} from "../../helpers/copy.ts";
+import {select} from "../../helpers/select.ts";
 
 let passwordScore: 0 | 1 | 2 | 3 | 4 | 5;
 
@@ -43,12 +44,6 @@ function generate(setSuccess: boolean = true) {
       state.generateSuccess.value = false;
     }, 300)
   }
-}
-
-function select(event: FocusEvent) {
-  const target = event.target as HTMLInputElement;
-
-  target.select();
 }
 
 onMounted(() => generate(false))

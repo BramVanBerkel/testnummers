@@ -5,6 +5,7 @@ import GenerateIcon from "../icons/GenerateIcon.vue";
 import CopyIcon from "../icons/CopyIcon.vue";
 import CopiedIcon from "../icons/CopiedIcon.vue";
 import {copy} from "../../helpers/copy.ts";
+import {select} from "../../helpers/select.ts";
 
 const state = {
   IBAN: ref<string>(),
@@ -23,12 +24,6 @@ function generate(setSuccess: boolean = true) {
       state.generateSuccess.value = false;
     }, 300)
   }
-}
-
-function select(event: FocusEvent) {
-  const target = event.target as HTMLInputElement;
-
-  target.select();
 }
 
 onMounted(() => generate(false))

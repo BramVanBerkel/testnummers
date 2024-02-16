@@ -5,6 +5,7 @@ import {copy} from "../../helpers/copy.ts";
 import CopiedIcon from "../icons/CopiedIcon.vue";
 import CopyIcon from "../icons/CopyIcon.vue";
 import {debounce} from "../../helpers/debounce.ts";
+import {select} from "../../helpers/select.ts";
 
 const state = {
   generateInput: ref<string>(),
@@ -33,12 +34,6 @@ function generate(setSuccess: boolean = true) {
 function check() {
   console.log('checkBcrypt(state.checkInput.value, state.checkHash.value)', checkBcrypt(state.checkInput.value, state.checkHash.value))
   state.checkSuccess.value = checkBcrypt(state.checkInput.value, state.checkHash.value);
-}
-
-function select(event: FocusEvent) {
-  const target = event.target as HTMLInputElement;
-
-  target.select();
 }
 
 watch(state.generateInput, debounce(generate));
