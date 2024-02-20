@@ -55,5 +55,4 @@ Technologies used:
   * First name / Last name
   * Email
   * Address
-* Bcrypt generator & validator
 * Unix timestamp parser & current unix timestamp
