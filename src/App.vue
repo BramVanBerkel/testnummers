@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import BSN from "./components/BSN.vue";
-import IBAN from "./components/IBAN.vue";
-import UUID from "./components/UUID.vue";
-import Password from "./components/Password.vue";
+import BSN from "./components/generators/BSN.vue";
+import IBAN from "./components/generators/IBAN.vue";
+import UUID from "./components/generators/UUID.vue";
+import Password from "./components/generators/Password.vue";
 import Footer from "./components/Footer.vue";
-import Bcrypt from "./components/Bcrypt.vue";
+import Bcrypt from "./components/generators/Bcrypt.vue";
+import Card from "./components/Card.vue";
 </script>
 
 <template>
@@ -21,56 +22,21 @@ import Bcrypt from "./components/Bcrypt.vue";
   </div>
 
   <main class="-mt-32 pt-10 columns-1 lg:columns-2">
-    <div class="px-4 pb-12 lg:px-8">
-      <div class="bg-white rounded-lg shadow">
-        <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4">BSN</h1>
-        <div class="px-4 py-5">
-          <div class="flex">
-            <BSN />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="px-4 pb-12 lg:px-8">
-      <div class="bg-white rounded-lg shadow">
-        <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4">IBAN</h1>
-        <div class="px-4 py-5">
-          <div class="flex">
-            <IBAN />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="px-4 pb-12 lg:px-8">
-      <div class="bg-white rounded-lg shadow">
-        <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4">UUID</h1>
-        <div class="px-4 py-5">
-          <div class="flex">
-            <UUID />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="px-4 pb-12 lg:px-8">
-      <div class="bg-white rounded-lg shadow">
-        <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4">Password</h1>
-        <div class="px-4 py-5">
-          <div class="flex flex-col">
-            <Password />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="px-4 pb-12 lg:px-8">
-      <div class="bg-white rounded-lg shadow">
-        <h1 class="border-b border-gray-200 text-lg font-bold px-4 py-4">Bcrypt</h1>
-        <div class="px-4 py-5">
-          <div class="flex flex-col">
-            <Bcrypt />
-          </div>
-        </div>
-      </div>
-    </div>
+    <Card name="BSN">
+      <BSN />
+    </Card>
+    <Card name="IBAN">
+      <IBAN />
+    </Card>
+    <Card name="UUID">
+      <UUID />
+    </Card>
+    <Card name="Password">
+      <Password />
+    </Card>
+    <Card name="Bcrypt">
+      <Bcrypt />
+    </Card>
   </main>
   <Footer />
 </template>

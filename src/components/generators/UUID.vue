@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import GenerateIcon from "./icons/GenerateIcon.vue";
-import CopyIcon from "./icons/CopyIcon.vue";
-import CopiedIcon from "./icons/CopiedIcon.vue";
-import {generateUUID} from "../generators/UUIDGenerator.ts"
-import {copy} from "../helpers/copy.ts";
+import GenerateIcon from "../icons/GenerateIcon.vue";
+import CopyIcon from "../icons/CopyIcon.vue";
+import CopiedIcon from "../icons/CopiedIcon.vue";
+import {generateUUID} from "../../generators/UUIDGenerator.ts"
+import {copy} from "../../helpers/copy.ts";
+import {select} from "../../helpers/select.ts";
 
 const state = {
   UUID: ref<string>(),
@@ -22,12 +23,6 @@ function generate(setSuccess: boolean = true) {
       state.generateSuccess.value = false;
     }, 300)
   }
-}
-
-function select(event: FocusEvent) {
-  const target = event.target as HTMLInputElement;
-
-  target.select();
 }
 
 onMounted(() => generate(false))

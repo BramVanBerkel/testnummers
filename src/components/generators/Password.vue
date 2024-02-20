@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import {onMounted, ref, watch} from "vue";
-import GenerateIcon from "./icons/GenerateIcon.vue";
-import CopyIcon from "./icons/CopyIcon.vue";
-import CopiedIcon from "./icons/CopiedIcon.vue";
-import {generatePassword} from "../generators/PasswordGenerator.ts";
-import {copy} from "../helpers/copy.ts";
+import GenerateIcon from "../icons/GenerateIcon.vue";
+import CopyIcon from "../icons/CopyIcon.vue";
+import CopiedIcon from "../icons/CopiedIcon.vue";
+import {generatePassword} from "../../generators/PasswordGenerator.ts";
+import {copy} from "../../helpers/copy.ts";
+import {select} from "../../helpers/select.ts";
 
 let passwordScore: 0 | 1 | 2 | 3 | 4 | 5;
 
@@ -45,19 +46,14 @@ function generate(setSuccess: boolean = true) {
   }
 }
 
-function select(event: FocusEvent) {
-  const target = event.target as HTMLInputElement;
-
-  target.select();
-}
-
 onMounted(() => generate(false))
 
 watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symbols], () => generate(false))
 </script>
 
 <template>
-  <div class="relative flex flex-grow items-stretch focus-within:z-10">
+
+  <div class="relative flex items-stretch focus-within:z-10">
     <input readonly @focus="select" type="text" name="BSN" id="BSN" :value="state.password.value"
            class="block w-full rounded-none rounded-l-md border-0 pl-3.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600">
     <button type="button" @click="generate()"
@@ -69,7 +65,8 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
             class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
       <CopyIcon :class="{hidden: state.copySuccess.value}"
                 class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"></CopyIcon>
-      <CopiedIcon :class="{hidden: !state.copySuccess.value}" class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"></CopiedIcon>
+      <CopiedIcon :class="{hidden: !state.copySuccess.value}"
+                  class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"></CopiedIcon>
 
       <span :class="{'opacity-100': state.copySuccess.value, 'opacity-0': !state.copySuccess.value}"
             class="absolute inset-x-0 bottom-full mb-2.5 flex justify-center scale-100 translate-y-0 transition-opacity duration-300">
@@ -109,12 +106,14 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
 
   <div class="grid grid-cols-2 max-w-2xl">
     <label for="lowercase">
-      <input type="checkbox" class="h-4 w-4 mr-1 rounded border-gray-300" id="lowercase" v-model="state.lowercase.value">
+      <input type="checkbox" class="h-4 w-4 mr-1 rounded border-gray-300" id="lowercase"
+             v-model="state.lowercase.value">
       <span class="text-sm font-semibold text-gray-500">Lowercase</span>
     </label>
 
     <label for="uppercase">
-      <input type="checkbox" class="h-4 w-4 mr-1 rounded border-gray-300" id="uppercase" v-model="state.uppercase.value">
+      <input type="checkbox" class="h-4 w-4 mr-1 rounded border-gray-300" id="uppercase"
+             v-model="state.uppercase.value">
       <span class="text-sm font-semibold text-gray-500">Uppercase</span>
     </label>
 
@@ -129,6 +128,4 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
       <span class="text-sm font-semibold text-gray-500">Symbols</span>
     </label>
   </div>
-
-
 </template>
