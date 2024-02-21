@@ -18,8 +18,6 @@ const state = {
 }
 
 function generate(setSuccess: boolean = true) {
-  console.log('generateBcrypt(state.input.value)', generateBcrypt(state.generateInput.value));
-
   state.generateHash.value = generateBcrypt(state.generateInput.value);
 
   if (setSuccess) {
@@ -32,7 +30,6 @@ function generate(setSuccess: boolean = true) {
 }
 
 function check() {
-  console.log('checkBcrypt(state.checkInput.value, state.checkHash.value)', checkBcrypt(state.checkInput.value, state.checkHash.value))
   state.checkSuccess.value = checkBcrypt(state.checkInput.value, state.checkHash.value);
 }
 

@@ -6,6 +6,7 @@ import Password from "./components/generators/Password.vue";
 import Footer from "./components/Footer.vue";
 import Bcrypt from "./components/generators/Bcrypt.vue";
 import Card from "./components/Card.vue";
+import Timestamp from "./components/generators/Timestamp.vue";
 </script>
 
 <template>
@@ -36,6 +37,9 @@ import Card from "./components/Card.vue";
     </Card>
     <Card name="Bcrypt">
       <Bcrypt />
+    </Card>
+    <Card name="Timestamp">
+      <Timestamp />
     </Card>
   </main>
   <Footer />
