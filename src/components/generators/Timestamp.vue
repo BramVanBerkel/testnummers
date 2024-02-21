@@ -89,7 +89,7 @@ watch(state.date, () => updateLocaleString())
     <div>
       <label for="year" class="block text-sm font-medium leading-6 text-gray-900">Year</label>
       <div class="mt-1">
-        <input type="number" name="year" id="year" v-model="state.year.value" min="1970" max="9000"
+        <input type="number" name="year" id="year" v-model.lazy="state.year.value" min="1970" max="9000"
                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
       </div>
     </div>
@@ -97,7 +97,7 @@ watch(state.date, () => updateLocaleString())
     <div>
       <label for="month" class="block text-sm font-medium leading-6 text-gray-900">Month</label>
       <div class="mt-1">
-        <input type="number" name="month" id="month" v-model="state.month.value" min="1" max="12"
+        <input type="number" name="month" id="month" v-model.lazy="state.month.value" min="1" max="12"
                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
       </div>
     </div>
@@ -105,7 +105,7 @@ watch(state.date, () => updateLocaleString())
     <div>
       <label for="day" class="block text-sm font-medium leading-6 text-gray-900">Day</label>
       <div class="mt-1">
-        <input type="number" name="day" id="day" v-model="state.day.value" min="1" max="31"
+        <input type="number" name="day" id="day" v-model.lazy="state.day.value" min="1" max="31"
                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
       </div>
     </div>
@@ -115,7 +115,7 @@ watch(state.date, () => updateLocaleString())
     <div>
       <label for="hour" class="block text-sm font-medium leading-6 text-gray-900">Hour</label>
       <div class="mt-1">
-        <input type="number" name="hour" id="hour" v-model="state.hour.value" min="0" max="23"
+        <input type="number" name="hour" id="hour" v-model.lazy="state.hour.value" min="0" max="23"
                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
       </div>
     </div>
@@ -123,7 +123,7 @@ watch(state.date, () => updateLocaleString())
     <div>
       <label for="minute" class="block text-sm font-medium leading-6 text-gray-900">Minute</label>
       <div class="mt-1">
-        <input type="number" name="minute" id="minute" v-model="state.minute.value" min="0" max="59"
+        <input type="number" name="minute" id="minute" v-model.lazy="state.minute.value" min="0" max="59"
                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
       </div>
     </div>
@@ -131,7 +131,7 @@ watch(state.date, () => updateLocaleString())
     <div>
       <label for="second" class="block text-sm font-medium leading-6 text-gray-900">Second</label>
       <div class="mt-1">
-        <input type="number" name="second" id="second" v-model="state.second.value" min="0" max="59"
+        <input type="number" name="second" id="second" v-model.lazy="state.second.value" min="0" max="59"
                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
       </div>
     </div>
