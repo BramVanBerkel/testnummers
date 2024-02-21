@@ -4,8 +4,6 @@ import {onMounted, ref, watch} from "vue";
 import {generateTimestamp} from "../../generators/UnixTimestampGenerator.ts";
 import {generateRelativeTime} from "../../generators/RelativeTimeGenerator.ts";
 
-const language = navigator.language;
-
 const state = {
   currentTimestamp: ref<number>(),
   timestamp: ref<number>(generateTimestamp(new Date())),
