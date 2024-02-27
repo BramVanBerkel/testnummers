@@ -47,7 +47,6 @@ Technologies used:
 
 <h2>📝 Todo</h2>
 
-* Add formatters / Linters
 * Move to node 20
 * IBAN generator different countries ❓
 * UUID different versions generator ❓
@@ -55,4 +54,4 @@ Technologies used:
   * First name / Last name
   * Email
   * Address
-* Unix timestamp parser & current unix timestamp
+* Unix timestamp parser for microseconds, nanoseconds, etc
