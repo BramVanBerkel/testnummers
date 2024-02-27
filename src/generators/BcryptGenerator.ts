@@ -1,17 +1,17 @@
-import {compareSync, hashSync} from "bcryptjs";
+import { compareSync, hashSync } from 'bcryptjs'
 
-export function generateBcrypt(input: string | undefined): string {
-    if(input === undefined) {
-        return '';
-    }
+export function generateBcrypt (input: string | undefined): string {
+  if (input === undefined) {
+    return ''
+  }
 
-    return hashSync(input);
+  return hashSync(input)
 }
 
-export function checkBcrypt(input: string | undefined, hash: string | undefined): boolean | undefined {
-    if(!input || !hash) {
-        return undefined
-    }
+export function checkBcrypt (input: string | undefined, hash: string | undefined): boolean | undefined {
+  if ((input == null) || (hash == null)) {
+    return undefined
+  }
 
-    return compareSync(input, hash);
+  return compareSync(input, hash)
 }

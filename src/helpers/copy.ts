@@ -1,15 +1,15 @@
-import {Ref} from "vue";
+import { type Ref } from 'vue'
 
-export async function copy(value: string | undefined, ref: Ref<boolean>) {
-    if(value === undefined) {
-        return;
-    }
+export async function copy (value: string | undefined, ref: Ref<boolean>): Promise<void> {
+  if (value === undefined) {
+    return
+  }
 
-    await navigator.clipboard.writeText(value);
+  await navigator.clipboard.writeText(value)
 
-    ref.value = true;
+  ref.value = true
 
-    setTimeout(() => {
-        ref.value = false;
-    }, 2000)
+  setTimeout(() => {
+    ref.value = false
+  }, 2000)
 }
