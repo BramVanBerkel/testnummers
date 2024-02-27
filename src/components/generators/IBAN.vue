@@ -42,7 +42,7 @@ onMounted(() => { generate(false) })
         >
           <option
             v-for="bank in banks"
-            :key="bank"
+            :key="bank.name"
             :value="bank.code"
           >
             {{ bank.name }}
