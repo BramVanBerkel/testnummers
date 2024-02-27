@@ -1,7 +1,7 @@
-export function debounce (fn: Function, ms = 200) {
+export function debounce (fn: () => void, ms = 200): () => void {
   let timeoutId: ReturnType<typeof setTimeout>
-  return function (this: any, ...args: any[]) {
+  return function (this: any) {
     clearTimeout(timeoutId)
-    timeoutId = setTimeout(() => fn.apply(this, args), ms)
+    timeoutId = setTimeout(() => { fn.apply(this) }, ms)
   }
 }

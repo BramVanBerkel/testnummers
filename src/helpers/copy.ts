@@ -1,6 +1,6 @@
 import { type Ref } from 'vue'
 
-export async function copy (value: string | undefined, ref: Ref<boolean>) {
+export async function copy (value: string | undefined, ref: Ref<boolean>): Promise<void> {
   if (value === undefined) {
     return
   }

@@ -8,7 +8,7 @@ const DIVISIONS: Array<{ amount: number, name: Intl.RelativeTimeFormatUnit }> = 
   { amount: Number.POSITIVE_INFINITY, name: 'years' }
 ]
 
-export function generateRelativeTime (date: Date) {
+export function generateRelativeTime (date: Date): string {
   let duration = (date.getTime() - new Date().getTime()) / 1000
 
   const formatter = new Intl.RelativeTimeFormat(navigator.language, {
@@ -23,4 +23,6 @@ export function generateRelativeTime (date: Date) {
 
     duration /= division.amount
   }
+
+  return ''
 }

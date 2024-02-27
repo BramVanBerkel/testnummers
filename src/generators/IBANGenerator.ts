@@ -55,7 +55,7 @@ function calculateControlNumber (value: bigint): string {
   return String(controlNumber)
 }
 
-export function generateIBAN (bankCode: string) {
+export function generateIBAN (bankCode: string): string {
   const accountNumber = random(accountNumbers)
   const controlString = replaceChars(bankCode + accountNumber + countryCode + '00')
   const controlNumber = calculateControlNumber(controlString)

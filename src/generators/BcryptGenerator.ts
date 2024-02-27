@@ -9,7 +9,7 @@ export function generateBcrypt (input: string | undefined): string {
 }
 
 export function checkBcrypt (input: string | undefined, hash: string | undefined): boolean | undefined {
-  if (!input || !hash) {
+  if ((input == null) || (hash == null)) {
     return undefined
   }
 

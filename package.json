@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
-    "eslint": "eslint 'src/**/*.{ts,vue}'"
+    "eslint": "eslint \"src/**/*.{ts,vue}\""
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.7",

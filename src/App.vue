@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import BSN from "./components/generators/BSN.vue";
-import IBAN from "./components/generators/IBAN.vue";
-import UUID from "./components/generators/UUID.vue";
-import Password from "./components/generators/Password.vue";
-import Footer from "./components/Footer.vue";
-import Bcrypt from "./components/generators/Bcrypt.vue";
-import Card from "./components/Card.vue";
-import Timestamp from "./components/generators/Timestamp.vue";
+import BSN from './components/generators/BSN.vue'
+import IBAN from './components/generators/IBAN.vue'
+import UUID from './components/generators/UUID.vue'
+import Password from './components/generators/Password.vue'
+import Footer from './components/Footer.vue'
+import Bcrypt from './components/generators/Bcrypt.vue'
+import Card from './components/Card.vue'
+import Timestamp from './components/generators/Timestamp.vue'
 </script>
 
 <template>

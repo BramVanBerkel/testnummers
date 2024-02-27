@@ -1,7 +1,7 @@
-import { createApp } from 'vue'
+import { type Component, createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 
-const app = createApp(App)
+const app = createApp(App as Component)
 
 app.mount('#app')

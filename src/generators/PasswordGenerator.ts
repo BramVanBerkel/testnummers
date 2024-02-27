@@ -12,7 +12,7 @@ export function generatePassword (length: number, lowercase: boolean, uppercase:
   if (numbers) characters += CharacterSet.Numbers
   if (symbols) characters += CharacterSet.Symbols
 
-  if (!characters) {
+  if (characters === '') {
     return ''
   }
 

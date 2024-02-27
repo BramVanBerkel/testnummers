@@ -1,4 +1,4 @@
-export function select (event: FocusEvent) {
+export function select (event: FocusEvent): void {
   const target = event.target as HTMLInputElement
 
   target.select()
