@@ -54,4 +54,3 @@ Technologies used:
   * First name / Last name
   * Email
   * Address
-* Unix timestamp parser for microseconds, nanoseconds, etc
