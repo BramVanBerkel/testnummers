@@ -7,6 +7,7 @@ import Footer from './components/Footer.vue'
 import Bcrypt from './components/generators/Bcrypt.vue'
 import Card from './components/Card.vue'
 import Timestamp from './components/generators/Timestamp.vue'
+import SHA256 from './components/generators/SHA256.vue'
 </script>
 
 <template>
@@ -40,6 +41,9 @@ import Timestamp from './components/generators/Timestamp.vue'
     </Card>
     <Card name="Timestamp">
       <Timestamp />
+    </Card>
+    <Card name="SHA256">
+      <SHA256 />
     </Card>
   </main>
   <Footer />
