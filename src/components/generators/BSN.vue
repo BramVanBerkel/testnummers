@@ -5,6 +5,7 @@ import { onMounted, ref } from 'vue'
 import { copy } from '../../helpers/copy.ts'
 import { generateBSN } from '../../generators/BSNGenerator.ts'
 import { select } from '../../helpers/select.ts'
+import Tooltip from '../Tooltip.vue'
 
 const state = {
   BSN: ref<string>(),
@@ -24,7 +25,9 @@ function generate (setSuccess: boolean = true): void {
   }
 }
 
-onMounted(() => { generate(false) })
+onMounted(() => {
+  generate(false)
+})
 </script>
 
 <template>
@@ -35,8 +38,6 @@ onMounted(() => { generate(false) })
       @focus="select"
     />
     <InputGroupAddon
-      :pt="{root: ['cursor-pointer', 'bg-transparent']}"
-      :pt-options="{mergeProps: true}"
       @click="generate()"
     >
       <ArrowPathIcon
@@ -45,8 +46,6 @@ onMounted(() => { generate(false) })
       />
     </InputGroupAddon>
     <InputGroupAddon
-      :pt="{root: ['cursor-pointer', 'bg-transparent', 'group']}"
-      :pt-options="{mergeProps: true}"
       @click="(state.BSN) ? copy(state.BSN.value, state.copySuccess) : null"
     >
       <ClipboardDocumentListIcon
@@ -57,6 +56,9 @@ onMounted(() => { generate(false) })
         :class="{hidden: !state.copySuccess.value}"
         class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"
       />
-    </inputgroupaddon>
+      <Tooltip :show="state.copySuccess.value">
+        Copied!
+      </Tooltip>
+    </InputGroupAddon>
   </InputGroup>
 </template>
