@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { banks, generateIBAN } from '../../generators/IBANGenerator.ts'
 import { copy } from '../../helpers/copy.ts'
 import { select } from '../../helpers/select.ts'
@@ -27,6 +27,8 @@ function generate (setSuccess: boolean = true): void {
 }
 
 onMounted(() => { generate(false) })
+
+watch(state.bankCode, () => { generate(false) })
 </script>
 
 <template>
