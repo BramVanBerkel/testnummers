@@ -113,47 +113,57 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
     <div v-text="state.length.value" />
   </div>
 
-  <div class="grid grid-cols-2 max-w-2xl">
+  <div class="grid grid-cols-2 gap-2 max-w-2xl">
     <label for="lowercase">
-      <!--      <InputSwitch v-model="state.lowercase.value" />-->
-
-      <input
-        id="lowercase"
+      <Checkbox
         v-model="state.lowercase.value"
-        type="checkbox"
-        class="h-4 w-4 mr-1 rounded border-gray-300"
-      >
-      <span class="text-sm font-semibold text-gray-500">Lowercase</span>
+        input-id="lowercase"
+        :binary="true"
+      />
+
+      <label
+        for="lowercase"
+        class="ml-2 font-semibold text-gray-500"
+      >Lowercase</label>
     </label>
 
     <label for="uppercase">
-      <input
-        id="uppercase"
+      <Checkbox
         v-model="state.uppercase.value"
-        type="checkbox"
-        class="h-4 w-4 mr-1 rounded border-gray-300"
-      >
-      <span class="text-sm font-semibold text-gray-500">Uppercase</span>
+        input-id="uppercase"
+        :binary="true"
+      />
+
+      <label
+        for="uppercase"
+        class="ml-2 font-semibold text-gray-500"
+      >Uppercase</label>
     </label>
 
     <label for="numbers">
-      <input
-        id="numbers"
+      <Checkbox
         v-model="state.numbers.value"
-        type="checkbox"
-        class="h-4 w-4 mr-1 rounded border-gray-300"
-      >
-      <span class="text-sm font-semibold text-gray-500">Numbers</span>
+        input-id="numbers"
+        :binary="true"
+      />
+
+      <label
+        for="numbers"
+        class="ml-2 font-semibold text-gray-500"
+      >Numbers</label>
     </label>
 
     <label for="symbols">
-      <input
-        id="symbols"
+      <Checkbox
         v-model="state.symbols.value"
-        type="checkbox"
-        class="h-4 w-4 mr-1 rounded border-gray-300"
-      >
-      <span class="text-sm font-semibold text-gray-500">Symbols</span>
+        input-id="symbols"
+        :binary="true"
+      />
+
+      <label
+        for="symbols"
+        class="ml-2 font-semibold text-gray-500"
+      >Symbols</label>
     </label>
   </div>
 </template>
