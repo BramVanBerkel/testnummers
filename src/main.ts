@@ -8,6 +8,9 @@ import InputGroupAddon from 'primevue/inputgroupaddon'
 import InputNumber from 'primevue/inputnumber'
 import Button from 'primevue/button'
 import Dropdown from 'primevue/dropdown'
+import Rating from 'primevue/rating'
+import Slider from 'primevue/slider'
+import InputSwitch from 'primevue/inputswitch'
 import Lara from './presets/lara'
 
 const app = createApp(App as Component)
@@ -17,5 +20,8 @@ app.component('InputGroupAddon', InputGroupAddon)
 app.component('InputNumber', InputNumber)
 app.component('Button', Button)
 app.component('Dropdown', Dropdown)
+app.component('Rating', Rating)
+app.component('Slider', Slider)
+app.component('InputSwitch', InputSwitch)
 app.use(PrimeVue, { unstyled: true, pt: Lara })
 app.mount('#app')
