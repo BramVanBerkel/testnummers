@@ -78,7 +78,7 @@ watch(state.date, () => { updateLocaleString() })
     </h2>
   </div>
 
-  <hr class="my-5 border border-gray-200">
+  <Divider />
 
   <div class="pb-4">
     <label

@@ -11,6 +11,8 @@ import Dropdown from 'primevue/dropdown'
 import Rating from 'primevue/rating'
 import Slider from 'primevue/slider'
 import InputSwitch from 'primevue/inputswitch'
+import InlineMessage from 'primevue/inlinemessage'
+import Divider from 'primevue/divider'
 import Lara from './presets/lara'
 
 const app = createApp(App as Component)
@@ -23,5 +25,7 @@ app.component('Dropdown', Dropdown)
 app.component('Rating', Rating)
 app.component('Slider', Slider)
 app.component('InputSwitch', InputSwitch)
+app.component('InlineMessage', InlineMessage)
+app.component('Divider', Divider)
 app.use(PrimeVue, { unstyled: true, pt: Lara })
 app.mount('#app')

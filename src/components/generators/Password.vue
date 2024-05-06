@@ -98,7 +98,7 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
     </template>
   </div>
 
-  <hr class="my-5 border border-gray-200">
+  <Divider />
 
   <label class="block text-xs font-semibold text-gray-500 mb-2">Password length</label>
 
