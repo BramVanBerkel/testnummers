@@ -43,35 +43,37 @@ watch([state.checkInput, state.checkHash], debounce(check))
     Generate hash
   </p>
 
-  <InputText
-    v-model="state.generateInput.value"
-    class="w-full rounded-b-none"
-    placeholder="input"
-  />
-  <InputGroup>
+  <div class="-space-y-px">
     <InputText
-      :value="state.generateHash.value"
-      readonly
-      class="w-full first:rounded-t-none"
-      placeholder="hash"
+      v-model="state.generateInput.value"
+      class="w-full rounded-b-none"
+      placeholder="input"
     />
-    <InputGroupAddon
-      class="last:rounded-t-none"
-      @click="(state.generateHash) ? copy(state.generateHash.value, state.copySuccess) : null"
-    >
-      <ClipboardDocumentListIcon
-        :class="{hidden: state.copySuccess.value}"
-        class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"
+    <InputGroup>
+      <InputText
+        :value="state.generateHash.value"
+        readonly
+        class="w-full first:rounded-t-none"
+        placeholder="hash"
       />
-      <ClipboardDocumentCheckIcon
-        :class="{hidden: !state.copySuccess.value}"
-        class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"
-      />
-      <Tooltip :show="state.copySuccess.value">
-        Copied!
-      </Tooltip>
-    </InputGroupAddon>
-  </InputGroup>
+      <InputGroupAddon
+        class="last:rounded-t-none"
+        @click="(state.generateHash) ? copy(state.generateHash.value, state.copySuccess) : null"
+      >
+        <ClipboardDocumentListIcon
+          :class="{hidden: state.copySuccess.value}"
+          class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"
+        />
+        <ClipboardDocumentCheckIcon
+          :class="{hidden: !state.copySuccess.value}"
+          class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"
+        />
+        <Tooltip :show="state.copySuccess.value">
+          Copied!
+        </Tooltip>
+      </InputGroupAddon>
+    </InputGroup>
+  </div>
 
   <Divider />
 
@@ -79,31 +81,33 @@ watch([state.checkInput, state.checkHash], debounce(check))
     Check hash
   </p>
 
-  <InputText
-    v-model="state.checkInput.value"
-    class="w-full rounded-b-none"
-    :class="[
-      state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
-      state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : []
-    ]"
-    placeholder="input"
-  />
-  <InputText
-    v-model="state.checkHash.value"
-    :class="[
-      state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
-      state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : []
-    ]"
-    class="w-full rounded-t-none"
-    placeholder="hash"
-  />
+  <div class="-space-y-px">
+    <InputText
+      v-model="state.checkInput.value"
+      class="w-full rounded-b-none"
+      :class="[
+        state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
+        state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : []
+      ]"
+      placeholder="input"
+    />
+    <InputText
+      v-model="state.checkHash.value"
+      :class="[
+        state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
+        state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : []
+      ]"
+      class="w-full rounded-t-none"
+      placeholder="hash"
+    />
+  </div>
 
   <InlineMessage
     v-if="state.checkSuccess.value === true"
     :severity="'success'"
     class="mt-4"
   >
-    The hash matches!
+    Matches
   </InlineMessage>
 
   <InlineMessage
@@ -111,6 +115,6 @@ watch([state.checkInput, state.checkHash], debounce(check))
     :severity="'error'"
     class="mt-4"
   >
-    The hash doesn't match!
+    Doesn't match!
   </InlineMessage>
 </template>
