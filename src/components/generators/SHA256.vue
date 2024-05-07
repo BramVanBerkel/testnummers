@@ -33,33 +33,35 @@ watch(state.value, async () => { await generate() })
 </script>
 
 <template>
-  <InputText
-    v-model="state.value.value"
-    class="w-full rounded-b-none"
-    placeholder="input"
-  />
-  <InputGroup>
+  <div class="-space-y-px">
     <InputText
-      :value="state.hash.value"
-      readonly
-      class="w-full first:rounded-t-none"
-      placeholder="hash"
+      v-model="state.value.value"
+      class="w-full rounded-b-none"
+      placeholder="input"
     />
-    <InputGroupAddon
-      class="last:rounded-t-none"
-      @click="(state.generateSuccess) ? copy(state.hash.value, state.copySuccess) : null"
-    >
-      <ClipboardDocumentListIcon
-        :class="{hidden: state.copySuccess.value}"
-        class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"
+    <InputGroup>
+      <InputText
+        :value="state.hash.value"
+        readonly
+        class="w-full first:rounded-t-none"
+        placeholder="hash"
       />
-      <ClipboardDocumentCheckIcon
-        :class="{hidden: !state.copySuccess.value}"
-        class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"
-      />
-      <Tooltip :show="state.copySuccess.value">
-        Copied!
-      </Tooltip>
-    </InputGroupAddon>
-  </InputGroup>
+      <InputGroupAddon
+        class="last:rounded-t-none"
+        @click="(state.generateSuccess) ? copy(state.hash.value, state.copySuccess) : null"
+      >
+        <ClipboardDocumentListIcon
+          :class="{hidden: state.copySuccess.value}"
+          class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"
+        />
+        <ClipboardDocumentCheckIcon
+          :class="{hidden: !state.copySuccess.value}"
+          class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"
+        />
+        <Tooltip :show="state.copySuccess.value">
+          Copied!
+        </Tooltip>
+      </InputGroupAddon>
+    </InputGroup>
+  </div>
 </template>
