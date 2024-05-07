@@ -206,35 +206,27 @@ watch(state.date, () => { updateLocaleString() })
       </div>
     </div>
   </div>
-  <table class="min-w-full divide-y divide-gray-300 table-fixed">
-    <tbody class="divide-y divide-gray-200">
-      <tr>
-        <td class="py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
-          Local time
-        </td>
-        <td
-          class="py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-0"
-          v-html="state.localeString.value"
-        />
-      </tr>
-      <tr>
-        <td class="py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
-          UTC
-        </td>
-        <td
-          class="py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-0"
-          v-html="state.localeStringUTC.value"
-        />
-      </tr>
-      <tr>
-        <td class="py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
-          Relative
-        </td>
-        <td
-          class="py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-0"
-          v-html="state.relative.value"
-        />
-      </tr>
-    </tbody>
-  </table>
+  <div class="mt-4 grid grid-cols-2 grid-rows-3 gap-y-2 w-2/3">
+    <div class="font-semibold text-gray-500">
+      Local time:
+    </div>
+    <div
+      class=" text-gray-500"
+      v-html="state.localeString.value"
+    />
+    <div class="font-semibold text-gray-500">
+      UTC:
+    </div>
+    <div
+      class=" text-gray-500"
+      v-html="state.localeStringUTC.value"
+    />
+    <div class="font-semibold text-gray-500">
+      Relative:
+    </div>
+    <div
+      class=" text-gray-500"
+      v-html="state.relative.value"
+    />
+  </div>
 </template>
