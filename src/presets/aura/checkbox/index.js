@@ -33,9 +33,9 @@ export default {
 
             // Colors
             {
-                'border-surface-300 dark:border-surface-700': !context.checked && !props.invalid,
+                'border-surface-300 bg-surface-0 dark:border-surface-700': !context.checked && !props.invalid,
                 'bg-surface-0  dark:bg-surface-950': !context.checked && !props.invalid && !props.disabled,
-                'border-primary bg-primary': context.checked
+                'border-primary-500 bg-primary-500 dark:border-primary-400 dark:bg-primary-400': context.checked
             },
 
             // Invalid State

@@ -5,7 +5,6 @@ import { copy } from '../../helpers/copy.ts'
 import { select } from '../../helpers/select.ts'
 import Tooltip from '../Tooltip.vue'
 import { ArrowPathIcon, ClipboardDocumentCheckIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/outline'
-import InputText from 'primevue/inputtext'
 
 let passwordScore: 0 | 1 | 2 | 3 | 4 | 5
 
