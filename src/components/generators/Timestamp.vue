@@ -78,21 +78,21 @@ watch(state.date, () => { updateLocaleString() })
     </h2>
   </div>
 
-  <hr class="my-5 border border-gray-200">
+  <Divider />
 
   <div class="pb-4">
     <label
-      for="year"
-      class="block text-sm font-medium leading-6 text-gray-900"
+      for="unix"
+      class="block text-sm font-medium leading-6"
     >Unix timestamp</label>
     <div class="mt-1">
-      <input
-        id="unix"
+      <InputNumber
         v-model="state.timestamp.value"
-        type="number"
-        name="unix"
-        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-      >
+        :format="false"
+        :input-props="{ inputmode: 'tel' }"
+        input-id="unix"
+        show-buttons
+      />
     </div>
   </div>
 
@@ -100,54 +100,57 @@ watch(state.date, () => { updateLocaleString() })
     <div>
       <label
         for="year"
-        class="block text-sm font-medium leading-6 text-gray-900"
+        class="block text-sm font-medium leading-6"
       >Year</label>
       <div class="mt-1">
-        <input
-          id="year"
-          v-model.lazy="state.year.value"
-          type="number"
-          name="year"
-          min="1970"
-          max="9000"
-          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        >
+        <InputNumber
+          v-model="state.year.value"
+          input-id="year"
+          :min="1970"
+          :max="9000"
+          :format="false"
+          :input-props="{ inputmode: 'tel' }"
+          show-buttons
+          class="w-full"
+        />
       </div>
     </div>
 
     <div>
       <label
         for="month"
-        class="block text-sm font-medium leading-6 text-gray-900"
+        class="block text-sm font-medium leading-6"
       >Month</label>
       <div class="mt-1">
-        <input
-          id="month"
-          v-model.lazy="state.month.value"
-          type="number"
-          name="month"
-          min="1"
-          max="12"
-          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        >
+        <InputNumber
+          v-model="state.month.value"
+          input-id="month"
+          :min="1"
+          :max="12"
+          :format="false"
+          :input-props="{ inputmode: 'tel' }"
+          show-buttons
+          class="w-full"
+        />
       </div>
     </div>
 
     <div>
       <label
         for="day"
-        class="block text-sm font-medium leading-6 text-gray-900"
+        class="block text-sm font-medium leading-6"
       >Day</label>
       <div class="mt-1">
-        <input
-          id="day"
-          v-model.lazy="state.day.value"
-          type="number"
-          name="day"
-          min="1"
-          max="31"
-          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        >
+        <InputNumber
+          v-model="state.day.value"
+          input-id="day"
+          :min="1"
+          :max="31"
+          :format="false"
+          :input-props="{ inputmode: 'tel' }"
+          show-buttons
+          class="w-full"
+        />
       </div>
     </div>
   </div>
@@ -156,86 +159,78 @@ watch(state.date, () => { updateLocaleString() })
     <div>
       <label
         for="hour"
-        class="block text-sm font-medium leading-6 text-gray-900"
+        class="block text-sm font-medium leading-6"
       >Hour</label>
       <div class="mt-1">
-        <input
-          id="hour"
-          v-model.lazy="state.hour.value"
-          type="number"
-          name="hour"
-          min="0"
-          max="23"
-          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        >
+        <InputNumber
+          v-model="state.hour.value"
+          input-id="hour"
+          :min="0"
+          :max="24"
+          :format="false"
+          :input-props="{ inputmode: 'tel' }"
+          show-buttons
+          class="w-full"
+        />
       </div>
     </div>
 
     <div>
       <label
         for="minute"
-        class="block text-sm font-medium leading-6 text-gray-900"
+        class="block text-sm font-medium leading-6"
       >Minute</label>
       <div class="mt-1">
-        <input
-          id="minute"
-          v-model.lazy="state.minute.value"
-          type="number"
-          name="minute"
-          min="0"
-          max="59"
-          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        >
+        <InputNumber
+          v-model="state.minute.value"
+          input-id="minute"
+          :min="0"
+          :max="59"
+          :format="false"
+          :input-props="{ inputmode: 'tel' }"
+          show-buttons
+          class="w-full"
+        />
       </div>
     </div>
 
     <div>
       <label
         for="second"
-        class="block text-sm font-medium leading-6 text-gray-900"
+        class="block text-sm font-medium leading-6"
       >Second</label>
       <div class="mt-1">
-        <input
-          id="second"
-          v-model.lazy="state.second.value"
-          type="number"
-          name="second"
-          min="0"
-          max="59"
-          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        >
+        <InputNumber
+          v-model="state.second.value"
+          input-id="second"
+          :min="0"
+          :max="59"
+          :format="false"
+          :input-props="{ inputmode: 'tel' }"
+          show-buttons
+          class="w-full"
+        />
       </div>
     </div>
   </div>
-  <table class="min-w-full divide-y divide-gray-300 table-fixed">
-    <tbody class="divide-y divide-gray-200">
-      <tr>
-        <td class="py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
-          Local time
-        </td>
-        <td
-          class="py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-0"
-          v-html="state.localeString.value"
-        />
-      </tr>
-      <tr>
-        <td class="py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
-          UTC
-        </td>
-        <td
-          class="py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-0"
-          v-html="state.localeStringUTC.value"
-        />
-      </tr>
-      <tr>
-        <td class="py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
-          Relative
-        </td>
-        <td
-          class="py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-0"
-          v-html="state.relative.value"
-        />
-      </tr>
-    </tbody>
-  </table>
+  <div class="mt-4 grid grid-cols-2 grid-rows-3 gap-y-2 w-2/3">
+    <div class="font-semibold">
+      Local time:
+    </div>
+    <div
+      v-html="state.localeString.value"
+    />
+    <div class="font-semibold">
+      UTC:
+    </div>
+    <div
+      v-html="state.localeStringUTC.value"
+    />
+    <div class="font-semibold">
+      Relative:
+    </div>
+    <div
+      v-html="state.relative.value"
+    />
+  </div>
 </template>

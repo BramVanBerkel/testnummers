@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import GenerateIcon from '../icons/GenerateIcon.vue'
-import CopyIcon from '../icons/CopyIcon.vue'
-import CopiedIcon from '../icons/CopiedIcon.vue'
 import { generatePassword } from '../../generators/PasswordGenerator.ts'
 import { copy } from '../../helpers/copy.ts'
 import { select } from '../../helpers/select.ts'
+import Tooltip from '../Tooltip.vue'
+import { ArrowPathIcon, ClipboardDocumentCheckIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/outline'
 
-let passwordScore: 0 | 1 | 2 | 3 | 4 | 5
+type PasswordScore = 0 | 1 | 2 | 3 | 4 | 5
 
 const state = {
   password: ref<string>(),
@@ -17,24 +16,25 @@ const state = {
   numbers: ref<boolean>(true),
   symbols: ref<boolean>(true),
   copySuccess: ref<boolean>(false),
-  generateSuccess: ref<boolean>(false)
+  generateSuccess: ref<boolean>(false),
+  passwordScore: ref<PasswordScore>(0)
 }
 
 function generate (setSuccess: boolean = true): void {
   state.password.value = generatePassword(state.length.value, state.lowercase.value, state.uppercase.value, state.numbers.value, state.symbols.value)
 
   if (state.password.value?.length === 0) {
-    passwordScore = 0
+    state.passwordScore.value = 0
   } else if (state.length.value < 4) {
-    passwordScore = 1
+    state.passwordScore.value = 1
   } else if (state.length.value <= 7) {
-    passwordScore = 2
+    state.passwordScore.value = 2
   } else if (state.length.value <= 11) {
-    passwordScore = 3
+    state.passwordScore.value = 3
   } else if (state.length.value <= 15) {
-    passwordScore = 4
+    state.passwordScore.value = 4
   } else {
-    passwordScore = 5
+    state.passwordScore.value = 5
   }
 
   if (setSuccess) {
@@ -52,65 +52,37 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
 </script>
 
 <template>
-  <div class="relative flex items-stretch focus-within:z-10">
-    <input
-      id="BSN"
-      readonly
-      type="text"
-      name="BSN"
-      :value="state.password.value"
-      class="block w-full rounded-none rounded-l-md border-0 pl-3.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
-      @focus="select"
-    >
-    <button
-      type="button"
-      class="relative -ml-px inline-flex items-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-      @click="generate()"
-    >
-      <GenerateIcon
-        :class="{'rotate-45': state.generateSuccess.value, 'text-green-600': state.generateSuccess.value}"
-        class="-ml-0.5 w-6 h-6 text-gray-400 transition-transform duration-300"
+  <div>
+    <InputGroup>
+      <InputText
+        :value="state.password.value"
+        readonly
+        @focus="select"
       />
-    </button>
-    <button
-      type="button"
-      class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-      @click="(state.password.value) ? copy(state.password.value, state.copySuccess) : null"
-    >
-      <CopyIcon
-        :class="{hidden: state.copySuccess.value}"
-        class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"
-      />
-      <CopiedIcon
-        :class="{hidden: !state.copySuccess.value}"
-        class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"
-      />
-
-      <span
-        :class="{'opacity-100': state.copySuccess.value, 'opacity-0': !state.copySuccess.value}"
-        class="absolute inset-x-0 bottom-full mb-2.5 flex justify-center scale-100 translate-y-0 transition-opacity duration-300"
+      <InputGroupAddon
+        @click="generate()"
       >
-        <span
-          class="rounded-md bg-gray-900 px-3 py-1 text-xs font-semibold leading-4 tracking-wide text-white drop-shadow-md filter"
-        >
-          <svg
-            aria-hidden="true"
-            width="16"
-            height="6"
-            viewBox="0 0 16 6"
-            class="absolute left-1/2 top-full -ml-2 -mt-px text-gray-900"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M15 0H1V1.00366V1.00366V1.00371H1.01672C2.72058 1.0147 4.24225 2.74704 5.42685 4.72928C6.42941 6.40691 9.57154 6.4069 10.5741 4.72926C11.7587 2.74703 13.2803 1.0147 14.9841 1.00371H15V0Z"
-              fill="currentColor"
-            />
-          </svg>
+        <ArrowPathIcon
+          :class="{'rotate-45': state.generateSuccess.value, 'text-green-600': state.generateSuccess.value}"
+          class="-ml-0.5 w-6 h-6 text-gray-400 transition-transform duration-300"
+        />
+      </InputGroupAddon>
+      <InputGroupAddon
+        @click="(state.password) ? copy(state.password.value, state.copySuccess) : null"
+      >
+        <ClipboardDocumentListIcon
+          :class="{hidden: state.copySuccess.value}"
+          class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"
+        />
+        <ClipboardDocumentCheckIcon
+          :class="{hidden: !state.copySuccess.value}"
+          class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"
+        />
+        <Tooltip :show="state.copySuccess.value">
           Copied!
-        </span>
-      </span>
-    </button>
+        </Tooltip>
+      </InputGroupAddon>
+    </InputGroup>
   </div>
   <div class="flex mt-2">
     <template
@@ -119,68 +91,79 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
     >
       <div class="w-1/5 px-1">
         <div
-          :class="i-1<passwordScore?(passwordScore<=2?'bg-red-400':(passwordScore<=4?'bg-yellow-400':'bg-green-500')):'bg-gray-200'"
+          :class="i-1<state.passwordScore.value?(state.passwordScore.value<=2?'bg-red-400':(state.passwordScore.value<=4?'bg-yellow-400':'bg-green-500')):'bg-gray-200 dark:bg-gray-600'"
           class="h-2 rounded-xl transition-colors"
         />
       </div>
     </template>
   </div>
 
-  <hr class="my-5 border border-gray-200">
+  <Divider />
 
-  <label class="block text-xs font-semibold text-gray-500 mb-2">Password length</label>
+  <label class="block text-xs font-semibold mb-2">Password length</label>
 
-  <div class="flex items-stretch gap-2 max-w-2xl">
-    <input
+  <div class="flex items-center gap-3 max-w-2xl">
+    <Slider
       v-model="state.length.value"
+      :step="1"
+      :min="1"
+      :max="30"
       class="w-full"
-      type="range"
-      min="1"
-      max="30"
-      step="1"
-    >
+    />
     <div v-text="state.length.value" />
   </div>
 
-  <div class="grid grid-cols-2 max-w-2xl">
+  <div class="grid grid-cols-2 gap-2 max-w-2xl">
     <label for="lowercase">
-      <input
-        id="lowercase"
+      <Checkbox
         v-model="state.lowercase.value"
-        type="checkbox"
-        class="h-4 w-4 mr-1 rounded border-gray-300"
-      >
-      <span class="text-sm font-semibold text-gray-500">Lowercase</span>
+        input-id="lowercase"
+        :binary="true"
+      />
+
+      <label
+        for="lowercase"
+        class="ml-2 font-semibold"
+      >Lowercase</label>
     </label>
 
     <label for="uppercase">
-      <input
-        id="uppercase"
+      <Checkbox
         v-model="state.uppercase.value"
-        type="checkbox"
-        class="h-4 w-4 mr-1 rounded border-gray-300"
-      >
-      <span class="text-sm font-semibold text-gray-500">Uppercase</span>
+        input-id="uppercase"
+        :binary="true"
+      />
+
+      <label
+        for="uppercase"
+        class="ml-2 font-semibold"
+      >Uppercase</label>
     </label>
 
     <label for="numbers">
-      <input
-        id="numbers"
+      <Checkbox
         v-model="state.numbers.value"
-        type="checkbox"
-        class="h-4 w-4 mr-1 rounded border-gray-300"
-      >
-      <span class="text-sm font-semibold text-gray-500">Numbers</span>
+        input-id="numbers"
+        :binary="true"
+      />
+
+      <label
+        for="numbers"
+        class="ml-2 font-semibold"
+      >Numbers</label>
     </label>
 
     <label for="symbols">
-      <input
-        id="symbols"
+      <Checkbox
         v-model="state.symbols.value"
-        type="checkbox"
-        class="h-4 w-4 mr-1 rounded border-gray-300"
-      >
-      <span class="text-sm font-semibold text-gray-500">Symbols</span>
+        input-id="symbols"
+        :binary="true"
+      />
+
+      <label
+        for="symbols"
+        class="ml-2 font-semibold"
+      >Symbols</label>
     </label>
   </div>
 </template>

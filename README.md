@@ -4,9 +4,7 @@
 
 <p align="center"><img src="https://img.shields.io/badge/Typescript-3178c6" alt="shields"><img src="https://img.shields.io/badge/Vue-33a06" alt="shields"><img src="https://img.shields.io/badge/Vite-646cff" alt="shields"><img src="https://img.shields.io/badge/Tailwind-0ea4e9" alt="shields"></p>
 
-<h2>🚀 Demo</h2>
-
-[testnummers.dev](https://testnummers.dev)
+<h2>🚀 Live on: [testnummers.dev](https://testnummers.dev)</h2>
 
 <h2>🛠️ Installation Steps:</h2>
 
@@ -34,8 +32,6 @@ npm install
 npm run dev
 ```
 
-
-
 <h2>💻 Built with</h2>
 
 Technologies used:
@@ -49,7 +45,7 @@ Technologies used:
 
 * Move to node 20
 * IBAN generator different countries ❓
-* UUID different versions generator ❓
+* UUID different versions generator (v7 / nil / max) ❓
 * Contact information generator:
   * First name / Last name
   * Email
