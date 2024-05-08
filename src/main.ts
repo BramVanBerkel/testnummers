@@ -14,7 +14,8 @@ import InputSwitch from 'primevue/inputswitch'
 import InlineMessage from 'primevue/inlinemessage'
 import Checkbox from 'primevue/checkbox'
 import Divider from 'primevue/divider'
-import Lara from './presets/lara'
+import ToggleButton from 'primevue/togglebutton'
+import Aura from './presets/aura'
 
 const app = createApp(App as Component)
 app.component('InputText', InputText)
@@ -29,5 +30,6 @@ app.component('InputSwitch', InputSwitch)
 app.component('InlineMessage', InlineMessage)
 app.component('Divider', Divider)
 app.component('Checkbox', Checkbox)
-app.use(PrimeVue, { unstyled: true, pt: Lara })
+app.component('ToggleButton', ToggleButton)
+app.use(PrimeVue, { unstyled: true, pt: Aura })
 app.mount('#app')
