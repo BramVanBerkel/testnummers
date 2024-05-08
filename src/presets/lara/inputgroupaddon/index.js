@@ -20,7 +20,7 @@ export default {
       'min-w-[3rem]',
 
       // Color
-      'bg-transparent hover:bg-gray-50',
+      'bg-transparent hover:bg-gray-50 dark:hover:bg-gray-600',
       'text-surface-600 dark:text-surface-400',
       'border-surface-300 dark:border-surface-600',
 

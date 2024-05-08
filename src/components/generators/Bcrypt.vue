@@ -39,7 +39,7 @@ watch([state.checkInput, state.checkHash], debounce(check))
 </script>
 
 <template>
-  <p class="pb-4 text-lg text-gray-500">
+  <p class="pb-4 text-lg">
     Generate hash
   </p>
 
@@ -77,7 +77,7 @@ watch([state.checkInput, state.checkHash], debounce(check))
 
   <Divider />
 
-  <p class="mb-4 text-lg text-gray-500">
+  <p class="mb-4 text-lg">
     Check hash
   </p>
 

@@ -91,7 +91,7 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
     >
       <div class="w-1/5 px-1">
         <div
-          :class="i-1<passwordScore?(passwordScore<=2?'bg-red-400':(passwordScore<=4?'bg-yellow-400':'bg-green-500')):'bg-gray-200'"
+          :class="i-1<passwordScore?(passwordScore<=2?'bg-red-400':(passwordScore<=4?'bg-yellow-400':'bg-green-500')):'bg-gray-200 dark:bg-gray-600'"
           class="h-2 rounded-xl transition-colors"
         />
       </div>
@@ -100,7 +100,7 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
 
   <Divider />
 
-  <label class="block text-xs font-semibold text-gray-500 mb-2">Password length</label>
+  <label class="block text-xs font-semibold mb-2">Password length</label>
 
   <div class="flex items-center gap-3 max-w-2xl">
     <Slider
@@ -123,7 +123,7 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
 
       <label
         for="lowercase"
-        class="ml-2 font-semibold text-gray-500"
+        class="ml-2 font-semibold"
       >Lowercase</label>
     </label>
 
@@ -136,7 +136,7 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
 
       <label
         for="uppercase"
-        class="ml-2 font-semibold text-gray-500"
+        class="ml-2 font-semibold"
       >Uppercase</label>
     </label>
 
@@ -149,7 +149,7 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
 
       <label
         for="numbers"
-        class="ml-2 font-semibold text-gray-500"
+        class="ml-2 font-semibold"
       >Numbers</label>
     </label>
 
@@ -162,7 +162,7 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
 
       <label
         for="symbols"
-        class="ml-2 font-semibold text-gray-500"
+        class="ml-2 font-semibold"
       >Symbols</label>
     </label>
   </div>

@@ -83,7 +83,7 @@ watch(state.date, () => { updateLocaleString() })
   <div class="pb-4">
     <label
       for="unix"
-      class="block text-sm font-medium leading-6 text-gray-900"
+      class="block text-sm font-medium leading-6"
     >Unix timestamp</label>
     <div class="mt-1">
       <InputNumber
@@ -99,7 +99,7 @@ watch(state.date, () => { updateLocaleString() })
     <div>
       <label
         for="year"
-        class="block text-sm font-medium leading-6 text-gray-900"
+        class="block text-sm font-medium leading-6"
       >Year</label>
       <div class="mt-1">
         <InputNumber
@@ -117,7 +117,7 @@ watch(state.date, () => { updateLocaleString() })
     <div>
       <label
         for="month"
-        class="block text-sm font-medium leading-6 text-gray-900"
+        class="block text-sm font-medium leading-6"
       >Month</label>
       <div class="mt-1">
         <InputNumber
@@ -135,7 +135,7 @@ watch(state.date, () => { updateLocaleString() })
     <div>
       <label
         for="day"
-        class="block text-sm font-medium leading-6 text-gray-900"
+        class="block text-sm font-medium leading-6"
       >Day</label>
       <div class="mt-1">
         <InputNumber
@@ -155,7 +155,7 @@ watch(state.date, () => { updateLocaleString() })
     <div>
       <label
         for="hour"
-        class="block text-sm font-medium leading-6 text-gray-900"
+        class="block text-sm font-medium leading-6"
       >Hour</label>
       <div class="mt-1">
         <InputNumber
@@ -173,7 +173,7 @@ watch(state.date, () => { updateLocaleString() })
     <div>
       <label
         for="minute"
-        class="block text-sm font-medium leading-6 text-gray-900"
+        class="block text-sm font-medium leading-6"
       >Minute</label>
       <div class="mt-1">
         <InputNumber
@@ -191,7 +191,7 @@ watch(state.date, () => { updateLocaleString() })
     <div>
       <label
         for="second"
-        class="block text-sm font-medium leading-6 text-gray-900"
+        class="block text-sm font-medium leading-6"
       >Second</label>
       <div class="mt-1">
         <InputNumber
@@ -207,25 +207,22 @@ watch(state.date, () => { updateLocaleString() })
     </div>
   </div>
   <div class="mt-4 grid grid-cols-2 grid-rows-3 gap-y-2 w-2/3">
-    <div class="font-semibold text-gray-500">
+    <div class="font-semibold">
       Local time:
     </div>
     <div
-      class=" text-gray-500"
       v-html="state.localeString.value"
     />
-    <div class="font-semibold text-gray-500">
+    <div class="font-semibold">
       UTC:
     </div>
     <div
-      class=" text-gray-500"
       v-html="state.localeStringUTC.value"
     />
-    <div class="font-semibold text-gray-500">
+    <div class="font-semibold">
       Relative:
     </div>
     <div
-      class=" text-gray-500"
       v-html="state.relative.value"
     />
   </div>
