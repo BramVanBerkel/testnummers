@@ -13,9 +13,8 @@ import ToggleButton from 'primevue/togglebutton'
 import { ref, watch } from 'vue'
 import { useDark, useToggle } from '@vueuse/core'
 
-const checked = ref(false)
-
 const isDark = useDark()
+const checked = ref(isDark.value)
 const toggleDark = useToggle(isDark)
 
 watch(checked, toggleDark)
