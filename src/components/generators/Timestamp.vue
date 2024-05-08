@@ -89,6 +89,7 @@ watch(state.date, () => { updateLocaleString() })
       <InputNumber
         v-model="state.timestamp.value"
         :format="false"
+        :input-props="{ type: 'number', inputmode: 'tel' }"
         input-id="unix"
         show-buttons
       />
@@ -108,6 +109,7 @@ watch(state.date, () => { updateLocaleString() })
           :min="1970"
           :max="9000"
           :format="false"
+          :input-props="{ type: 'number', inputmode: 'tel' }"
           show-buttons
           class="w-full"
         />
@@ -126,6 +128,7 @@ watch(state.date, () => { updateLocaleString() })
           :min="1"
           :max="12"
           :format="false"
+          :input-props="{ type: 'number', inputmode: 'tel' }"
           show-buttons
           class="w-full"
         />
@@ -144,6 +147,7 @@ watch(state.date, () => { updateLocaleString() })
           :min="1"
           :max="31"
           :format="false"
+          :input-props="{ type: 'number', inputmode: 'tel' }"
           show-buttons
           class="w-full"
         />
@@ -164,6 +168,7 @@ watch(state.date, () => { updateLocaleString() })
           :min="0"
           :max="24"
           :format="false"
+          :input-props="{ type: 'number', inputmode: 'tel' }"
           show-buttons
           class="w-full"
         />
@@ -182,6 +187,7 @@ watch(state.date, () => { updateLocaleString() })
           :min="0"
           :max="59"
           :format="false"
+          :input-props="{ type: 'number', inputmode: 'tel' }"
           show-buttons
           class="w-full"
         />
@@ -200,6 +206,7 @@ watch(state.date, () => { updateLocaleString() })
           :min="0"
           :max="59"
           :format="false"
+          :input-props="{ type: 'number', inputmode: 'tel' }"
           show-buttons
           class="w-full"
         />
