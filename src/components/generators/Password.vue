@@ -6,7 +6,7 @@ import { select } from '../../helpers/select.ts'
 import Tooltip from '../Tooltip.vue'
 import { ArrowPathIcon, ClipboardDocumentCheckIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/outline'
 
-let passwordScore: 0 | 1 | 2 | 3 | 4 | 5
+type PasswordScore = 0 | 1 | 2 | 3 | 4 | 5
 
 const state = {
   password: ref<string>(),
@@ -16,24 +16,25 @@ const state = {
   numbers: ref<boolean>(true),
   symbols: ref<boolean>(true),
   copySuccess: ref<boolean>(false),
-  generateSuccess: ref<boolean>(false)
+  generateSuccess: ref<boolean>(false),
+  passwordScore: ref<PasswordScore>(0)
 }
 
 function generate (setSuccess: boolean = true): void {
   state.password.value = generatePassword(state.length.value, state.lowercase.value, state.uppercase.value, state.numbers.value, state.symbols.value)
 
   if (state.password.value?.length === 0) {
-    passwordScore = 0
+    state.passwordScore.value = 0
   } else if (state.length.value < 4) {
-    passwordScore = 1
+    state.passwordScore.value = 1
   } else if (state.length.value <= 7) {
-    passwordScore = 2
+    state.passwordScore.value = 2
   } else if (state.length.value <= 11) {
-    passwordScore = 3
+    state.passwordScore.value = 3
   } else if (state.length.value <= 15) {
-    passwordScore = 4
+    state.passwordScore.value = 4
   } else {
-    passwordScore = 5
+    state.passwordScore.value = 5
   }
 
   if (setSuccess) {
@@ -90,7 +91,7 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
     >
       <div class="w-1/5 px-1">
         <div
-          :class="i-1<passwordScore?(passwordScore<=2?'bg-red-400':(passwordScore<=4?'bg-yellow-400':'bg-green-500')):'bg-gray-200 dark:bg-gray-600'"
+          :class="i-1<state.passwordScore.value?(state.passwordScore.value<=2?'bg-red-400':(state.passwordScore.value<=4?'bg-yellow-400':'bg-green-500')):'bg-gray-200 dark:bg-gray-600'"
           class="h-2 rounded-xl transition-colors"
         />
       </div>
