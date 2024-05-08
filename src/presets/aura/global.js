@@ -1,5 +1,5 @@
 export default {
-    css: `
+  css: `
     *[data-pd-ripple="true"]{
         overflow: hidden;
         position: relative;
@@ -15,7 +15,7 @@ export default {
     }
 
     .progress-spinner-circle {
-        stroke-dasharray: 89, 200;
+        stroke-dasharray: 89, 200; 
         stroke-dashoffset: 0;
         animation: p-progress-spinner-dash 1.5s ease-in-out infinite, p-progress-spinner-color 6s ease-in-out infinite;
         stroke-linecap: round;
@@ -87,4 +87,4 @@ export default {
         }
     }
 `
-};
+}
