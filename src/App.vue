@@ -12,6 +12,7 @@ import { SunIcon, MoonIcon } from '@heroicons/vue/24/outline'
 import ToggleButton from 'primevue/togglebutton'
 import { ref, watch } from 'vue'
 import { useDark, useToggle } from '@vueuse/core'
+import LicencePlate from './components/generators/LicencePlate.vue'
 
 const isDark = useDark()
 const checked = ref(isDark.value)
@@ -72,6 +73,9 @@ watch(checked, toggleDark)
     </Card>
     <Card name="SHA256">
       <SHA256 />
+    </Card>
+    <Card name="Licence Plate">
+      <LicencePlate />
     </Card>
   </main>
   <Footer />
