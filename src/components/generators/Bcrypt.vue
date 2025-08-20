@@ -42,19 +42,28 @@ watch([state.checkInput, state.checkHash], debounce(check))
     Generate hash
   </p>
 
-  <div class="-space-y-px">
-    <InputText
-      v-model="state.generateInput.value"
-      class="w-full rounded-b-none"
-      placeholder="input"
-    />
-    <InputGroup>
+  <div class="pb-4">
+    <FloatLabel variant="on">
       <InputText
-        :value="state.generateHash.value"
-        readonly
-        class="w-full first:rounded-t-none"
-        placeholder="hash"
+        id="generateInput"
+        v-model="state.generateInput.value"
+        class="w-full"
       />
+      <label for="generateInput">Input</label>
+    </FloatLabel>
+  </div>
+
+  <div>
+    <InputGroup>
+      <FloatLabel variant="on">
+        <InputText
+          id="generateHash"
+          v-model="state.generateHash.value"
+          readonly
+          class="w-full first:rounded-t-none"
+        />
+        <label for="generateHash">Hash</label>
+      </FloatLabel>
       <CopyButton
         :copy-success="state.copySuccess.value"
         :on-click="() => (state.generateHash) ? copy(state.generateHash.value, state.copySuccess) : null"
@@ -68,27 +77,36 @@ watch([state.checkInput, state.checkHash], debounce(check))
     Check hash
   </p>
 
-  <div class="-space-y-px">
-    <InputText
-      v-model="state.checkInput.value"
-      class="w-full rounded-b-none"
-      :class="[
-        state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
-        state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : [],
-        ['rounded-b-none']
-      ]"
-      placeholder="input"
-    />
-    <InputText
-      v-model="state.checkHash.value"
-      :class="[
-        state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
-        state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : [],
-        ['rounded-t-none']
-      ]"
-      class="w-full rounded-t-none"
-      placeholder="hash"
-    />
+  <div class="mb-4">
+    <FloatLabel variant="on">
+      <InputText
+        id="checkInput"
+        v-model="state.checkInput.value"
+        class="w-full rounded-b-none"
+        :class="[
+          state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
+          state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : [],
+          ['rounded-b-none']
+        ]"
+      />
+      <label for="checkInput">Input</label>
+    </FloatLabel>
+  </div>
+
+  <div>
+    <FloatLabel variant="on">
+      <InputText
+        id="checkHash"
+        v-model="state.checkHash.value"
+        :class="[
+          state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
+          state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : [],
+          ['rounded-t-none']
+        ]"
+        class="w-full rounded-t-none"
+      />
+      <label for="checkHash">Hash</label>
+    </FloatLabel>
   </div>
 
   <InlineMessage

@@ -3,7 +3,23 @@ import './style.css'
 import App from './App.vue'
 import PrimeVue from 'primevue/config'
 import Aura from '@primeuix/themes/aura'
-import { Card, InputText, InputGroup, InputGroupAddon, InputNumber, Button, Dropdown, Rating, Slider, InputSwitch, InlineMessage, Divider, Checkbox, ToggleButton } from 'primevue'
+import {
+  Card,
+  InputText,
+  InputGroup,
+  InputGroupAddon,
+  InputNumber,
+  Button,
+  Dropdown,
+  Rating,
+  Slider,
+  InputSwitch,
+  InlineMessage,
+  Divider,
+  Checkbox,
+  ToggleButton,
+  FloatLabel
+} from 'primevue'
 
 const app = createApp(App as Component)
 app.use(PrimeVue, {
@@ -25,4 +41,5 @@ app.component('InlineMessage', InlineMessage)
 app.component('Divider', Divider)
 app.component('Checkbox', Checkbox)
 app.component('ToggleButton', ToggleButton)
+app.component('FloatLabel', FloatLabel)
 app.mount('#app')

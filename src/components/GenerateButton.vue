@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ArrowPathIcon } from '@heroicons/vue/24/outline'
-import { defineProps } from 'vue'
 
 defineProps<{
   generateSuccess: boolean

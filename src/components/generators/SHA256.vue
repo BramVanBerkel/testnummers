@@ -28,23 +28,34 @@ onMounted(async () => {
   await generate(false)
 })
 
-watch(state.value, async () => { await generate() })
+watch(state.value, async () => {
+  await generate()
+})
 </script>
 
 <template>
-  <div class="-space-y-px">
-    <InputText
-      v-model="state.value.value"
-      class="w-full rounded-b-none"
-      placeholder="input"
-    />
-    <InputGroup>
+  <div class="pb-4">
+    <FloatLabel variant="on">
       <InputText
-        :value="state.hash.value"
-        readonly
-        class="w-full first:rounded-t-none"
-        placeholder="hash"
+        id="sha256-input"
+        v-model="state.value.value"
+        class="w-full rounded-b-none"
       />
+      <label for="sha256-input">Input</label>
+    </FloatLabel>
+  </div>
+
+  <div>
+    <InputGroup>
+      <FloatLabel variant="on">
+        <InputText
+          id="sha256-hash"
+          v-model="state.hash.value"
+          readonly
+          class="w-full first:rounded-t-none"
+        />
+        <label for="sha256-input">Hash</label>
+      </FloatLabel>
       <CopyButton
         :copy-success="state.copySuccess.value"
         :on-click="() => (state.hash) ? copy(state.hash.value, state.copySuccess) : null"
