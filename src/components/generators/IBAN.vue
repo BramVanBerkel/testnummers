@@ -33,7 +33,7 @@ watch(state.bankCode, () => { generate(false) })
 
 <template>
   <div class="flex gap-2">
-    <Dropdown
+    <Select
       v-model="state.bankCode.value"
       :options="banks"
       option-label="name"

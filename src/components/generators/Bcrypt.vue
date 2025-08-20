@@ -109,19 +109,19 @@ watch([state.checkInput, state.checkHash], debounce(check))
     </FloatLabel>
   </div>
 
-  <InlineMessage
+  <Message
     v-if="state.checkSuccess.value === true"
     :severity="'success'"
     class="mt-4"
   >
     Matches
-  </InlineMessage>
+  </Message>
 
-  <InlineMessage
+  <Message
     v-if="state.checkSuccess.value === false"
     :severity="'error'"
     class="mt-4"
   >
     Doesn't match!
-  </InlineMessage>
+  </Message>
 </template>

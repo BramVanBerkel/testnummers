@@ -10,11 +10,10 @@ import {
   InputGroupAddon,
   InputNumber,
   Button,
-  Dropdown,
+  Select,
   Rating,
   Slider,
-  InputSwitch,
-  InlineMessage,
+  Message,
   Divider,
   Checkbox,
   ToggleButton,
@@ -33,11 +32,10 @@ app.component('InputGroup', InputGroup)
 app.component('InputGroupAddon', InputGroupAddon)
 app.component('InputNumber', InputNumber)
 app.component('Button', Button)
-app.component('Dropdown', Dropdown)
+app.component('Select', Select)
 app.component('Rating', Rating)
 app.component('Slider', Slider)
-app.component('InputSwitch', InputSwitch)
-app.component('InlineMessage', InlineMessage)
+app.component('Message', Message)
 app.component('Divider', Divider)
 app.component('Checkbox', Checkbox)
 app.component('ToggleButton', ToggleButton)
