@@ -3,9 +3,8 @@ import { ref, watch } from 'vue'
 import { checkBcrypt, generateBcrypt } from '../../generators/BcryptGenerator.ts'
 import { copy } from '../../helpers/copy.ts'
 import { debounce } from '../../helpers/debounce.ts'
-import { ClipboardDocumentCheckIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/outline'
-import Tooltip from '../Tooltip.vue'
 import InputText from 'primevue/inputtext'
+import CopyButton from '../CopyButton.vue'
 
 const state = {
   generateInput: ref<string>(),
@@ -56,22 +55,10 @@ watch([state.checkInput, state.checkHash], debounce(check))
         class="w-full first:rounded-t-none"
         placeholder="hash"
       />
-      <InputGroupAddon
-        class="last:rounded-t-none"
-        @click="(state.generateHash) ? copy(state.generateHash.value, state.copySuccess) : null"
-      >
-        <ClipboardDocumentListIcon
-          :class="{hidden: state.copySuccess.value}"
-          class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"
-        />
-        <ClipboardDocumentCheckIcon
-          :class="{hidden: !state.copySuccess.value}"
-          class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"
-        />
-        <Tooltip :show="state.copySuccess.value">
-          Copied!
-        </Tooltip>
-      </InputGroupAddon>
+      <CopyButton
+        :copy-success="state.copySuccess.value"
+        :on-click="() => (state.generateHash) ? copy(state.generateHash.value, state.copySuccess) : null"
+      />
     </InputGroup>
   </div>
 
@@ -87,7 +74,8 @@ watch([state.checkInput, state.checkHash], debounce(check))
       class="w-full rounded-b-none"
       :class="[
         state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
-        state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : []
+        state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : [],
+        ['rounded-b-none']
       ]"
       placeholder="input"
     />
@@ -95,7 +83,8 @@ watch([state.checkInput, state.checkHash], debounce(check))
       v-model="state.checkHash.value"
       :class="[
         state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
-        state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : []
+        state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : [],
+        ['rounded-t-none']
       ]"
       class="w-full rounded-t-none"
       placeholder="hash"
