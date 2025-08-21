@@ -4,23 +4,21 @@ import { onMounted, ref, watch } from 'vue'
 import { generateTimestamp } from '../../generators/UnixTimestampGenerator.ts'
 import { generateRelativeTime } from '../../generators/RelativeTimeGenerator.ts'
 
-const state = {
-  currentTimestamp: ref<number>(),
-  timestamp: ref<number>(generateTimestamp(new Date())),
-  date: ref<Date>(new Date()),
-  year: ref<number>(new Date().getFullYear()),
-  month: ref<number>(new Date().getMonth() + 1),
-  day: ref<number>(new Date().getDate()),
-  hour: ref<number>(new Date().getHours()),
-  minute: ref<number>(new Date().getMinutes()),
-  second: ref<number>(new Date().getSeconds()),
-  relative: ref<string>(),
-  localeString: ref<string>(),
-  localeStringUTC: ref<string>()
-}
+const currentTimestamp = ref<number>()
+const timestamp = ref<number>(generateTimestamp(new Date()))
+const date = ref<Date>(new Date())
+const year = ref<number>(new Date().getFullYear())
+const month = ref<number>(new Date().getMonth() + 1)
+const day = ref<number>(new Date().getDate())
+const hour = ref<number>(new Date().getHours())
+const minute = ref<number>(new Date().getMinutes())
+const second = ref<number>(new Date().getSeconds())
+const relative = ref<string>()
+const localeString = ref<string>()
+const localeStringUTC = ref<string>()
 
 function updateUnixTimestamp (): void {
-  state.currentTimestamp.value = generateTimestamp(new Date())
+  currentTimestamp.value = generateTimestamp(new Date())
 }
 
 function updateLocaleString (): void {
@@ -34,8 +32,8 @@ function updateLocaleString (): void {
     second: '2-digit'
   }
 
-  state.localeString.value = state.date.value.toLocaleString('nl-NL', options)
-  state.localeStringUTC.value = state.date.value.toLocaleString('nl-NL', {
+  localeString.value = date.value.toLocaleString('nl-NL', options)
+  localeStringUTC.value = date.value.toLocaleString('nl-NL', {
     ...options,
     timeZone: 'UTC'
   })
@@ -45,26 +43,26 @@ onMounted(() => {
   updateLocaleString()
   updateUnixTimestamp() // run the function immediately when the component is mounted
   setInterval(updateUnixTimestamp, 1000) // and update the value every second afterward
-  state.relative.value = generateRelativeTime(new Date())
+  relative.value = generateRelativeTime(new Date())
 })
 
-watch([state.year, state.month, state.day, state.hour, state.minute, state.second], () => {
-  state.date.value = new Date(state.year.value, state.month.value - 1, state.day.value, state.hour.value, state.minute.value, state.second.value)
-  state.timestamp.value = generateTimestamp(state.date.value)
-  state.relative.value = generateRelativeTime(state.date.value)
+watch([year, month, day, hour, minute, second], () => {
+  date.value = new Date(year.value, month.value - 1, day.value, hour.value, minute.value, second.value)
+  timestamp.value = generateTimestamp(date.value)
+  relative.value = generateRelativeTime(date.value)
 })
 
-watch(state.timestamp, () => {
-  const date = new Date(state.timestamp.value * 1000)
-  state.year.value = date.getFullYear()
-  state.month.value = date.getMonth() + 1
-  state.day.value = date.getDate()
-  state.hour.value = date.getHours()
-  state.minute.value = date.getMinutes()
-  state.second.value = date.getSeconds()
+watch(timestamp, () => {
+  const date = new Date(timestamp.value * 1000)
+  year.value = date.getFullYear()
+  month.value = date.getMonth() + 1
+  day.value = date.getDate()
+  hour.value = date.getHours()
+  minute.value = date.getMinutes()
+  second.value = date.getSeconds()
 })
 
-watch(state.date, () => { updateLocaleString() })
+watch(date, () => { updateLocaleString() })
 
 </script>
 
@@ -73,7 +71,7 @@ watch(state.date, () => { updateLocaleString() })
     <h2 class="text-center text-xl">
       Current timestamp: <span
         class="font-semibold"
-        v-html="state.currentTimestamp.value"
+        v-html="currentTimestamp"
       />
     </h2>
   </div>
@@ -87,7 +85,7 @@ watch(state.date, () => { updateLocaleString() })
     >Unix timestamp</label>
     <div class="mt-1">
       <InputNumber
-        v-model="state.timestamp.value"
+        v-model="timestamp"
         :format="false"
         :input-props="{ inputmode: 'tel' }"
         input-id="unix"
@@ -104,7 +102,7 @@ watch(state.date, () => { updateLocaleString() })
       >Year</label>
       <div class="mt-1">
         <InputNumber
-          v-model="state.year.value"
+          v-model="year"
           input-id="year"
           :min="1970"
           :max="9000"
@@ -123,7 +121,7 @@ watch(state.date, () => { updateLocaleString() })
       >Month</label>
       <div class="mt-1">
         <InputNumber
-          v-model="state.month.value"
+          v-model="month"
           input-id="month"
           :min="1"
           :max="12"
@@ -142,7 +140,7 @@ watch(state.date, () => { updateLocaleString() })
       >Day</label>
       <div class="mt-1">
         <InputNumber
-          v-model="state.day.value"
+          v-model="day"
           input-id="day"
           :min="1"
           :max="31"
@@ -163,7 +161,7 @@ watch(state.date, () => { updateLocaleString() })
       >Hour</label>
       <div class="mt-1">
         <InputNumber
-          v-model="state.hour.value"
+          v-model="hour"
           input-id="hour"
           :min="0"
           :max="24"
@@ -182,7 +180,7 @@ watch(state.date, () => { updateLocaleString() })
       >Minute</label>
       <div class="mt-1">
         <InputNumber
-          v-model="state.minute.value"
+          v-model="minute"
           input-id="minute"
           :min="0"
           :max="59"
@@ -201,7 +199,7 @@ watch(state.date, () => { updateLocaleString() })
       >Second</label>
       <div class="mt-1">
         <InputNumber
-          v-model="state.second.value"
+          v-model="second"
           input-id="second"
           :min="0"
           :max="59"
@@ -218,19 +216,19 @@ watch(state.date, () => { updateLocaleString() })
       Local time:
     </div>
     <div
-      v-html="state.localeString.value"
+      v-html="localeString"
     />
     <div class="font-semibold">
       UTC:
     </div>
     <div
-      v-html="state.localeStringUTC.value"
+      v-html="localeStringUTC"
     />
     <div class="font-semibold">
       Relative:
     </div>
     <div
-      v-html="state.relative.value"
+      v-html="relative"
     />
   </div>
 </template>

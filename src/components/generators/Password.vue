@@ -1,71 +1,69 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { generatePassword } from '../../generators/PasswordGenerator.ts'
-import { copy } from '../../helpers/copy.ts'
 import { select } from '../../helpers/select.ts'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
+import { useCopy } from '../../composables/useCopy.ts'
 
 type PasswordScore = 0 | 1 | 2 | 3 | 4 | 5
 
-const state = {
-  password: ref<string>(),
-  length: ref<number>(16),
-  lowercase: ref<boolean>(true),
-  uppercase: ref<boolean>(true),
-  numbers: ref<boolean>(true),
-  symbols: ref<boolean>(true),
-  copySuccess: ref<boolean>(false),
-  generateSuccess: ref<boolean>(false),
-  passwordScore: ref<PasswordScore>(0)
-}
+const password = ref<string>()
+const length = ref<number>(16)
+const lowercase = ref<boolean>(true)
+const uppercase = ref<boolean>(true)
+const numbers = ref<boolean>(true)
+const symbols = ref<boolean>(true)
+const generateSuccess = ref<boolean>(false)
+const passwordScore = ref<PasswordScore>(0)
+const { copySuccess, handleCopy } = useCopy(password)
 
 function generate (setSuccess: boolean = true): void {
-  state.password.value = generatePassword(state.length.value, state.lowercase.value, state.uppercase.value, state.numbers.value, state.symbols.value)
+  password.value = generatePassword(length.value, lowercase.value, uppercase.value, numbers.value, symbols.value)
 
-  if (state.password.value?.length === 0) {
-    state.passwordScore.value = 0
-  } else if (state.length.value < 4) {
-    state.passwordScore.value = 1
-  } else if (state.length.value <= 7) {
-    state.passwordScore.value = 2
-  } else if (state.length.value <= 11) {
-    state.passwordScore.value = 3
-  } else if (state.length.value <= 15) {
-    state.passwordScore.value = 4
+  if (password.value?.length === 0) {
+    passwordScore.value = 0
+  } else if (length.value < 4) {
+    passwordScore.value = 1
+  } else if (length.value <= 7) {
+    passwordScore.value = 2
+  } else if (length.value <= 11) {
+    passwordScore.value = 3
+  } else if (length.value <= 15) {
+    passwordScore.value = 4
   } else {
-    state.passwordScore.value = 5
+    passwordScore.value = 5
   }
 
   if (setSuccess) {
-    state.generateSuccess.value = true
+    generateSuccess.value = true
 
     setTimeout(() => {
-      state.generateSuccess.value = false
+      generateSuccess.value = false
     }, 300)
   }
 }
 
 onMounted(() => { generate(false) })
 
-watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symbols], () => { generate(false) })
+watch([length, lowercase, uppercase, numbers, symbols], () => { generate(false) })
 </script>
 
 <template>
   <div>
     <InputGroup>
       <InputText
-        :value="state.password.value"
+        :value="password"
         readonly
         @focus="select"
       />
       <GenerateButton
-        :generate-success="state.generateSuccess.value"
+        :generate-success="generateSuccess"
         :on-click="generate"
       />
       <CopyButton
-        :copy-success="state.copySuccess.value"
-        :on-click="() => (state.password) ? copy(state.password.value, state.copySuccess) : null"
+        :copy-success="copySuccess"
+        :on-click="handleCopy"
       />
     </InputGroup>
   </div>
@@ -76,7 +74,7 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
     >
       <div class="w-1/5 px-1">
         <div
-          :class="i-1<state.passwordScore.value?(state.passwordScore.value<=2?'bg-red-400':(state.passwordScore.value<=4?'bg-yellow-400':'bg-green-500')):'bg-gray-200 dark:bg-gray-600'"
+          :class="i-1<passwordScore?(passwordScore<=2?'bg-red-400':(passwordScore<=4?'bg-yellow-400':'bg-green-500')):'bg-gray-200 dark:bg-gray-600'"
           class="h-2 rounded-xl transition-colors"
         />
       </div>
@@ -89,19 +87,19 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
 
   <div class="flex items-center gap-3 max-w-2xl">
     <Slider
-      v-model="state.length.value"
+      v-model="length"
       :step="1"
       :min="1"
       :max="30"
       class="w-full"
     />
-    <div v-text="state.length.value" />
+    <div v-text="length" />
   </div>
 
   <div class="grid grid-cols-2 gap-2 max-w-2xl">
     <label for="lowercase">
       <Checkbox
-        v-model="state.lowercase.value"
+        v-model="lowercase"
         input-id="lowercase"
         :binary="true"
       />
@@ -114,7 +112,7 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
 
     <label for="uppercase">
       <Checkbox
-        v-model="state.uppercase.value"
+        v-model="uppercase"
         input-id="uppercase"
         :binary="true"
       />
@@ -127,7 +125,7 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
 
     <label for="numbers">
       <Checkbox
-        v-model="state.numbers.value"
+        v-model="numbers"
         input-id="numbers"
         :binary="true"
       />
@@ -140,7 +138,7 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
 
     <label for="symbols">
       <Checkbox
-        v-model="state.symbols.value"
+        v-model="symbols"
         input-id="symbols"
         :binary="true"
       />

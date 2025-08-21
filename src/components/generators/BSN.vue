@@ -1,26 +1,24 @@
 <script lang="ts" setup>
 import InputText from 'primevue/inputtext'
 import { onMounted, ref } from 'vue'
-import { copy } from '../../helpers/copy.ts'
 import { generateBSN } from '../../generators/BSNGenerator.ts'
 import { select } from '../../helpers/select.ts'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
+import { useCopy } from '../../composables/useCopy.ts'
 
-const state = {
-  BSN: ref<string>(),
-  copySuccess: ref<boolean>(false),
-  generateSuccess: ref<boolean>(false)
-}
+const BSN = ref<string>()
+const generateSuccess = ref<boolean>(false)
+const { copySuccess, handleCopy } = useCopy(BSN)
 
 function generate (setSuccess: boolean = true): void {
-  state.BSN.value = generateBSN()
+  BSN.value = generateBSN()
 
   if (setSuccess) {
-    state.generateSuccess.value = true
+    generateSuccess.value = true
 
     setTimeout(() => {
-      state.generateSuccess.value = false
+      generateSuccess.value = false
     }, 300)
   }
 }
@@ -33,17 +31,17 @@ onMounted(() => {
 <template>
   <InputGroup>
     <InputText
-      :value="state.BSN.value"
+      :value="BSN"
       readonly
       @focus="select"
     />
     <GenerateButton
-      :generate-success="state.generateSuccess.value"
+      :generate-success="generateSuccess"
       :on-click="generate"
     />
     <CopyButton
-      :copy-success="state.copySuccess.value"
-      :on-click="() => (state.BSN) ? copy(state.BSN.value, state.copySuccess) : null"
+      :copy-success="copySuccess"
+      :on-click="handleCopy"
     />
   </InputGroup>
 </template>

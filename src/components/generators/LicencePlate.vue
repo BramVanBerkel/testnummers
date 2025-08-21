@@ -1,26 +1,24 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { copy } from '../../helpers/copy.ts'
 import { select } from '../../helpers/select.ts'
 import InputText from 'primevue/inputtext'
 import { generateLicencePlate } from '../../generators/LicencePlateGenerator.ts'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
+import { useCopy } from '../../composables/useCopy.ts'
 
-const state = {
-  licencePlate: ref<string>(),
-  copySuccess: ref<boolean>(false),
-  generateSuccess: ref<boolean>(false)
-}
+const licencePlate = ref<string>()
+const generateSuccess = ref<boolean>(false)
+const { copySuccess, handleCopy } = useCopy(licencePlate)
 
 function generate (setSuccess: boolean = true): void {
-  state.licencePlate.value = generateLicencePlate()
+  licencePlate.value = generateLicencePlate()
 
   if (setSuccess) {
-    state.generateSuccess.value = true
+    generateSuccess.value = true
 
     setTimeout(() => {
-      state.generateSuccess.value = false
+      generateSuccess.value = false
     }, 300)
   }
 }
@@ -31,17 +29,17 @@ onMounted(() => { generate(false) })
 <template>
   <InputGroup>
     <InputText
-      :value="state.licencePlate.value"
+      :value="licencePlate"
       readonly
       @focus="select"
     />
     <GenerateButton
-      :generate-success="state.generateSuccess.value"
+      :generate-success="generateSuccess"
       :on-click="generate"
     />
     <CopyButton
-      :copy-success="state.copySuccess.value"
-      :on-click="() => (state.licencePlate) ? copy(state.licencePlate.value, state.copySuccess) : null"
+      :copy-success="copySuccess"
+      :on-click="handleCopy"
     />
   </InputGroup>
 </template>

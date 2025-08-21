@@ -1,25 +1,23 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { copy } from '../../helpers/copy.ts'
 import { generateSHA256 } from '../../generators/SHA256Generator.ts'
 import InputText from 'primevue/inputtext'
 import CopyButton from '../CopyButton.vue'
+import { useCopy } from '../../composables/useCopy.ts'
 
-const state = {
-  value: ref<string>(),
-  hash: ref<string>(),
-  copySuccess: ref<boolean>(false),
-  generateSuccess: ref<boolean>(false)
-}
+const value = ref<string>()
+const hash = ref<string>()
+const generateSuccess = ref<boolean>(false)
+const { copySuccess, handleCopy } = useCopy(hash)
 
 async function generate (setSuccess: boolean = true): Promise<void> {
-  state.hash.value = await generateSHA256(state.value.value)
+  hash.value = await generateSHA256(value.value)
 
   if (setSuccess) {
-    state.generateSuccess.value = true
+    generateSuccess.value = true
 
     setTimeout(() => {
-      state.generateSuccess.value = false
+      generateSuccess.value = false
     }, 300)
   }
 }
@@ -28,7 +26,7 @@ onMounted(async () => {
   await generate(false)
 })
 
-watch(state.value, async () => {
+watch(value, async () => {
   await generate()
 })
 </script>
@@ -38,7 +36,7 @@ watch(state.value, async () => {
     <FloatLabel variant="on">
       <InputText
         id="sha256-input"
-        v-model="state.value.value"
+        v-model="value"
         class="w-full rounded-b-none"
       />
       <label for="sha256-input">Input</label>
@@ -50,15 +48,15 @@ watch(state.value, async () => {
       <FloatLabel variant="on">
         <InputText
           id="sha256-hash"
-          v-model="state.hash.value"
+          v-model="hash"
           readonly
           class="w-full first:rounded-t-none"
         />
         <label for="sha256-input">Hash</label>
       </FloatLabel>
       <CopyButton
-        :copy-success="state.copySuccess.value"
-        :on-click="() => (state.hash) ? copy(state.hash.value, state.copySuccess) : null"
+        :copy-success="copySuccess"
+        :on-click="handleCopy"
       />
     </InputGroup>
   </div>

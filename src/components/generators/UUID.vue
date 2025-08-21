@@ -1,26 +1,24 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { generateUUID } from '../../generators/UUIDGenerator.ts'
-import { copy } from '../../helpers/copy.ts'
 import { select } from '../../helpers/select.ts'
 import InputText from 'primevue/inputtext'
 import CopyButton from '../CopyButton.vue'
 import GenerateButton from '../GenerateButton.vue'
+import { useCopy } from '../../composables/useCopy.ts'
 
-const state = {
-  UUID: ref<string>(),
-  copySuccess: ref<boolean>(false),
-  generateSuccess: ref<boolean>(false)
-}
+const UUID = ref<string>()
+const generateSuccess = ref<boolean>(false)
+const { copySuccess, handleCopy } = useCopy(UUID)
 
 function generate (setSuccess: boolean = true): void {
-  state.UUID.value = generateUUID()
+  UUID.value = generateUUID()
 
   if (setSuccess) {
-    state.generateSuccess.value = true
+    generateSuccess.value = true
 
     setTimeout(() => {
-      state.generateSuccess.value = false
+      generateSuccess.value = false
     }, 300)
   }
 }
@@ -31,17 +29,17 @@ onMounted(() => { generate(false) })
 <template>
   <InputGroup>
     <InputText
-      :value="state.UUID.value"
+      :value="UUID"
       readonly
       @focus="select"
     />
     <GenerateButton
-      :generate-success="state.generateSuccess.value"
+      :generate-success="generateSuccess"
       :on-click="generate"
     />
     <CopyButton
-      :copy-success="state.copySuccess.value"
-      :on-click="() => (state.UUID) ? copy(state.UUID.value, state.copySuccess) : null"
+      :copy-success="copySuccess"
+      :on-click="handleCopy"
     />
   </InputGroup>
 </template>

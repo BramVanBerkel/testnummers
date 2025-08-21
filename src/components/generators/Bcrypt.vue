@@ -1,40 +1,38 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { checkBcrypt, generateBcrypt } from '../../generators/BcryptGenerator.ts'
-import { copy } from '../../helpers/copy.ts'
 import { debounce } from '../../helpers/debounce.ts'
 import InputText from 'primevue/inputtext'
 import CopyButton from '../CopyButton.vue'
+import { useCopy } from '../../composables/useCopy.ts'
 
-const state = {
-  generateInput: ref<string>(),
-  generateHash: ref<string>(),
-  checkInput: ref<string>(),
-  checkHash: ref<string>(),
-  checkSuccess: ref<boolean>(),
-  copySuccess: ref<boolean>(false),
-  generateSuccess: ref<boolean>(false)
-}
+const generateInput = ref<string>()
+const generateHash = ref<string>()
+const checkInput = ref<string>()
+const checkHash = ref<string>()
+const checkSuccess = ref<boolean>()
+const generateSuccess = ref<boolean>(false)
+const { copySuccess, handleCopy } = useCopy(generateHash)
 
 function generate (setSuccess: boolean = true): void {
-  state.generateHash.value = generateBcrypt(state.generateInput.value)
+  generateHash.value = generateBcrypt(generateInput.value)
 
   if (setSuccess) {
-    state.generateSuccess.value = true
+    generateSuccess.value = true
 
     setTimeout(() => {
-      state.generateSuccess.value = false
+      generateSuccess.value = false
     }, 300)
   }
 }
 
 function check (): void {
-  state.checkSuccess.value = checkBcrypt(state.checkInput.value, state.checkHash.value)
+  checkSuccess.value = checkBcrypt(checkInput.value, checkHash.value)
 }
 
-watch(state.generateInput, debounce(generate))
+watch(generateInput, debounce(generate))
 
-watch([state.checkInput, state.checkHash], debounce(check))
+watch([checkInput, checkHash], debounce(check))
 </script>
 
 <template>
@@ -46,7 +44,7 @@ watch([state.checkInput, state.checkHash], debounce(check))
     <FloatLabel variant="on">
       <InputText
         id="generateInput"
-        v-model="state.generateInput.value"
+        v-model="generateInput"
         class="w-full"
       />
       <label for="generateInput">Input</label>
@@ -58,15 +56,15 @@ watch([state.checkInput, state.checkHash], debounce(check))
       <FloatLabel variant="on">
         <InputText
           id="generateHash"
-          v-model="state.generateHash.value"
+          v-model="generateHash"
           readonly
           class="w-full first:rounded-t-none"
         />
         <label for="generateHash">Hash</label>
       </FloatLabel>
       <CopyButton
-        :copy-success="state.copySuccess.value"
-        :on-click="() => (state.generateHash) ? copy(state.generateHash.value, state.copySuccess) : null"
+        :copy-success="copySuccess"
+        :on-click="handleCopy"
       />
     </InputGroup>
   </div>
@@ -81,11 +79,11 @@ watch([state.checkInput, state.checkHash], debounce(check))
     <FloatLabel variant="on">
       <InputText
         id="checkInput"
-        v-model="state.checkInput.value"
+        v-model="checkInput"
         class="w-full rounded-b-none"
         :class="[
-          state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
-          state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : [],
+          checkSuccess === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
+          checkSuccess === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : [],
           ['rounded-b-none']
         ]"
       />
@@ -97,10 +95,10 @@ watch([state.checkInput, state.checkHash], debounce(check))
     <FloatLabel variant="on">
       <InputText
         id="checkHash"
-        v-model="state.checkHash.value"
+        v-model="checkHash"
         :class="[
-          state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
-          state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : [],
+          checkSuccess === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
+          checkSuccess === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : [],
           ['rounded-t-none']
         ]"
         class="w-full rounded-t-none"
@@ -110,7 +108,7 @@ watch([state.checkInput, state.checkHash], debounce(check))
   </div>
 
   <Message
-    v-if="state.checkSuccess.value === true"
+    v-if="checkSuccess === true"
     :severity="'success'"
     class="mt-4"
   >
@@ -118,7 +116,7 @@ watch([state.checkInput, state.checkHash], debounce(check))
   </Message>
 
   <Message
-    v-if="state.checkSuccess.value === false"
+    v-if="checkSuccess === false"
     :severity="'error'"
     class="mt-4"
   >
