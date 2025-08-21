@@ -3,9 +3,8 @@ import { ref, watch } from 'vue'
 import { checkBcrypt, generateBcrypt } from '../../generators/BcryptGenerator.ts'
 import { copy } from '../../helpers/copy.ts'
 import { debounce } from '../../helpers/debounce.ts'
-import { ClipboardDocumentCheckIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/outline'
-import Tooltip from '../Tooltip.vue'
 import InputText from 'primevue/inputtext'
+import CopyButton from '../CopyButton.vue'
 
 const state = {
   generateInput: ref<string>(),
@@ -43,35 +42,32 @@ watch([state.checkInput, state.checkHash], debounce(check))
     Generate hash
   </p>
 
-  <div class="-space-y-px">
-    <InputText
-      v-model="state.generateInput.value"
-      class="w-full rounded-b-none"
-      placeholder="input"
-    />
-    <InputGroup>
+  <div class="pb-4">
+    <FloatLabel variant="on">
       <InputText
-        :value="state.generateHash.value"
-        readonly
-        class="w-full first:rounded-t-none"
-        placeholder="hash"
+        id="generateInput"
+        v-model="state.generateInput.value"
+        class="w-full"
       />
-      <InputGroupAddon
-        class="last:rounded-t-none"
-        @click="(state.generateHash) ? copy(state.generateHash.value, state.copySuccess) : null"
-      >
-        <ClipboardDocumentListIcon
-          :class="{hidden: state.copySuccess.value}"
-          class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"
+      <label for="generateInput">Input</label>
+    </FloatLabel>
+  </div>
+
+  <div>
+    <InputGroup>
+      <FloatLabel variant="on">
+        <InputText
+          id="generateHash"
+          v-model="state.generateHash.value"
+          readonly
+          class="w-full first:rounded-t-none"
         />
-        <ClipboardDocumentCheckIcon
-          :class="{hidden: !state.copySuccess.value}"
-          class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"
-        />
-        <Tooltip :show="state.copySuccess.value">
-          Copied!
-        </Tooltip>
-      </InputGroupAddon>
+        <label for="generateHash">Hash</label>
+      </FloatLabel>
+      <CopyButton
+        :copy-success="state.copySuccess.value"
+        :on-click="() => (state.generateHash) ? copy(state.generateHash.value, state.copySuccess) : null"
+      />
     </InputGroup>
   </div>
 
@@ -81,40 +77,51 @@ watch([state.checkInput, state.checkHash], debounce(check))
     Check hash
   </p>
 
-  <div class="-space-y-px">
-    <InputText
-      v-model="state.checkInput.value"
-      class="w-full rounded-b-none"
-      :class="[
-        state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
-        state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : []
-      ]"
-      placeholder="input"
-    />
-    <InputText
-      v-model="state.checkHash.value"
-      :class="[
-        state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
-        state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : []
-      ]"
-      class="w-full rounded-t-none"
-      placeholder="hash"
-    />
+  <div class="mb-4">
+    <FloatLabel variant="on">
+      <InputText
+        id="checkInput"
+        v-model="state.checkInput.value"
+        class="w-full rounded-b-none"
+        :class="[
+          state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
+          state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : [],
+          ['rounded-b-none']
+        ]"
+      />
+      <label for="checkInput">Input</label>
+    </FloatLabel>
   </div>
 
-  <InlineMessage
+  <div>
+    <FloatLabel variant="on">
+      <InputText
+        id="checkHash"
+        v-model="state.checkHash.value"
+        :class="[
+          state.checkSuccess.value === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
+          state.checkSuccess.value === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : [],
+          ['rounded-t-none']
+        ]"
+        class="w-full rounded-t-none"
+      />
+      <label for="checkHash">Hash</label>
+    </FloatLabel>
+  </div>
+
+  <Message
     v-if="state.checkSuccess.value === true"
     :severity="'success'"
     class="mt-4"
   >
     Matches
-  </InlineMessage>
+  </Message>
 
-  <InlineMessage
+  <Message
     v-if="state.checkSuccess.value === false"
     :severity="'error'"
     class="mt-4"
   >
     Doesn't match!
-  </InlineMessage>
+  </Message>
 </template>

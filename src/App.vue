@@ -5,11 +5,8 @@ import UUID from './components/generators/UUID.vue'
 import Password from './components/generators/Password.vue'
 import Footer from './components/Footer.vue'
 import Bcrypt from './components/generators/Bcrypt.vue'
-import Card from './components/Card.vue'
 import Timestamp from './components/generators/Timestamp.vue'
 import SHA256 from './components/generators/SHA256.vue'
-import { SunIcon, MoonIcon } from '@heroicons/vue/24/outline'
-import ToggleButton from 'primevue/togglebutton'
 import { ref, watch } from 'vue'
 import { useDark, useToggle } from '@vueuse/core'
 import LicencePlate from './components/generators/LicencePlate.vue'
@@ -29,54 +26,113 @@ watch(checked, toggleDark)
           <div class="flex flex-1 px-2 lg:ml-6">
             <span class="text-zinc-200 text-2xl title-font antialiased">Testnummers.dev</span>
           </div>
-          <div class="card flex justify-center">
-            <ToggleButton
-              v-model="checked"
-              on-label="Dark"
-              off-label="Light"
-            >
-              <template #icon="{value}">
-                <MoonIcon
-                  v-if="value"
-                  class="h-6 w-6"
-                />
-                <SunIcon
-                  v-if="!value"
-                  class="h-6 w-6"
-                />
-              </template>
-            </ToggleButton>
-          </div>
         </div>
       </div>
     </nav>
   </div>
 
-  <main class="-mt-32 pt-10 columns-1 lg:columns-2">
-    <Card name="BSN">
-      <BSN />
-    </Card>
-    <Card name="IBAN">
-      <IBAN />
-    </Card>
-    <Card name="UUID">
-      <UUID />
-    </Card>
-    <Card name="Password">
-      <Password />
-    </Card>
-    <Card name="Bcrypt">
-      <Bcrypt />
-    </Card>
-    <Card name="Timestamp">
-      <Timestamp />
-    </Card>
-    <Card name="SHA256">
-      <SHA256 />
-    </Card>
-    <Card name="Licence Plate">
-      <LicencePlate />
-    </Card>
+  <main class="-mt-32 pt-10 columns-2">
+    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
+      <Card>
+        <template #title>
+          BSN
+        </template>
+        <template #content>
+          <BSN />
+        </template>
+      </Card>
+    </div>
+    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
+      <Card>
+        <template #title>
+          IBAN
+        </template>
+        <template #content>
+          <IBAN />
+        </template>
+      </Card>
+    </div>
+    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
+      <Card>
+        <template #title>
+          UUID
+        </template>
+        <template #content>
+          <UUID />
+        </template>
+      </Card>
+    </div>
+    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
+      <Card>
+        <template #title>
+          Password
+        </template>
+        <template #content>
+          <Password />
+        </template>
+      </Card>
+    </div>
+    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
+      <Card>
+        <template #title>
+          Bcrypt
+        </template>
+        <template #content>
+          <Bcrypt />
+        </template>
+      </Card>
+    </div>
+    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
+      <Card>
+        <template #title>
+          Timestamp
+        </template>
+        <template #content>
+          <Timestamp />
+        </template>
+      </Card>
+    </div>
+    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
+      <Card>
+        <template #title>
+          SHA256
+        </template>
+        <template #content>
+          <SHA256 />
+        </template>
+      </Card>
+    </div>
+    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
+      <Card>
+        <template #title>
+          Licence Plate
+        </template>
+        <template #content>
+          <LicencePlate />
+        </template>
+      </Card>
+    </div>
+    <!--    <CardBkp name="IBAN">-->
+    <!--      <IBAN />-->
+    <!--    </CardBkp>-->
+    <!--    <CardBkp name="UUID">-->
+    <!--      <UUID />-->
+    <!--    </CardBkp>-->
+    <!--    <CardBkp name="Password">-->
+    <!--      <Password />-->
+    <!--    </CardBkp>-->
+    <!--    <CardBkp name="Bcrypt">-->
+    <!--      <Bcrypt />-->
+    <!--    </CardBkp>-->
+    <!--    <CardBkp name="Timestamp">-->
+    <!--      <Timestamp />-->
+    <!--    </CardBkp>-->
+    <!--    <CardBkp name="SHA256">-->
+    <!--      <SHA256 />-->
+    <!--    </CardBkp>-->
+    <!--    <CardBkp name="Licence Plate">-->
+    <!--      <LicencePlate />-->
+    <!--    </CardBkp>-->
   </main>
   <Footer />
 </template>

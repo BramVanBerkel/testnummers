@@ -3,8 +3,8 @@ import { onMounted, ref, watch } from 'vue'
 import { generatePassword } from '../../generators/PasswordGenerator.ts'
 import { copy } from '../../helpers/copy.ts'
 import { select } from '../../helpers/select.ts'
-import Tooltip from '../Tooltip.vue'
-import { ArrowPathIcon, ClipboardDocumentCheckIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/outline'
+import GenerateButton from '../GenerateButton.vue'
+import CopyButton from '../CopyButton.vue'
 
 type PasswordScore = 0 | 1 | 2 | 3 | 4 | 5
 
@@ -59,29 +59,14 @@ watch([state.length, state.lowercase, state.uppercase, state.numbers, state.symb
         readonly
         @focus="select"
       />
-      <InputGroupAddon
-        @click="generate()"
-      >
-        <ArrowPathIcon
-          :class="{'rotate-45': state.generateSuccess.value, 'text-green-600': state.generateSuccess.value}"
-          class="-ml-0.5 w-6 h-6 text-gray-400 transition-transform duration-300"
-        />
-      </InputGroupAddon>
-      <InputGroupAddon
-        @click="(state.password) ? copy(state.password.value, state.copySuccess) : null"
-      >
-        <ClipboardDocumentListIcon
-          :class="{hidden: state.copySuccess.value}"
-          class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"
-        />
-        <ClipboardDocumentCheckIcon
-          :class="{hidden: !state.copySuccess.value}"
-          class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"
-        />
-        <Tooltip :show="state.copySuccess.value">
-          Copied!
-        </Tooltip>
-      </InputGroupAddon>
+      <GenerateButton
+        :generate-success="state.generateSuccess.value"
+        :on-click="generate"
+      />
+      <CopyButton
+        :copy-success="state.copySuccess.value"
+        :on-click="() => (state.password) ? copy(state.password.value, state.copySuccess) : null"
+      />
     </InputGroup>
   </div>
   <div class="flex mt-2">

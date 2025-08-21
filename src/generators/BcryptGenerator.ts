@@ -1,7 +1,7 @@
 import { compareSync, hashSync } from 'bcryptjs'
 
 export function generateBcrypt (input: string | undefined): string {
-  if (input === undefined) {
+  if (input === undefined || input === '') {
     return ''
   }
 
