@@ -7,34 +7,36 @@ import InputText from 'primevue/inputtext'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
 
-const state = {
-  IBAN: ref<string>(),
-  copySuccess: ref<boolean>(false),
-  generateSuccess: ref<boolean>(false),
-  bankCode: ref<string>(banks[1].code)
-}
+const IBAN = ref<string>()
+const copySuccess = ref<boolean>(false)
+const generateSuccess = ref<boolean>(false)
+const bankCode = ref<string>(banks[1].code)
 
 function generate (setSuccess: boolean = true): void {
-  state.IBAN.value = generateIBAN(state.bankCode.value)
+  IBAN.value = generateIBAN(bankCode.value)
 
   if (setSuccess) {
-    state.generateSuccess.value = true
+    generateSuccess.value = true
 
     setTimeout(() => {
-      state.generateSuccess.value = false
+      generateSuccess.value = false
     }, 300)
   }
 }
 
 onMounted(() => { generate(false) })
 
-watch(state.bankCode, () => { generate(false) })
+watch(bankCode, () => { generate(false) })
+
+async function handleCopy (): Promise<void> {
+  await copy(IBAN.value, copySuccess)
+}
 </script>
 
 <template>
   <div class="flex gap-2">
     <Select
-      v-model="state.bankCode.value"
+      v-model="bankCode"
       :options="banks"
       option-label="name"
       option-value="code"
@@ -42,17 +44,17 @@ watch(state.bankCode, () => { generate(false) })
 
     <InputGroup>
       <InputText
-        :value="state.IBAN.value"
+        :value="IBAN"
         readonly
         @focus="select"
       />
       <GenerateButton
-        :generate-success="state.generateSuccess.value"
+        :generate-success="generateSuccess"
         :on-click="generate"
       />
       <CopyButton
-        :copy-success="state.copySuccess.value"
-        :on-click="() => (state.IBAN) ? copy(state.IBAN.value, state.copySuccess) : null"
+        :copy-success="copySuccess"
+        :on-click="handleCopy"
       />
     </InputGroup>
   </div>

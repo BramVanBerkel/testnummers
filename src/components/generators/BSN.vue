@@ -7,20 +7,18 @@ import { select } from '../../helpers/select.ts'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
 
-const state = {
-  BSN: ref<string>(),
-  copySuccess: ref<boolean>(false),
-  generateSuccess: ref<boolean>(false)
-}
+const BSN = ref<string>()
+const copySuccess = ref<boolean>(false)
+const generateSuccess = ref<boolean>(false)
 
 function generate (setSuccess: boolean = true): void {
-  state.BSN.value = generateBSN()
+  BSN.value = generateBSN()
 
   if (setSuccess) {
-    state.generateSuccess.value = true
+    generateSuccess.value = true
 
     setTimeout(() => {
-      state.generateSuccess.value = false
+      generateSuccess.value = false
     }, 300)
   }
 }
@@ -28,22 +26,26 @@ function generate (setSuccess: boolean = true): void {
 onMounted(() => {
   generate(false)
 })
+
+async function handleCopy (): Promise<void> {
+  await copy(BSN.value, copySuccess)
+}
 </script>
 
 <template>
   <InputGroup>
     <InputText
-      :value="state.BSN.value"
+      :value="BSN"
       readonly
       @focus="select"
     />
     <GenerateButton
-      :generate-success="state.generateSuccess.value"
+      :generate-success="generateSuccess"
       :on-click="generate"
     />
     <CopyButton
-      :copy-success="state.copySuccess.value"
-      :on-click="() => (state.BSN) ? copy(state.BSN.value, state.copySuccess) : null"
+      :copy-success="copySuccess"
+      :on-click="handleCopy"
     />
   </InputGroup>
 </template>

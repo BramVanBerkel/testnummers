@@ -7,41 +7,42 @@ import { generateLicencePlate } from '../../generators/LicencePlateGenerator.ts'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
 
-const state = {
-  licencePlate: ref<string>(),
-  copySuccess: ref<boolean>(false),
-  generateSuccess: ref<boolean>(false)
-}
+const licencePlate = ref<string>()
+const copySuccess = ref<boolean>(false)
+const generateSuccess = ref<boolean>(false)
 
 function generate (setSuccess: boolean = true): void {
-  state.licencePlate.value = generateLicencePlate()
+  licencePlate.value = generateLicencePlate()
 
   if (setSuccess) {
-    state.generateSuccess.value = true
+    generateSuccess.value = true
 
     setTimeout(() => {
-      state.generateSuccess.value = false
+      generateSuccess.value = false
     }, 300)
   }
 }
 
 onMounted(() => { generate(false) })
+async function handleCopy (): Promise<void> {
+  await copy(licencePlate.value, copySuccess)
+}
 </script>
 
 <template>
   <InputGroup>
     <InputText
-      :value="state.licencePlate.value"
+      :value="licencePlate"
       readonly
       @focus="select"
     />
     <GenerateButton
-      :generate-success="state.generateSuccess.value"
+      :generate-success="generateSuccess"
       :on-click="generate"
     />
     <CopyButton
-      :copy-success="state.copySuccess.value"
-      :on-click="() => (state.licencePlate) ? copy(state.licencePlate.value, state.copySuccess) : null"
+      :copy-success="copySuccess"
+      :on-click="handleCopy"
     />
   </InputGroup>
 </template>
