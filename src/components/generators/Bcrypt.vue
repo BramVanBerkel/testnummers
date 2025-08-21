@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { checkBcrypt, generateBcrypt } from '../../generators/BcryptGenerator.ts'
-import { copy } from '../../helpers/copy.ts'
 import { debounce } from '../../helpers/debounce.ts'
 import InputText from 'primevue/inputtext'
 import CopyButton from '../CopyButton.vue'
+import { useCopy } from '../../composables/useCopy.ts'
 
 const generateInput = ref<string>()
 const generateHash = ref<string>()
 const checkInput = ref<string>()
 const checkHash = ref<string>()
 const checkSuccess = ref<boolean>()
-const copySuccess = ref<boolean>(false)
 const generateSuccess = ref<boolean>(false)
+const { copySuccess, handleCopy } = useCopy(generateHash)
 
 function generate (setSuccess: boolean = true): void {
   generateHash.value = generateBcrypt(generateInput.value)
@@ -33,9 +33,6 @@ function check (): void {
 watch(generateInput, debounce(generate))
 
 watch([checkInput, checkHash], debounce(check))
-async function handleCopy (): Promise<void> {
-  await copy(generateHash.value, copySuccess)
-}
 </script>
 
 <template>

@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import InputText from 'primevue/inputtext'
 import { onMounted, ref } from 'vue'
-import { copy } from '../../helpers/copy.ts'
 import { generateBSN } from '../../generators/BSNGenerator.ts'
 import { select } from '../../helpers/select.ts'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
+import { useCopy } from '../../composables/useCopy.ts'
 
 const BSN = ref<string>()
-const copySuccess = ref<boolean>(false)
 const generateSuccess = ref<boolean>(false)
+const { copySuccess, handleCopy } = useCopy(BSN)
 
 function generate (setSuccess: boolean = true): void {
   BSN.value = generateBSN()
@@ -26,10 +26,6 @@ function generate (setSuccess: boolean = true): void {
 onMounted(() => {
   generate(false)
 })
-
-async function handleCopy (): Promise<void> {
-  await copy(BSN.value, copySuccess)
-}
 </script>
 
 <template>

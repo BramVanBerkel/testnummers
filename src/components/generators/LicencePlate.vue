@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { copy } from '../../helpers/copy.ts'
 import { select } from '../../helpers/select.ts'
 import InputText from 'primevue/inputtext'
 import { generateLicencePlate } from '../../generators/LicencePlateGenerator.ts'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
+import { useCopy } from '../../composables/useCopy.ts'
 
 const licencePlate = ref<string>()
-const copySuccess = ref<boolean>(false)
 const generateSuccess = ref<boolean>(false)
+const { copySuccess, handleCopy } = useCopy(licencePlate)
 
 function generate (setSuccess: boolean = true): void {
   licencePlate.value = generateLicencePlate()
@@ -24,9 +24,6 @@ function generate (setSuccess: boolean = true): void {
 }
 
 onMounted(() => { generate(false) })
-async function handleCopy (): Promise<void> {
-  await copy(licencePlate.value, copySuccess)
-}
 </script>
 
 <template>

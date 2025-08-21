@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { banks, generateIBAN } from '../../generators/IBANGenerator.ts'
-import { copy } from '../../helpers/copy.ts'
 import { select } from '../../helpers/select.ts'
 import InputText from 'primevue/inputtext'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
+import { useCopy } from '../../composables/useCopy.ts'
 
 const IBAN = ref<string>()
-const copySuccess = ref<boolean>(false)
 const generateSuccess = ref<boolean>(false)
 const bankCode = ref<string>(banks[1].code)
+const { copySuccess, handleCopy } = useCopy(IBAN)
 
 function generate (setSuccess: boolean = true): void {
   IBAN.value = generateIBAN(bankCode.value)
@@ -27,10 +27,6 @@ function generate (setSuccess: boolean = true): void {
 onMounted(() => { generate(false) })
 
 watch(bankCode, () => { generate(false) })
-
-async function handleCopy (): Promise<void> {
-  await copy(IBAN.value, copySuccess)
-}
 </script>
 
 <template>

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { copy } from '../../helpers/copy.ts'
 import { generateSHA256 } from '../../generators/SHA256Generator.ts'
 import InputText from 'primevue/inputtext'
 import CopyButton from '../CopyButton.vue'
+import { useCopy } from '../../composables/useCopy.ts'
 
 const value = ref<string>()
 const hash = ref<string>()
-const copySuccess = ref<boolean>(false)
 const generateSuccess = ref<boolean>(false)
+const { copySuccess, handleCopy } = useCopy(hash)
 
 async function generate (setSuccess: boolean = true): Promise<void> {
   hash.value = await generateSHA256(value.value)
@@ -29,10 +29,6 @@ onMounted(async () => {
 watch(value, async () => {
   await generate()
 })
-
-async function handleCopy (): Promise<void> {
-  await copy(hash.value, copySuccess)
-}
 </script>
 
 <template>

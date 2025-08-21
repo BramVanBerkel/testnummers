@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { generatePassword } from '../../generators/PasswordGenerator.ts'
-import { copy } from '../../helpers/copy.ts'
 import { select } from '../../helpers/select.ts'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
+import { useCopy } from '../../composables/useCopy.ts'
 
 type PasswordScore = 0 | 1 | 2 | 3 | 4 | 5
 
@@ -14,9 +14,9 @@ const lowercase = ref<boolean>(true)
 const uppercase = ref<boolean>(true)
 const numbers = ref<boolean>(true)
 const symbols = ref<boolean>(true)
-const copySuccess = ref<boolean>(false)
 const generateSuccess = ref<boolean>(false)
 const passwordScore = ref<PasswordScore>(0)
+const { copySuccess, handleCopy } = useCopy(password)
 
 function generate (setSuccess: boolean = true): void {
   password.value = generatePassword(length.value, lowercase.value, uppercase.value, numbers.value, symbols.value)
@@ -47,9 +47,6 @@ function generate (setSuccess: boolean = true): void {
 onMounted(() => { generate(false) })
 
 watch([length, lowercase, uppercase, numbers, symbols], () => { generate(false) })
-async function handleCopy (): Promise<void> {
-  await copy(password.value, copySuccess)
-}
 </script>
 
 <template>
