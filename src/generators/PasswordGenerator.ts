@@ -2,7 +2,7 @@ enum CharacterSet {
   UppercaseLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
   LowercaseLetters = 'abcdefghijklmnopqrstuvwxyz',
   Numbers = '0123456789',
-  Symbols = '!@.-_*'
+  Symbols = '^*%$!&@#'
 }
 
 export function generatePassword (length: number, lowercase: boolean, uppercase: boolean, numbers: boolean, symbols: boolean): string {
