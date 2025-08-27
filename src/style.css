@@ -7,6 +7,6 @@
     src: url('fonts/JetBrainsMono-Regular.ttf') format('truetype');
 }
 
-.title-font {
-    font-family: "JetBrains Mono", monospace;
+.title-font, .p-inputtext {
+    font-family: "JetBrains Mono", monospace !important;
 }
