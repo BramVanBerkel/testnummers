@@ -1,39 +1,26 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { generatePassword } from '../../generators/PasswordGenerator.ts'
+import { generatePasswordAndScore, type PasswordScore } from '../../generators/PasswordGenerator.ts'
 import { select } from '../../helpers/select.ts'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
 import { useCopy } from '../../composables/useCopy.ts'
 
-type PasswordScore = 0 | 1 | 2 | 3 | 4 | 5
-
 const password = ref<string>()
-const length = ref<number>(16)
+const length = ref<number>(12)
 const lowercase = ref<boolean>(true)
 const uppercase = ref<boolean>(true)
 const numbers = ref<boolean>(true)
 const symbols = ref<boolean>(true)
 const generateSuccess = ref<boolean>(false)
-const passwordScore = ref<PasswordScore>(0)
+const passwordScore = ref<PasswordScore>()
 const { copySuccess, handleCopy } = useCopy(password)
 
 function generate (setSuccess: boolean = true): void {
-  password.value = generatePassword(length.value, lowercase.value, uppercase.value, numbers.value, symbols.value)
+  const { password: generatedPassword, score } = generatePasswordAndScore(length.value, lowercase.value, uppercase.value, numbers.value, symbols.value)
 
-  if (password.value?.length === 0) {
-    passwordScore.value = 0
-  } else if (length.value < 4) {
-    passwordScore.value = 1
-  } else if (length.value <= 7) {
-    passwordScore.value = 2
-  } else if (length.value <= 11) {
-    passwordScore.value = 3
-  } else if (length.value <= 15) {
-    passwordScore.value = 4
-  } else {
-    passwordScore.value = 5
-  }
+  password.value = generatedPassword
+  passwordScore.value = score
 
   if (setSuccess) {
     generateSuccess.value = true
@@ -50,7 +37,7 @@ watch([length, lowercase, uppercase, numbers, symbols], () => { generate(false) 
 </script>
 
 <template>
-  <div>
+  <div class="pb-4">
     <InputGroup>
       <InputText
         :value="password"
@@ -67,20 +54,10 @@ watch([length, lowercase, uppercase, numbers, symbols], () => { generate(false) 
       />
     </InputGroup>
   </div>
-  <div class="flex mt-2">
-    <template
-      v-for="i in 5"
-      :key="i"
-    >
-      <div class="w-1/5 px-1">
-        <div
-          :class="i-1<passwordScore?(passwordScore<=2?'bg-red-400':(passwordScore<=4?'bg-yellow-400':'bg-green-500')):'bg-gray-200 dark:bg-gray-600'"
-          class="h-2 rounded-xl transition-colors"
-        />
-      </div>
-    </template>
-  </div>
 
+  <Message :severity="passwordScore?.severity">
+    Estimated time to bruteforce: {{ passwordScore?.estimatedCrackTime }}
+  </Message>
   <Divider />
 
   <label class="block text-xs font-semibold mb-2">Password length</label>
@@ -89,8 +66,8 @@ watch([length, lowercase, uppercase, numbers, symbols], () => { generate(false) 
     <Slider
       v-model="length"
       :step="1"
-      :min="1"
-      :max="30"
+      :min="4"
+      :max="18"
       class="w-full"
     />
     <div v-text="length" />
