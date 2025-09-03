@@ -31,7 +31,7 @@ watch(checked, toggleDark)
     </nav>
   </div>
 
-  <main class="-mt-32 pt-10 columns-2">
+  <main class="-mt-32 pt-10 columns-1 lg:columns-2">
     <div class="break-inside-avoid px-4 pb-12 lg:px-8">
       <Card>
         <template #title>
