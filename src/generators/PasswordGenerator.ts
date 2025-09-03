@@ -79,12 +79,21 @@ function generateScore (length: number, lowercase: boolean, uppercase: boolean, 
   const quintillion = thousand * quadrillion
 
   let formattedSeconds = ''
-  if (seconds < min) formattedSeconds = `${seconds} seconds`
-  else if (seconds < hour) formattedSeconds = `${(seconds / min)} minutes`
-  else if (seconds < day) formattedSeconds = `${(seconds / hour)} hours`
-  else if (seconds < year) formattedSeconds = `${(seconds / day)} days`
-  else if (seconds < thousand * year) formattedSeconds = `${(seconds / year)} years`
-  else if (seconds < million * year) formattedSeconds = `${(seconds / (thousand * year))}k years`
+  if (seconds < min) {
+    formattedSeconds = `${seconds} ${seconds === 1n ? 'second' : 'seconds'}`
+  } else if (seconds < hour) {
+    const minutes = seconds / min
+    formattedSeconds = `${minutes} ${minutes === 1n ? 'minute' : 'minutes'}`
+  } else if (seconds < day) {
+    const hours = seconds / hour
+    formattedSeconds = `${hours} ${hours === 1n ? 'hour' : 'hours'}`
+  } else if (seconds < year) {
+    const days = seconds / day
+    formattedSeconds = `${days} ${days === 1n ? 'day' : 'days'}`
+  } else if (seconds < thousand * year) {
+    const years = seconds / year
+    formattedSeconds = `${years} ${years === 1n ? 'year' : 'years'}`
+  } else if (seconds < million * year) formattedSeconds = `${(seconds / (thousand * year))}k years`
   else if (seconds < billion * year) formattedSeconds = `${(seconds / (million * year))}m years`
   else if (seconds < trillion * year) formattedSeconds = `${(seconds / (billion * year))}bn years`
   else if (seconds < quadrillion * year) formattedSeconds = `${(seconds / (trillion * year))}tn years`
