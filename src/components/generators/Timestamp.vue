@@ -1,8 +1,12 @@
 <script setup lang="ts">
 
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { generateTimestamp } from '../../generators/UnixTimestampGenerator.ts'
 import { generateRelativeTime } from '../../generators/RelativeTimeGenerator.ts'
+import { ClipboardDocumentCheckIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/outline'
+import Tooltip from '../Tooltip.vue'
+import { useCopy } from '../../composables/useCopy.ts'
+import CopyButton from '../CopyButton.vue'
 
 const currentTimestamp = ref<number>()
 const timestamp = ref<number>(generateTimestamp(new Date()))
@@ -16,6 +20,9 @@ const second = ref<number>(new Date().getSeconds())
 const relative = ref<string>()
 const localeString = ref<string>()
 const localeStringUTC = ref<string>()
+const { copySuccess: currentTimestampCopySuccess, handleCopy: currentTimestampHandleCopy } = useCopy(currentTimestamp)
+const { copySuccess: timestampCopySuccess, handleCopy: timestampHandleCopy } = useCopy(timestamp)
+const daysInMonth = computed<number>(() => new Date(year.value, month.value, 0).getDate())
 
 function updateUnixTimestamp (): void {
   currentTimestamp.value = generateTimestamp(new Date())
@@ -62,18 +69,46 @@ watch(timestamp, () => {
   second.value = date.getSeconds()
 })
 
+// Clamp the day when the month or year changes
+watch([year, month], () => {
+  if (day.value > daysInMonth.value) {
+    day.value = daysInMonth.value
+  }
+  if (day.value < 1) {
+    day.value = 1
+  }
+})
+
 watch(date, () => { updateLocaleString() })
 
 </script>
 
 <template>
-  <div class="text-center text-lg">
-    <h2 class="text-center text-xl">
+  <div class="flex items-center justify-center">
+    <h2 class="text-xl pr-2">
       Current timestamp: <span
-        class="font-semibold"
-        v-html="currentTimestamp"
+        class="font-semibold font-mono"
+        v-text="currentTimestamp"
       />
     </h2>
+    <Tooltip
+      :show="currentTimestampCopySuccess"
+    >
+      <Button
+        severity="secondary"
+        size="small"
+        @click="currentTimestampHandleCopy"
+      >
+        <ClipboardDocumentListIcon
+          :class="{hidden: currentTimestampCopySuccess}"
+          class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"
+        />
+        <ClipboardDocumentCheckIcon
+          :class="{hidden: !currentTimestampCopySuccess}"
+          class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"
+        />
+      </Button>
+    </Tooltip>
   </div>
 
   <Divider />
@@ -83,18 +118,26 @@ watch(date, () => { updateLocaleString() })
       for="unix"
       class="block text-sm font-medium leading-6"
     >Unix timestamp</label>
-    <div class="mt-1">
-      <InputNumber
-        v-model="timestamp"
-        :format="false"
-        :input-props="{ inputmode: 'tel' }"
-        input-id="unix"
-        show-buttons
-      />
+    <div class="mt-1 lg:w-1/2">
+      <InputGroup>
+        <FloatLabel variant="on">
+          <InputNumber
+            v-model="timestamp"
+            :format="false"
+            :input-props="{ inputmode: 'tel' }"
+            input-id="unix"
+            show-buttons
+          />
+        </FloatLabel>
+        <CopyButton
+          :copy-success="timestampCopySuccess"
+          :on-click="timestampHandleCopy"
+        />
+      </InputGroup>
     </div>
   </div>
 
-  <div class="columns-3 pb-4">
+  <div class="columns-3 pb-4 w-auto">
     <div>
       <label
         for="year"
@@ -103,6 +146,7 @@ watch(date, () => { updateLocaleString() })
       <div class="mt-1">
         <InputNumber
           v-model="year"
+          button-layout="vertical"
           input-id="year"
           :min="1970"
           :max="9000"
@@ -122,6 +166,7 @@ watch(date, () => { updateLocaleString() })
       <div class="mt-1">
         <InputNumber
           v-model="month"
+          button-layout="vertical"
           input-id="month"
           :min="1"
           :max="12"
@@ -141,9 +186,10 @@ watch(date, () => { updateLocaleString() })
       <div class="mt-1">
         <InputNumber
           v-model="day"
+          button-layout="vertical"
           input-id="day"
           :min="1"
-          :max="31"
+          :max="daysInMonth"
           :format="false"
           :input-props="{ inputmode: 'tel' }"
           show-buttons
@@ -162,9 +208,10 @@ watch(date, () => { updateLocaleString() })
       <div class="mt-1">
         <InputNumber
           v-model="hour"
+          button-layout="vertical"
           input-id="hour"
           :min="0"
-          :max="24"
+          :max="23"
           :format="false"
           :input-props="{ inputmode: 'tel' }"
           show-buttons
@@ -181,6 +228,7 @@ watch(date, () => { updateLocaleString() })
       <div class="mt-1">
         <InputNumber
           v-model="minute"
+          button-layout="vertical"
           input-id="minute"
           :min="0"
           :max="59"
@@ -200,6 +248,7 @@ watch(date, () => { updateLocaleString() })
       <div class="mt-1">
         <InputNumber
           v-model="second"
+          button-layout="vertical"
           input-id="second"
           :min="0"
           :max="59"
@@ -216,19 +265,19 @@ watch(date, () => { updateLocaleString() })
       Local time:
     </div>
     <div
-      v-html="localeString"
+      v-text="localeString"
     />
     <div class="font-semibold">
       UTC:
     </div>
     <div
-      v-html="localeStringUTC"
+      v-text="localeStringUTC"
     />
     <div class="font-semibold">
       Relative:
     </div>
     <div
-      v-html="relative"
+      v-text="relative"
     />
   </div>
 </template>

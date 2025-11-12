@@ -1,36 +1,68 @@
-<script setup lang="ts">
-defineProps<{
-  show: boolean
-}>()
-</script>
-
 <template>
-  <span
-    :class="{'opacity-100': show, 'opacity-0': !show}"
-    class="absolute -mt-20 pointer-events-none transition-opacity duration-300"
-  >
-    <span
-      class="rounded-md bg-gray-900 px-3 py-1 text-xs font-semibold leading-4 tracking-wide text-white drop-shadow-md filter"
+  <div class="relative inline-block">
+    <slot />
+
+    <Transition
+      enter-active-class="transition-opacity duration-200 ease-out"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition-opacity duration-150 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
     >
-      <svg
-        aria-hidden="true"
-        width="16"
-        height="6"
-        viewBox="0 0 16 6"
-        class="absolute left-1/2 top-full -ml-2 -mt-px text-gray-900"
+      <div
+        v-show="show"
+        :class="[
+          'absolute z-10 w-max max-w-xs px-3 py-1.5 text-sm font-medium text-white bg-gray-900 rounded-md shadow-sm select-none dark:bg-gray-700',
+          positionClasses
+        ]"
       >
-        <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
-          d="M15 0H1V1.00366V1.00366V1.00371H1.01672C2.72058 1.0147 4.24225 2.74704 5.42685 4.72928C6.42941 6.40691 9.57154 6.4069 10.5741 4.72926C11.7587 2.74703 13.2803 1.0147 14.9841 1.00371H15V0Z"
-          fill="currentColor"
+        {{ text }}
+
+        <div
+          class="absolute left-1/2 -translate-x-1/2 -bottom-1 w-2 h-2 rotate-45 bg-gray-900 dark:bg-gray-700"
         />
-      </svg>
-      <slot />
-    </span>
-  </span>
+      </div>
+    </Transition>
+  </div>
 </template>
 
-<style scoped>
+<script setup>
+import { computed } from 'vue'
 
-</style>
+// Define props
+const props = defineProps({
+  show: {
+    type: Boolean,
+    default: false
+  },
+  text: {
+    type: String,
+    default: 'Copied!'
+  },
+  position: {
+    type: String,
+    default: 'top',
+    validator: (value) => ['top', 'bottom', 'left', 'right'].includes(value)
+  }
+})
+
+// Calculate Tailwind classes based on the 'position' prop
+const positionClasses = computed(() => {
+  switch (props.position) {
+    case 'bottom':
+      // Positions below the element, centered
+      return 'top-full left-1/2 -translate-x-1/2 mt-2'
+    case 'left':
+      // Positions to the left of the element, centered
+      return 'right-full top-1/2 -translate-y-1/2 mr-2'
+    case 'right':
+      // Positions to the right of the element, centered
+      return 'left-full top-1/2 -translate-y-1/2 ml-2'
+    case 'top':
+    default:
+      // Positions above the element, centered
+      return 'bottom-full left-1/2 -translate-x-1/2 mb-2'
+  }
+})
+</script>
