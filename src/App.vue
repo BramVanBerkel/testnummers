@@ -10,6 +10,7 @@ import SHA256 from './components/generators/SHA256.vue'
 import { ref, watch } from 'vue'
 import { useDark, useToggle } from '@vueuse/core'
 import LicencePlate from './components/generators/LicencePlate.vue'
+import DriversLicenseNumber from './components/generators/DriversLicenseNumber.vue'
 
 const isDark = useDark()
 const checked = ref(isDark.value)
@@ -112,27 +113,16 @@ watch(checked, toggleDark)
         </template>
       </Card>
     </div>
-    <!--    <CardBkp name="IBAN">-->
-    <!--      <IBAN />-->
-    <!--    </CardBkp>-->
-    <!--    <CardBkp name="UUID">-->
-    <!--      <UUID />-->
-    <!--    </CardBkp>-->
-    <!--    <CardBkp name="Password">-->
-    <!--      <Password />-->
-    <!--    </CardBkp>-->
-    <!--    <CardBkp name="Bcrypt">-->
-    <!--      <Bcrypt />-->
-    <!--    </CardBkp>-->
-    <!--    <CardBkp name="Timestamp">-->
-    <!--      <Timestamp />-->
-    <!--    </CardBkp>-->
-    <!--    <CardBkp name="SHA256">-->
-    <!--      <SHA256 />-->
-    <!--    </CardBkp>-->
-    <!--    <CardBkp name="Licence Plate">-->
-    <!--      <LicencePlate />-->
-    <!--    </CardBkp>-->
+    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
+      <Card>
+        <template #title>
+          Drivers licence number
+        </template>
+        <template #content>
+          <DriversLicenseNumber />
+        </template>
+      </Card>
+    </div>
   </main>
   <Footer />
 </template>
