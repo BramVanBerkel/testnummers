@@ -28,6 +28,10 @@ function updateUnixTimestamp (): void {
   currentTimestamp.value = generateTimestamp(new Date())
 }
 
+function updateRelativeTime (): void {
+  relative.value = generateRelativeTime(date.value)
+}
+
 function updateLocaleString (): void {
   const options: Intl.DateTimeFormatOptions = {
     hour12: false,
@@ -51,6 +55,11 @@ onMounted(() => {
   updateUnixTimestamp() // run the function immediately when the component is mounted
   setInterval(updateUnixTimestamp, 1000) // and update the value every second afterward
   relative.value = generateRelativeTime(new Date())
+})
+
+onMounted(() => {
+  updateRelativeTime()
+  setInterval(updateRelativeTime, 1000)
 })
 
 watch([year, month, day, hour, minute, second], () => {
