@@ -13,8 +13,7 @@
       <div
         v-show="show"
         :class="[
-          'absolute z-10 w-max max-w-xs px-3 py-1.5 text-sm font-medium text-white bg-gray-900 rounded-md shadow-sm select-none dark:bg-gray-700',
-          positionClasses
+          'absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-10 w-max max-w-xs px-3 py-1.5 text-sm font-medium text-white bg-gray-900 rounded-md shadow-sm select-none dark:bg-gray-700'
         ]"
       >
         {{ text }}
@@ -28,10 +27,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-
-// Define props
-const props = defineProps({
+defineProps({
   show: {
     type: Boolean,
     default: false
@@ -39,30 +35,6 @@ const props = defineProps({
   text: {
     type: String,
     default: 'Copied!'
-  },
-  position: {
-    type: String,
-    default: 'top',
-    validator: (value) => ['top', 'bottom', 'left', 'right'].includes(value)
-  }
-})
-
-// Calculate Tailwind classes based on the 'position' prop
-const positionClasses = computed(() => {
-  switch (props.position) {
-    case 'bottom':
-      // Positions below the element, centered
-      return 'top-full left-1/2 -translate-x-1/2 mt-2'
-    case 'left':
-      // Positions to the left of the element, centered
-      return 'right-full top-1/2 -translate-y-1/2 mr-2'
-    case 'right':
-      // Positions to the right of the element, centered
-      return 'left-full top-1/2 -translate-y-1/2 ml-2'
-    case 'top':
-    default:
-      // Positions above the element, centered
-      return 'bottom-full left-1/2 -translate-x-1/2 mb-2'
   }
 })
 </script>
