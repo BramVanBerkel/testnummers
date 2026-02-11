@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { generateSHA256 } from '../../generators/SHA256Generator.ts'
-import InputText from 'primevue/inputtext'
 import CopyButton from '../CopyButton.vue'
 import { useCopy } from '../../composables/useCopy.ts'
 import { useGenerate } from '../../composables/useGenerate.ts'

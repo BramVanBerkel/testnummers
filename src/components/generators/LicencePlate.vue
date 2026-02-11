@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { select } from '../../helpers/select.ts'
-import InputText from 'primevue/inputtext'
 import { generateLicencePlate } from '../../generators/LicencePlateGenerator.ts'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'

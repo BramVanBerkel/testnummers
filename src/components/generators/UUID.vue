@@ -2,7 +2,6 @@
 import { ref, watch } from 'vue'
 import { generateUUID, UUIDVersions } from '../../generators/UUIDGenerator.ts'
 import { select } from '../../helpers/select.ts'
-import InputText from 'primevue/inputtext'
 import CopyButton from '../CopyButton.vue'
 import GenerateButton from '../GenerateButton.vue'
 import { useCopy } from '../../composables/useCopy.ts'

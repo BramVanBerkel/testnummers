@@ -2,7 +2,6 @@
 import { ref, watch } from 'vue'
 import { banks, generateIBAN } from '../../generators/IBANGenerator.ts'
 import { select } from '../../helpers/select.ts'
-import InputText from 'primevue/inputtext'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
 import { useCopy } from '../../composables/useCopy.ts'

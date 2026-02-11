@@ -2,7 +2,6 @@
 import { ref, watch } from 'vue'
 import { checkBcrypt, generateBcrypt } from '../../generators/BcryptGenerator.ts'
 import { debounce } from '../../helpers/debounce.ts'
-import InputText from 'primevue/inputtext'
 import CopyButton from '../CopyButton.vue'
 import { useCopy } from '../../composables/useCopy.ts'
 

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import InputText from 'primevue/inputtext'
 import { ref } from 'vue'
 import { generateBSN } from '../../generators/BSNGenerator.ts'
 import { select } from '../../helpers/select.ts'
