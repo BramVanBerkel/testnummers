@@ -14,8 +14,8 @@ const checkSuccess = ref<boolean>()
 const generateSuccess = ref<boolean>(false)
 const { copySuccess, handleCopy } = useCopy(generateHash)
 
-function generate (setSuccess: boolean = true): void {
-  generateHash.value = generateBcrypt(generateInput.value)
+async function generate (setSuccess: boolean = true): Promise<void> {
+  generateHash.value = await generateBcrypt(generateInput.value)
 
   if (setSuccess) {
     generateSuccess.value = true
@@ -26,8 +26,8 @@ function generate (setSuccess: boolean = true): void {
   }
 }
 
-function check (): void {
-  checkSuccess.value = checkBcrypt(checkInput.value, checkHash.value)
+async function check (): Promise<void> {
+  checkSuccess.value = await checkBcrypt(checkInput.value, checkHash.value)
 }
 
 watch(generateInput, debounce(generate))
