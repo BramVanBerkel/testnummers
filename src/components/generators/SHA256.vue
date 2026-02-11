@@ -52,7 +52,7 @@ watch(value, async () => {
           readonly
           class="w-full first:rounded-t-none"
         />
-        <label for="sha256-input">Hash</label>
+        <label for="sha256-hash">Hash</label>
       </FloatLabel>
       <CopyButton
         :copy-success="copySuccess"
