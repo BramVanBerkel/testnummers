@@ -26,15 +26,13 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  show: {
-    type: Boolean,
-    default: false
-  },
-  text: {
-    type: String,
-    default: 'Copied!'
-  }
+<script lang="ts" setup>
+withDefaults(defineProps<{
+  show?: boolean
+  text?: string
+}>(), {
+  show: false,
+  text: 'Copied!'
 })
+
 </script>
