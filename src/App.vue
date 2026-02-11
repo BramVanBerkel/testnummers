@@ -11,7 +11,7 @@ import Bcrypt from './components/generators/Bcrypt.vue'
 import Timestamp from './components/generators/Timestamp.vue'
 import SHA256 from './components/generators/SHA256.vue'
 import LicencePlate from './components/generators/LicencePlate.vue'
-import DriversLicenseNumber from './components/generators/DriversLicenseNumber.vue'
+import DriversLicenceNumber from './components/generators/DriversLicenceNumber.vue'
 
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
@@ -25,7 +25,7 @@ const cards: Array<{ title: string, component: Component }> = [
   { title: 'Timestamp', component: Timestamp },
   { title: 'SHA256', component: SHA256 },
   { title: 'Licence Plate', component: LicencePlate },
-  { title: 'Drivers licence number', component: DriversLicenseNumber }
+  { title: 'Drivers licence number', component: DriversLicenceNumber }
 ]
 </script>
 
