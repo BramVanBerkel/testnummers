@@ -40,9 +40,10 @@ function generatePassword (length: number, lowercase: boolean, uppercase: boolea
   }
 
   let password = ''
+  const randomValues = new Uint32Array(length)
+  crypto.getRandomValues(randomValues)
   for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length)
-    password += characters[randomIndex]
+    password += characters[randomValues[i] % characters.length]
   }
 
   return password
