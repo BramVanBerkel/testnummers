@@ -23,6 +23,8 @@ const localeStringUTC = ref<string>()
 const { copySuccess: currentTimestampCopySuccess, handleCopy: currentTimestampHandleCopy } = useCopy(currentTimestamp)
 const { copySuccess: timestampCopySuccess, handleCopy: timestampHandleCopy } = useCopy(timestamp)
 const daysInMonth = computed<number>(() => new Date(year.value, month.value, 0).getDate())
+let updatingFromTimestamp = false
+let updatingFromFields = false
 
 function updateUnixTimestamp (): void {
   currentTimestamp.value = generateTimestamp(new Date())
@@ -63,12 +65,17 @@ onMounted(() => {
 })
 
 watch([year, month, day, hour, minute, second], () => {
+  if (updatingFromTimestamp) return
+  updatingFromFields = true
   date.value = new Date(year.value, month.value - 1, day.value, hour.value, minute.value, second.value)
   timestamp.value = generateTimestamp(date.value)
   relative.value = generateRelativeTime(date.value)
+  updatingFromFields = false
 })
 
 watch(timestamp, () => {
+  if (updatingFromFields) return
+  updatingFromTimestamp = true
   const date = new Date(timestamp.value * 1000)
   year.value = date.getFullYear()
   month.value = date.getMonth() + 1
@@ -76,6 +83,7 @@ watch(timestamp, () => {
   hour.value = date.getHours()
   minute.value = date.getMinutes()
   second.value = date.getSeconds()
+  updatingFromTimestamp = false
 })
 
 // Clamp the day when the month or year changes
