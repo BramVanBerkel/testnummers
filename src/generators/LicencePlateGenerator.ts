@@ -17,7 +17,7 @@ export function generateLicencePlate (): string {
     if (char === 'X') {
       result += letters[Math.floor(Math.random() * letters.length)]
     } else if (char === '9') {
-      result += Math.floor(Math.random() * 9)
+      result += Math.floor(Math.random() * 10)
     } else {
       result += char
     }
