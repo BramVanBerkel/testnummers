@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { generatePasswordAndScore, type PasswordScore } from '../../generators/PasswordGenerator.ts'
 import { select } from '../../helpers/select.ts'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
 import { useCopy } from '../../composables/useCopy.ts'
+import { useGenerate } from '../../composables/useGenerate.ts'
 
 const password = ref<string>()
 const length = ref<number>(12)
@@ -12,28 +13,15 @@ const lowercase = ref<boolean>(true)
 const uppercase = ref<boolean>(true)
 const numbers = ref<boolean>(true)
 const symbols = ref<boolean>(true)
-const generateSuccess = ref<boolean>(false)
 const passwordScore = ref<PasswordScore>()
 const { copySuccess, handleCopy } = useCopy(password)
-
-function generate (setSuccess: boolean = true): void {
+const { generateSuccess, generate } = useGenerate(() => {
   const { password: generatedPassword, score } = generatePasswordAndScore(length.value, lowercase.value, uppercase.value, numbers.value, symbols.value)
-
   password.value = generatedPassword
   passwordScore.value = score
+})
 
-  if (setSuccess) {
-    generateSuccess.value = true
-
-    setTimeout(() => {
-      generateSuccess.value = false
-    }, 300)
-  }
-}
-
-onMounted(() => { generate(false) })
-
-watch([length, lowercase, uppercase, numbers, symbols], () => { generate(false) })
+watch([length, lowercase, uppercase, numbers, symbols], () => { void generate(false) })
 </script>
 
 <template>

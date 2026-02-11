@@ -1,34 +1,19 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { generateSHA256 } from '../../generators/SHA256Generator.ts'
 import InputText from 'primevue/inputtext'
 import CopyButton from '../CopyButton.vue'
 import { useCopy } from '../../composables/useCopy.ts'
+import { useGenerate } from '../../composables/useGenerate.ts'
 
 const value = ref<string>()
 const hash = ref<string>()
-const generateSuccess = ref<boolean>(false)
 const { copySuccess, handleCopy } = useCopy(hash)
-
-async function generate (setSuccess: boolean = true): Promise<void> {
+const { generate } = useGenerate(async () => {
   hash.value = await generateSHA256(value.value)
-
-  if (setSuccess) {
-    generateSuccess.value = true
-
-    setTimeout(() => {
-      generateSuccess.value = false
-    }, 300)
-  }
-}
-
-onMounted(async () => {
-  await generate(false)
 })
 
-watch(value, async () => {
-  await generate()
-})
+watch(value, () => { void generate() })
 </script>
 
 <template>

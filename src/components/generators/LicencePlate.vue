@@ -1,29 +1,18 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { select } from '../../helpers/select.ts'
 import InputText from 'primevue/inputtext'
 import { generateLicencePlate } from '../../generators/LicencePlateGenerator.ts'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
 import { useCopy } from '../../composables/useCopy.ts'
+import { useGenerate } from '../../composables/useGenerate.ts'
 
 const licencePlate = ref<string>()
-const generateSuccess = ref<boolean>(false)
 const { copySuccess, handleCopy } = useCopy(licencePlate)
-
-function generate (setSuccess: boolean = true): void {
+const { generateSuccess, generate } = useGenerate(() => {
   licencePlate.value = generateLicencePlate()
-
-  if (setSuccess) {
-    generateSuccess.value = true
-
-    setTimeout(() => {
-      generateSuccess.value = false
-    }, 300)
-  }
-}
-
-onMounted(() => { generate(false) })
+})
 </script>
 
 <template>

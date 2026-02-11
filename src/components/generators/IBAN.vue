@@ -1,32 +1,21 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { banks, generateIBAN } from '../../generators/IBANGenerator.ts'
 import { select } from '../../helpers/select.ts'
 import InputText from 'primevue/inputtext'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
 import { useCopy } from '../../composables/useCopy.ts'
+import { useGenerate } from '../../composables/useGenerate.ts'
 
 const IBAN = ref<string>()
-const generateSuccess = ref<boolean>(false)
 const bankCode = ref<string>(banks[1].code)
 const { copySuccess, handleCopy } = useCopy(IBAN)
-
-function generate (setSuccess: boolean = true): void {
+const { generateSuccess, generate } = useGenerate(() => {
   IBAN.value = generateIBAN(bankCode.value)
+})
 
-  if (setSuccess) {
-    generateSuccess.value = true
-
-    setTimeout(() => {
-      generateSuccess.value = false
-    }, 300)
-  }
-}
-
-onMounted(() => { generate(false) })
-
-watch(bankCode, () => { generate(false) })
+watch(bankCode, () => { void generate(false) })
 </script>
 
 <template>

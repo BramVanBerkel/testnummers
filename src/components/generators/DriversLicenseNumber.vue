@@ -1,29 +1,18 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { select } from '../../helpers/select.ts'
 import InputText from 'primevue/inputtext'
 import GenerateButton from '../GenerateButton.vue'
 import CopyButton from '../CopyButton.vue'
 import { useCopy } from '../../composables/useCopy.ts'
+import { useGenerate } from '../../composables/useGenerate.ts'
 import { generateDriversLicenceNumber } from '../../generators/DriversLicenceNumberGenerator.ts'
 
 const driversLicenceNumber = ref<string>()
-const generateSuccess = ref<boolean>(false)
 const { copySuccess, handleCopy } = useCopy(driversLicenceNumber)
-
-function generate (setSuccess: boolean = true): void {
+const { generateSuccess, generate } = useGenerate(() => {
   driversLicenceNumber.value = generateDriversLicenceNumber()
-
-  if (setSuccess) {
-    generateSuccess.value = true
-
-    setTimeout(() => {
-      generateSuccess.value = false
-    }, 300)
-  }
-}
-
-onMounted(() => { generate(false) })
+})
 </script>
 
 <template>
