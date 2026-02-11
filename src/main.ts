@@ -23,7 +23,10 @@ import {
 const app = createApp(App as Component)
 app.use(PrimeVue, {
   theme: {
-    preset: Aura
+    preset: Aura,
+    options: {
+      darkModeSelector: '.dark'
+    }
   }
 })
 app.component('Card', Card)

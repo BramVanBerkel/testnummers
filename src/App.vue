@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { type Component, ref, watch } from 'vue'
+import { type Component } from 'vue'
 import { useDark, useToggle } from '@vueuse/core'
+import { SunIcon, MoonIcon } from '@heroicons/vue/24/outline'
 import Footer from './components/Footer.vue'
 import BSN from './components/generators/BSN.vue'
 import IBAN from './components/generators/IBAN.vue'
@@ -13,10 +14,7 @@ import LicencePlate from './components/generators/LicencePlate.vue'
 import DriversLicenseNumber from './components/generators/DriversLicenseNumber.vue'
 
 const isDark = useDark()
-const checked = ref(isDark.value)
 const toggleDark = useToggle(isDark)
-
-watch(checked, toggleDark)
 
 const cards: Array<{ title: string, component: Component }> = [
   { title: 'BSN', component: BSN },
@@ -39,6 +37,19 @@ const cards: Array<{ title: string, component: Component }> = [
           <div class="flex flex-1 px-2 lg:ml-6">
             <span class="text-zinc-200 text-2xl title-font antialiased">Testnummers.dev</span>
           </div>
+          <button
+            class="text-zinc-200 hover:text-white p-2"
+            @click="toggleDark()"
+          >
+            <MoonIcon
+              v-if="!isDark"
+              class="w-6 h-6"
+            />
+            <SunIcon
+              v-else
+              class="w-6 h-6"
+            />
+          </button>
         </div>
       </div>
     </nav>
