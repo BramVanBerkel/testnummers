@@ -1,14 +1,14 @@
 <script lang="ts" setup>
+import { type Component, ref, watch } from 'vue'
+import { useDark, useToggle } from '@vueuse/core'
+import Footer from './components/Footer.vue'
 import BSN from './components/generators/BSN.vue'
 import IBAN from './components/generators/IBAN.vue'
 import UUID from './components/generators/UUID.vue'
 import Password from './components/generators/Password.vue'
-import Footer from './components/Footer.vue'
 import Bcrypt from './components/generators/Bcrypt.vue'
 import Timestamp from './components/generators/Timestamp.vue'
 import SHA256 from './components/generators/SHA256.vue'
-import { ref, watch } from 'vue'
-import { useDark, useToggle } from '@vueuse/core'
 import LicencePlate from './components/generators/LicencePlate.vue'
 import DriversLicenseNumber from './components/generators/DriversLicenseNumber.vue'
 
@@ -17,6 +17,18 @@ const checked = ref(isDark.value)
 const toggleDark = useToggle(isDark)
 
 watch(checked, toggleDark)
+
+const cards: Array<{ title: string, component: Component }> = [
+  { title: 'BSN', component: BSN },
+  { title: 'IBAN', component: IBAN },
+  { title: 'UUID', component: UUID },
+  { title: 'Password', component: Password },
+  { title: 'Bcrypt', component: Bcrypt },
+  { title: 'Timestamp', component: Timestamp },
+  { title: 'SHA256', component: SHA256 },
+  { title: 'Licence Plate', component: LicencePlate },
+  { title: 'Drivers licence number', component: DriversLicenseNumber }
+]
 </script>
 
 <template>
@@ -33,93 +45,17 @@ watch(checked, toggleDark)
   </div>
 
   <main class="-mt-32 pt-10 columns-1 lg:columns-2">
-    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
+    <div
+      v-for="card in cards"
+      :key="card.title"
+      class="break-inside-avoid px-4 pb-12 lg:px-8"
+    >
       <Card>
         <template #title>
-          BSN
+          {{ card.title }}
         </template>
         <template #content>
-          <BSN />
-        </template>
-      </Card>
-    </div>
-    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
-      <Card>
-        <template #title>
-          IBAN
-        </template>
-        <template #content>
-          <IBAN />
-        </template>
-      </Card>
-    </div>
-    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
-      <Card>
-        <template #title>
-          UUID
-        </template>
-        <template #content>
-          <UUID />
-        </template>
-      </Card>
-    </div>
-    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
-      <Card>
-        <template #title>
-          Password
-        </template>
-        <template #content>
-          <Password />
-        </template>
-      </Card>
-    </div>
-    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
-      <Card>
-        <template #title>
-          Bcrypt
-        </template>
-        <template #content>
-          <Bcrypt />
-        </template>
-      </Card>
-    </div>
-    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
-      <Card>
-        <template #title>
-          Timestamp
-        </template>
-        <template #content>
-          <Timestamp />
-        </template>
-      </Card>
-    </div>
-    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
-      <Card>
-        <template #title>
-          SHA256
-        </template>
-        <template #content>
-          <SHA256 />
-        </template>
-      </Card>
-    </div>
-    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
-      <Card>
-        <template #title>
-          Licence Plate
-        </template>
-        <template #content>
-          <LicencePlate />
-        </template>
-      </Card>
-    </div>
-    <div class="break-inside-avoid px-4 pb-12 lg:px-8">
-      <Card>
-        <template #title>
-          Drivers licence number
-        </template>
-        <template #content>
-          <DriversLicenseNumber />
+          <component :is="card.component" />
         </template>
       </Card>
     </div>
