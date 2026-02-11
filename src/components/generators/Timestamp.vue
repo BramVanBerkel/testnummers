@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { generateTimestamp } from '../../generators/UnixTimestampGenerator.ts'
 import { generateRelativeTime } from '../../generators/RelativeTimeGenerator.ts'
 import { ClipboardDocumentCheckIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/outline'
@@ -52,16 +52,24 @@ function updateLocaleString (): void {
   })
 }
 
+let timestampInterval: ReturnType<typeof setInterval>
+let relativeTimeInterval: ReturnType<typeof setInterval>
+
 onMounted(() => {
   updateLocaleString()
   updateUnixTimestamp() // run the function immediately when the component is mounted
-  setInterval(updateUnixTimestamp, 1000) // and update the value every second afterward
+  timestampInterval = setInterval(updateUnixTimestamp, 1000) // and update the value every second afterward
   relative.value = generateRelativeTime(new Date())
 })
 
 onMounted(() => {
   updateRelativeTime()
-  setInterval(updateRelativeTime, 1000)
+  relativeTimeInterval = setInterval(updateRelativeTime, 1000)
+})
+
+onUnmounted(() => {
+  clearInterval(timestampInterval)
+  clearInterval(relativeTimeInterval)
 })
 
 watch([year, month, day, hour, minute, second], () => {
