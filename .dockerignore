@@ -1,0 +1,14 @@
+node_modules
+dist
+dist-ssr
+.git
+.github
+.husky
+.idea
+.vscode
+.claude
+*.log
+.DS_Store
+Dockerfile
+.dockerignore
+README.md

@@ -32,6 +32,17 @@ npm install
 npm run dev
 ```
 
+<h2>🚢 Deployment</h2>
+
+<p>The site is built and served from the <code>Dockerfile</code> in this repository (Node build stage → nginx serve stage) and deployed on Coolify, which redeploys automatically on every push to <code>main</code>.</p>
+
+<p>To reproduce the production image locally:</p>
+
+```
+docker build -t testnummers .
+docker run --rm -p 8080:80 testnummers
+```
+
 <h2>💻 Built with</h2>
 
 Technologies used:
@@ -43,7 +54,6 @@ Technologies used:
 
 <h2>📝 Todo</h2>
 
-* Move to node 20
 * IBAN generator different countries ❓
 * UUID different versions generator (v7 / nil / max) ❓
 * Contact information generator:
