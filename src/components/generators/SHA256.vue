@@ -7,7 +7,7 @@ import { useGenerate } from '../../composables/useGenerate.ts'
 
 const value = ref<string>()
 const hash = ref<string>()
-const { handleCopy } = useCopy(hash, 'hash')
+const { handleCopy } = useCopy(hash, 'SHA256 hash')
 const { generate } = useGenerate(async () => {
   hash.value = await generateSHA256(value.value)
 })
