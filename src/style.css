@@ -289,13 +289,15 @@ jelly-divider {
 @media (min-width: 1024px) {
     /* Jelly sizes selects at a fixed 280px; shrink-wrapping to the current
        selection leaves the rest of the row to the value. The floor is not
-       cosmetic: jelly sizes the dropdown panel to match its trigger, so a
-       trigger narrow enough for "ASN" would truncate "Deutsche Bank" in the
-       list. 12rem clears the longest option in both selects. */
+       cosmetic: jelly paints the dropdown panel on a canvas it sizes from the
+       trigger, so the two cannot be widened independently and a trigger narrow
+       enough for "ASN" would truncate "Deutsche Bank" in the list. Each select
+       sets its own floor from its own longest option; the fallback only has to
+       keep an unset one usable. */
     .inline-select {
         flex: 0 0 auto;
         width: fit-content;
-        min-width: 12rem;
+        min-width: var(--select-min-width, 6rem);
     }
 }
 

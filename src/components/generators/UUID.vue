@@ -25,6 +25,7 @@ function onVersionChange (event: Event): void {
   <div class="field-row">
     <jelly-select
       class="inline-select"
+      style="--select-min-width: 9.5rem"
       :value.attr="UUIDVersion"
       label="UUID version"
       @change="onVersionChange"

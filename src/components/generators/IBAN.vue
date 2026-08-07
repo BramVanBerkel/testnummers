@@ -25,6 +25,7 @@ function onBankChange (event: Event): void {
   <div class="field-row">
     <jelly-select
       class="inline-select"
+      style="--select-min-width: 11.5rem"
       :value.attr="bankCode"
       label="Bank"
       @change="onBankChange"
