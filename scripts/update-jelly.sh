@@ -1,16 +1,10 @@
 #!/bin/sh
-# Rebuild the vendored Jelly UI bundle from upstream.
+# Rebuild the vendored Jelly UI bundle. See src/vendor/jelly/README.md for why
+# it is vendored and scoped.
 #
 #   usage: scripts/update-jelly.sh [<git-ref>]
 #
-# Jelly UI is not published to npm (the `jelly-ui` name belongs to an unrelated
-# package) and upstream does not commit its dist/, so we build it ourselves and
-# check the result in. src/vendor/jelly/VERSION records the exact commit built.
-#
-# Upstream's own entry point registers all 40 custom elements as top-level side
-# effects, which no bundler can tree-shake: 318 kB. We build a scoped entry
-# instead, listing only the elements this app uses, which costs 137 kB. Add a
-# line to ENTRY below when you start using another Jelly element.
+# Add a line to ENTRY below when you start using another Jelly element.
 set -eu
 
 REF="${1:-main}"
@@ -52,11 +46,8 @@ export default defineConfig({
 });
 CONFIG
 
-# The scoped build produces the JS. Types come from upstream's own build:
-# its api-extractor.json hardcodes dist/jelly.d.ts, so rollupTypes cannot be
-# pointed at another entry. The full declarations are a harmless superset -
-# they describe elements the scoped bundle does not register, so keep ENTRY
-# above and any element you reference in a template in sync by hand.
+# Two builds: upstream's for the types, ours for the scoped JS. api-extractor
+# hardcodes the unscoped entry, so the declarations cannot be scoped with it.
 (cd "$TMP/ui" && npm ci && npm run build && npx vite build --config vite.testnummers.config.ts)
 
 mkdir -p "$ROOT/src/vendor/jelly"

@@ -18,8 +18,8 @@ const LOCALE_OPTIONS: Intl.DateTimeFormatOptions = {
 const now = new Date()
 const currentTimestamp = ref<number>(generateTimestamp(now))
 
-// The single source of truth. Both editable fields are writable computeds over
-// it, so editing either one needs no re-entrancy guard.
+// Both editable fields are writable computeds over this, so neither needs a
+// re-entrancy guard.
 const date = ref<Date>(now)
 
 const timestamp = computed<number>({
@@ -41,15 +41,13 @@ const datetimeLocal = computed<string>({
 const localeString = computed<string>(() => date.value.toLocaleString('nl-NL', LOCALE_OPTIONS))
 const localeStringUTC = computed<string>(() => date.value.toLocaleString('nl-NL', { ...LOCALE_OPTIONS, timeZone: 'UTC' }))
 
-// Relative time depends on the wall clock as well as on `date`, so unlike the
-// two above it cannot be a pure computed.
+// Depends on the wall clock as well as `date`, so it cannot be a computed.
 const relative = ref<string>(generateRelativeTime(now))
 
 const { handleCopy: copyCurrentTimestamp } = useCopy(currentTimestamp, 'current timestamp')
 const { handleCopy: copyTimestamp } = useCopy(timestamp, 'unix timestamp')
 
-// A datetime-local input wants local wall-clock time, which toISOString() does
-// not give (it is always UTC).
+// datetime-local wants local wall-clock time; toISOString() is always UTC.
 function toDatetimeLocal (value: Date): string {
   const pad = (n: number): string => String(n).padStart(2, '0')
 

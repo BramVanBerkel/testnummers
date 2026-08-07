@@ -4,8 +4,6 @@
     font-display: swap;
 }
 
-/* Jelly installs its own token sheet inside @layer jelly, so unlayered rules
-   here always win the cascade regardless of specificity or load order. */
 :root {
     --jelly-font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
@@ -19,10 +17,8 @@
 
 body {
     margin: 0;
-    /* Jelly's light theme paints the page and its card surfaces the same white,
-       so cards would lose the separation they have today. Tinting the page a
-       few percent toward the foreground reproduces the current gray-100 page in
-       light mode and keeps the page darker than the cards in dark mode. */
+    /* Jelly paints the page and its cards the same white; tint the page so the
+       cards stay distinct. */
     background: color-mix(in oklab, var(--jelly-color-background-default) 96%, var(--jelly-color-foreground-default));
     color: var(--jelly-color-foreground-default);
     font: 400 16px/1.5 var(--jelly-font-text);
@@ -100,39 +96,25 @@ body {
 .card {
     break-inside: avoid;
     margin-bottom: 3rem;
-    /* Carries the z-index below. Harmless at rest: with z-index auto this is not
-       a stacking context, so the cards still paint in document order. */
+    /* Carries the z-index set while a dropdown is open. */
     position: relative;
-    /* Jelly paints every surface on a canvas that overflows its host by ~48px
-       so the wobble is never clipped. Chrome's multi-column balancer counts
-       that overflow when sizing the column, which left ~330px of dead space
-       under the shorter column. Clipping here hides it from the balancer; the
-       card's own 24px padding still leaves the controls room to wobble. */
+    /* Hides jelly's ~48px canvas bleed from Chrome's column balancer, which
+       otherwise leaves ~330px of dead space under the shorter column. */
     overflow: hidden;
-    /* Jelly drops the open attribute the moment the select is dismissed but
-       springs the panel shut over ~175ms after that, so both properties have to
-       outlast the attribute or the card re-clips over the closing animation.
-       Zero duration, pure delay: they flip back once, late. */
+    /* Both have to outlast the open attribute, which jelly drops ~175ms before
+       the panel has finished springing shut. */
     transition: overflow 0s 250ms, z-index 0s 250ms;
     transition-behavior: allow-discrete;
 }
 
-/* A select's panel is absolutely positioned inside the select, so it is taller
-   than the card it drops out of. The clip above would cut it off — worse, the
-   card is a scrollport while it clips, so jelly scrolling the active option
-   into view scrolls the whole card out from under its own title. Neither
-   happens while no dropdown is open, which is when the balancer measures. */
+/* The panel is taller than the card, and a clipping card is also a scrollport,
+   so jelly scrolling the active option into view scrolls the card itself. */
 .card:has(jelly-select[open]) {
     overflow: visible;
-    /* Jelly gives the open select z-index 9999, but that only orders it within
-       its own card. jelly-card leaves its host unstyled and puts z-index 1 on
-       the content inside its shadow, so every later card lands at 1 in the root
-       stacking context and paints over the panel; the open card has to clear
-       that 1 to sit above them. */
+    /* jelly-card puts z-index 1 on its shadow content, so every later card
+       lands at 1 and would paint over the panel. */
     z-index: 2;
-    /* Opening is not animated, so it must take effect on this frame. Transition
-       properties come from the state being entered, which makes this delay
-       apply to opening only — closing keeps the delay declared above. */
+    /* Opening is not animated; only closing needs the delay above. */
     transition-delay: 0s;
 }
 
@@ -181,23 +163,19 @@ body {
 
 /* Jelly overrides --------------------------------------------------------- */
 
-/* Jelly sizes its controls for standalone use; inside a card they should fill
-   the row instead. */
 jelly-input,
 jelly-select {
     width: 100%;
 }
 
-/* Generated values are the point of this site, so they get the mono face — and
-   they have to stay selectable, which jelly's :host user-select: none blocks. */
+/* Values have to stay selectable, which jelly's :host user-select: none blocks. */
 jelly-input::part(input) {
     font-family: var(--jelly-font-mono);
     user-select: text;
     -webkit-user-select: text;
 }
 
-/* Jelly's alert and divider are inline-level by default, which collapses the
-   divider to nothing between two block siblings. */
+/* Both are inline-level by default, which collapses the divider to nothing. */
 jelly-alert {
     display: block;
     margin-bottom: 1rem;
@@ -208,8 +186,6 @@ jelly-divider {
     margin: 1.25rem 0;
 }
 
-/* Icons slotted into jelly-icon-button live in the light DOM, so they are
-   styled from here rather than through a ::part(). */
 .btn-icon {
     width: 1.25rem;
     height: 1.25rem;
@@ -222,15 +198,12 @@ jelly-divider {
 
 /* Shared card internals --------------------------------------------------- */
 
-/* A value field with its regenerate / copy buttons beside it. */
 .field-row {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-/* Jelly inputs are 100% wide by default, which in a wrapping row would claim a
-   line of their own. In a row they take whatever the buttons leave instead. */
 .field-row > jelly-input,
 .field-row > .input-group {
     flex: 1 1 0;
@@ -238,10 +211,8 @@ jelly-divider {
     width: auto;
 }
 
-/* A value field with its regenerate / copy buttons attached to it. Jelly paints
-   every surface on its own canvas, so two controls can never share one outline
-   the way an input group does; the buttons ride inside the field's trailing
-   edge instead, which reads as the same single control. */
+/* Jelly paints every surface on its own canvas, so a field and its buttons
+   cannot share one outline; the buttons ride inside the field instead. */
 .input-group {
     position: relative;
     display: flex;
@@ -253,10 +224,8 @@ jelly-divider {
     width: auto;
 }
 
-/* Every jelly surface is painted 3px inside its host so the wobble has room, so
-   the buttons sit 5px from the field's edge to land 8px in — clear of the focus
-   ring the input insets by 4px. The same 3px on both inner edges is what
-   separates the two buttons; they need no gap of their own. */
+/* Jelly insets each surface 3px, so 5px here lands the buttons 8px into the
+   field, clear of its 4px focus ring, and separates the two by 6px. */
 .input-group-actions {
     position: absolute;
     inset-block: 0;
@@ -265,8 +234,7 @@ jelly-divider {
     align-items: center;
 }
 
-/* Keep the value clear of the buttons: one reserves its 40px plus the inset,
-   two reserve both. */
+/* Reserve the trailing space so values truncate before the buttons. */
 .input-group > jelly-input::part(input) {
     padding-inline-end: 52px;
 }
@@ -275,9 +243,7 @@ jelly-divider {
     padding-inline-end: 92px;
 }
 
-/* A picker for the value it drives (IBAN bank, UUID version). One column is too
-   narrow to share a row without hiding most of the value, so it only moves
-   beside the field once the cards go two-up. */
+/* One column is too narrow to share a row with the value. */
 .field-row:has(> .inline-select) {
     flex-wrap: wrap;
 }
@@ -287,13 +253,8 @@ jelly-divider {
 }
 
 @media (min-width: 1024px) {
-    /* Jelly sizes selects at a fixed 280px; shrink-wrapping to the current
-       selection leaves the rest of the row to the value. The floor is not
-       cosmetic: jelly paints the dropdown panel on a canvas it sizes from the
-       trigger, so the two cannot be widened independently and a trigger narrow
-       enough for "ASN" would truncate "Deutsche Bank" in the list. Each select
-       sets its own floor from its own longest option; the fallback only has to
-       keep an unset one usable. */
+    /* Jelly sizes the panel from the trigger, so a trigger narrower than the
+       longest option truncates the list. Each select sets its own floor. */
     .inline-select {
         flex: 0 0 auto;
         width: fit-content;

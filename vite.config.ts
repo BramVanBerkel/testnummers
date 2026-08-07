@@ -5,8 +5,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [
     vue({
-      // Jelly UI ships web components, so the compiler must emit `jelly-*` tags
-      // as plain elements instead of trying to resolve them as Vue components.
+      // jelly-* are web components, not Vue components.
       template: {
         compilerOptions: {
           isCustomElement: (tag) => tag.startsWith('jelly-')

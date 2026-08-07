@@ -3,9 +3,7 @@ import { setThemeMode, isDarkMode } from '../vendor/jelly/jelly.js'
 
 const STORAGE_KEY = 'theme'
 
-// Jelly forces its theme with data-jelly-mode on <html> and repaints its
-// canvases on the jelly-theme-change event setThemeMode() fires, so the only
-// thing left to own here is persistence.
+// setThemeMode() owns the DOM and the repaint; this only adds persistence.
 export function useTheme (): { isDark: Ref<boolean>, toggle: () => void } {
   const stored = localStorage.getItem(STORAGE_KEY)
 
