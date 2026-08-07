@@ -17,8 +17,6 @@
 
 body {
     margin: 0;
-    /* Jelly paints the page and its cards the same white; tint the page so the
-       cards stay distinct. */
     background: color-mix(in oklab, var(--jelly-color-background-default) 96%, var(--jelly-color-foreground-default));
     color: var(--jelly-color-foreground-default);
     font: 400 16px/1.5 var(--jelly-font-text);
@@ -107,8 +105,6 @@ body {
     transition-behavior: allow-discrete;
 }
 
-/* The panel is taller than the card, and a clipping card is also a scrollport,
-   so jelly scrolling the active option into view scrolls the card itself. */
 .card:has(jelly-select[open]) {
     overflow: visible;
     /* jelly-card puts z-index 1 on its shadow content, so every later card
@@ -175,7 +171,6 @@ jelly-input::part(input) {
     -webkit-user-select: text;
 }
 
-/* Both are inline-level by default, which collapses the divider to nothing. */
 jelly-alert {
     display: block;
     margin-bottom: 1rem;
@@ -211,8 +206,6 @@ jelly-divider {
     width: auto;
 }
 
-/* Jelly paints every surface on its own canvas, so a field and its buttons
-   cannot share one outline; the buttons ride inside the field instead. */
 .input-group {
     position: relative;
     display: flex;
@@ -224,8 +217,6 @@ jelly-divider {
     width: auto;
 }
 
-/* Jelly insets each surface 3px, so 5px here lands the buttons 8px into the
-   field, clear of its 4px focus ring, and separates the two by 6px. */
 .input-group-actions {
     position: absolute;
     inset-block: 0;
@@ -234,7 +225,6 @@ jelly-divider {
     align-items: center;
 }
 
-/* Reserve the trailing space so values truncate before the buttons. */
 .input-group > jelly-input::part(input) {
     padding-inline-end: 52px;
 }
@@ -243,7 +233,6 @@ jelly-divider {
     padding-inline-end: 92px;
 }
 
-/* One column is too narrow to share a row with the value. */
 .field-row:has(> .inline-select) {
     flex-wrap: wrap;
 }
@@ -282,7 +271,6 @@ jelly-divider {
     font-size: 1.125rem;
 }
 
-/* A native control styled to sit next to jelly's own surfaces. */
 .plain-input {
     width: 100%;
     height: 56px;

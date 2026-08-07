@@ -5,7 +5,6 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [
     vue({
-      // jelly-* are web components, not Vue components.
       template: {
         compilerOptions: {
           isCustomElement: (tag) => tag.startsWith('jelly-')

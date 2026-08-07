@@ -18,8 +18,6 @@ const LOCALE_OPTIONS: Intl.DateTimeFormatOptions = {
 const now = new Date()
 const currentTimestamp = ref<number>(generateTimestamp(now))
 
-// Both editable fields are writable computeds over this, so neither needs a
-// re-entrancy guard.
 const date = ref<Date>(now)
 
 const timestamp = computed<number>({

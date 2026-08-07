@@ -46,8 +46,7 @@ export default defineConfig({
 });
 CONFIG
 
-# Two builds: upstream's for the types, ours for the scoped JS. api-extractor
-# hardcodes the unscoped entry, so the declarations cannot be scoped with it.
+# Upstream's build for the types, ours for the scoped JS.
 (cd "$TMP/ui" && npm ci && npm run build && npx vite build --config vite.testnummers.config.ts)
 
 mkdir -p "$ROOT/src/vendor/jelly"

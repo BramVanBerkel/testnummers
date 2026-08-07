@@ -3,7 +3,6 @@ import { setThemeMode, isDarkMode } from '../vendor/jelly/jelly.js'
 
 const STORAGE_KEY = 'theme'
 
-// setThemeMode() owns the DOM and the repaint; this only adds persistence.
 export function useTheme (): { isDark: Ref<boolean>, toggle: () => void } {
   const stored = localStorage.getItem(STORAGE_KEY)
 
