@@ -60,6 +60,13 @@ function onToggle (key: keyof typeof charset, event: Event): void {
     Estimated time to bruteforce: {{ passwordScore?.estimatedCrackTime }}
   </jelly-alert>
 
+  <p class="alert-source">
+    Based on the <a
+      href="https://www.hivesystems.com/password-table"
+      target="_blank"
+    >2026 Hive Systems password table</a>
+  </p>
+
   <jelly-divider />
 
   <jelly-label

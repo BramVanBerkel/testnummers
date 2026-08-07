@@ -17,10 +17,10 @@ enum CharacterSet {
 }
 
 /**
- * average amount of hash/s for 12 RTX 5090's hashing bcrypt(10)
- * based on research from https://www.hivesystems.com/password-table
+ * aggregate hash/s for a rented 2x 8x RTX 5090 fleet hashing bcrypt(10)
+ * based on the 2026 table at https://www.hivesystems.com/password-table
  */
-const DEFAULT_ATTEMPTS_PER_SECOND = 3732000n
+const DEFAULT_ATTEMPTS_PER_SECOND = 138675n
 
 export function generatePasswordAndScore (length: number, lowercase: boolean, uppercase: boolean, numbers: boolean, symbols: boolean): GeneratedPassword {
   return {
@@ -73,6 +73,7 @@ function generateScore (length: number, lowercase: boolean, uppercase: boolean, 
   const hour = 60n * min
   const day = 24n * hour
   const year = 365n * day
+  const century = 100n * year
   const thousand = 1000n
   const million = thousand * thousand
   const billion = thousand * million
@@ -103,7 +104,7 @@ function generateScore (length: number, lowercase: boolean, uppercase: boolean, 
   else formattedSeconds = `${(seconds / (quintillion * year))}qn years`
 
   let severity: PasswordScore['severity']
-  if (seconds < year) severity = 'danger'
+  if (seconds < century) severity = 'danger'
   else if (seconds < million * year) severity = 'warning'
   else severity = 'success'
 

@@ -181,6 +181,17 @@ jelly-divider {
     margin: 1.25rem 0;
 }
 
+/* Tucked under jelly-alert's own 1rem bottom margin. */
+.alert-source {
+    margin: -0.75rem 0 0;
+    font-size: 0.75rem;
+    color: var(--jelly-color-foreground-muted);
+}
+
+.alert-source a {
+    color: inherit;
+}
+
 .btn-icon {
     width: 1.25rem;
     height: 1.25rem;
