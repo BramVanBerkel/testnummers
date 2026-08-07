@@ -273,6 +273,7 @@ jelly-divider {
 
 .plain-input {
     width: 100%;
+    min-width: 0;
     height: 56px;
     padding: 0 20px;
     border: 1px solid var(--jelly-color-background-neutral);
@@ -280,6 +281,22 @@ jelly-divider {
     background: var(--jelly-color-background-muted);
     color: var(--jelly-color-foreground-default);
     font: 500 16px/1.2 var(--jelly-font-mono);
+}
+
+/* iOS sizes the native date control to its value and ignores the width above,
+   so the field runs off the screen. -webkit-touch-callout scopes the reset to
+   iOS; other browsers keep their picker chrome, which they already lay out. */
+@supports (-webkit-touch-callout: none) {
+    .plain-input {
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    /* The reset leaves the value block with the control's own centering. */
+    .plain-input::-webkit-date-and-time-value {
+        text-align: left;
+        margin: 0;
+    }
 }
 
 .plain-input:focus {
