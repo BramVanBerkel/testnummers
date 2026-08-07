@@ -4,9 +4,8 @@ FROM node:26-alpine AS build
 
 WORKDIR /app
 
-# The `prepare` script runs husky on every `npm ci`. There is no .git in the
-# build context, so disable it rather than reaching for --ignore-scripts, which
-# would also skip vue-demi's postinstall and break @vueuse/core.
+# The `prepare` script runs husky on every `npm ci`, and there is no .git in the
+# build context for it to install hooks into.
 ENV HUSKY=0
 
 COPY package.json package-lock.json ./

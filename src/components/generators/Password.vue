@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import { generatePasswordAndScore, type PasswordScore } from '../../generators/PasswordGenerator.ts'
 import { select } from '../../helpers/select.ts'
 import GenerateButton from '../GenerateButton.vue'
@@ -9,109 +9,81 @@ import { useGenerate } from '../../composables/useGenerate.ts'
 
 const password = ref<string>()
 const length = ref<number>(12)
-const lowercase = ref<boolean>(true)
-const uppercase = ref<boolean>(true)
-const numbers = ref<boolean>(true)
-const symbols = ref<boolean>(true)
+const charset = reactive({ lowercase: true, uppercase: true, numbers: true, symbols: true })
 const passwordScore = ref<PasswordScore>()
-const { copySuccess, handleCopy } = useCopy(password)
+const { handleCopy } = useCopy(password)
 const { generateSuccess, generate } = useGenerate(() => {
-  const { password: generatedPassword, score } = generatePasswordAndScore(length.value, lowercase.value, uppercase.value, numbers.value, symbols.value)
+  const { password: generatedPassword, score } = generatePasswordAndScore(length.value, charset.lowercase, charset.uppercase, charset.numbers, charset.symbols)
   password.value = generatedPassword
   passwordScore.value = score
 })
 
-watch([length, lowercase, uppercase, numbers, symbols], () => { void generate(false) })
+const charsetLabels: Record<keyof typeof charset, string> = {
+  lowercase: 'Lowercase',
+  uppercase: 'Uppercase',
+  numbers: 'Numbers',
+  symbols: 'Symbols'
+}
+
+watch([length, charset], () => { void generate(false) })
+
+function onLengthInput (event: Event): void {
+  length.value = Number((event.target as HTMLInputElement).value)
+}
+
+function onToggle (key: keyof typeof charset, event: Event): void {
+  charset[key] = (event.target as HTMLInputElement).checked
+}
 </script>
 
 <template>
-  <div class="pb-4">
-    <InputGroup>
-      <InputText
-        :value="password"
-        readonly
-        @focus="select"
-      />
-      <GenerateButton
-        :generate-success="generateSuccess"
-        :on-click="generate"
-      />
-      <CopyButton
-        :copy-success="copySuccess"
-        :on-click="handleCopy"
-      />
-    </InputGroup>
-  </div>
-
-  <Message :severity="passwordScore?.severity">
-    Estimated time to bruteforce: {{ passwordScore?.estimatedCrackTime }}
-  </Message>
-  <Divider />
-
-  <label class="block text-xs font-semibold mb-2">Password length</label>
-
-  <div class="flex items-center gap-3 max-w-2xl">
-    <Slider
-      v-model="length"
-      :step="1"
-      :min="4"
-      :max="18"
-      class="w-full"
+  <div class="field-row field">
+    <jelly-input
+      :value.attr="password"
+      readonly
+      label="Password"
+      @focus="select"
     />
-    <div v-text="length" />
+    <GenerateButton
+      :generate-success="generateSuccess"
+      :on-click="generate"
+    />
+    <CopyButton :on-click="handleCopy" />
   </div>
 
-  <div class="grid grid-cols-2 gap-2 max-w-2xl">
-    <label for="lowercase">
-      <Checkbox
-        v-model="lowercase"
-        input-id="lowercase"
-        :binary="true"
-      />
+  <jelly-alert :tone="passwordScore?.severity">
+    Estimated time to bruteforce: {{ passwordScore?.estimatedCrackTime }}
+  </jelly-alert>
 
-      <label
-        for="lowercase"
-        class="ml-2 font-semibold"
-      >Lowercase</label>
-    </label>
+  <jelly-divider />
 
-    <label for="uppercase">
-      <Checkbox
-        v-model="uppercase"
-        input-id="uppercase"
-        :binary="true"
-      />
+  <jelly-label
+    class="field-label"
+    for="password-length"
+  >
+    Password length
+  </jelly-label>
 
-      <label
-        for="uppercase"
-        class="ml-2 font-semibold"
-      >Uppercase</label>
-    </label>
+  <div class="slider-row field">
+    <jelly-slider
+      id="password-length"
+      :value.attr="length"
+      min="4"
+      max="18"
+      step="1"
+      @input="onLengthInput"
+    />
+    <span class="slider-value">{{ length }}</span>
+  </div>
 
-    <label for="numbers">
-      <Checkbox
-        v-model="numbers"
-        input-id="numbers"
-        :binary="true"
-      />
-
-      <label
-        for="numbers"
-        class="ml-2 font-semibold"
-      >Numbers</label>
-    </label>
-
-    <label for="symbols">
-      <Checkbox
-        v-model="symbols"
-        input-id="symbols"
-        :binary="true"
-      />
-
-      <label
-        for="symbols"
-        class="ml-2 font-semibold"
-      >Symbols</label>
-    </label>
+  <div class="checkbox-grid">
+    <jelly-checkbox
+      v-for="(label, key) in charsetLabels"
+      :key="key"
+      :checked="charset[key]"
+      @change="onToggle(key, $event)"
+    >
+      {{ label }}
+    </jelly-checkbox>
   </div>
 </template>

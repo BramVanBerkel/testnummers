@@ -1,29 +1,17 @@
 <script setup lang="ts">
-import { ClipboardDocumentListIcon, ClipboardDocumentCheckIcon } from '@heroicons/vue/24/outline'
-import Tooltip from './Tooltip.vue'
+import { ClipboardDocumentListIcon } from '@heroicons/vue/24/outline'
 
 defineProps<{
-  copySuccess: boolean
   onClick: () => void
 }>()
 </script>
 
 <template>
-  <InputGroupAddon
-    class="cursor-pointer"
+  <jelly-icon-button
+    label="Copy"
+    size="small"
     @click="onClick()"
   >
-    <Tooltip
-      :show="copySuccess"
-    >
-      <ClipboardDocumentListIcon
-        :class="{hidden: copySuccess}"
-        class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"
-      />
-      <ClipboardDocumentCheckIcon
-        :class="{hidden: !copySuccess}"
-        class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"
-      />
-    </Tooltip>
-  </InputGroupAddon>
+    <ClipboardDocumentListIcon class="btn-icon" />
+  </jelly-icon-button>
 </template>

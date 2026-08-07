@@ -1,6 +1,7 @@
 export interface PasswordScore {
   estimatedCrackTime: string
-  severity: string
+  // Doubles as the tone attribute on <jelly-alert>
+  severity: 'danger' | 'warning' | 'success'
 }
 
 interface GeneratedPassword {
@@ -101,9 +102,9 @@ function generateScore (length: number, lowercase: boolean, uppercase: boolean, 
   else if (seconds < quintillion * year) formattedSeconds = `${(seconds / (quadrillion * year))}qd years`
   else formattedSeconds = `${(seconds / (quintillion * year))}qn years`
 
-  let severity = ''
-  if (seconds < year) severity = 'error'
-  else if (seconds < million * year) severity = 'warn'
+  let severity: PasswordScore['severity']
+  if (seconds < year) severity = 'danger'
+  else if (seconds < million * year) severity = 'warning'
   else severity = 'success'
 
   return {

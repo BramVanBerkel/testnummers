@@ -10,19 +10,10 @@ const generateHash = ref<string>()
 const checkInput = ref<string>()
 const checkHash = ref<string>()
 const checkSuccess = ref<boolean>()
-const generateSuccess = ref<boolean>(false)
-const { copySuccess, handleCopy } = useCopy(generateHash)
+const { handleCopy } = useCopy(generateHash)
 
-async function generate (setSuccess: boolean = true): Promise<void> {
+async function generate (): Promise<void> {
   generateHash.value = await generateBcrypt(generateInput.value)
-
-  if (setSuccess) {
-    generateSuccess.value = true
-
-    setTimeout(() => {
-      generateSuccess.value = false
-    }, 300)
-  }
 }
 
 async function check (): Promise<void> {
@@ -35,90 +26,83 @@ watch([checkInput, checkHash], debounce(check))
 </script>
 
 <template>
-  <p class="pb-4 text-lg">
+  <p class="section-heading">
     Generate hash
   </p>
 
-  <div class="pb-4">
-    <FloatLabel variant="on">
-      <InputText
-        id="generateInput"
-        v-model="generateInput"
-        class="w-full"
-      />
-      <label for="generateInput">Input</label>
-    </FloatLabel>
+  <div class="field">
+    <jelly-label
+      class="field-label"
+      for="generateInput"
+    >
+      Input
+    </jelly-label>
+    <jelly-input
+      id="generateInput"
+      v-model="generateInput"
+    />
   </div>
 
-  <div>
-    <InputGroup>
-      <FloatLabel variant="on">
-        <InputText
-          id="generateHash"
-          v-model="generateHash"
-          readonly
-          class="w-full first:rounded-t-none"
-        />
-        <label for="generateHash">Hash</label>
-      </FloatLabel>
-      <CopyButton
-        :copy-success="copySuccess"
-        :on-click="handleCopy"
+  <div class="field">
+    <jelly-label
+      class="field-label"
+      for="generateHash"
+    >
+      Hash
+    </jelly-label>
+    <div class="field-row">
+      <jelly-input
+        id="generateHash"
+        :value.attr="generateHash"
+        readonly
       />
-    </InputGroup>
+      <CopyButton :on-click="handleCopy" />
+    </div>
   </div>
 
-  <Divider />
+  <jelly-divider />
 
-  <p class="mb-4 text-lg">
+  <p class="section-heading">
     Check hash
   </p>
 
-  <div class="mb-4">
-    <FloatLabel variant="on">
-      <InputText
-        id="checkInput"
-        v-model="checkInput"
-        class="w-full rounded-b-none"
-        :class="[
-          checkSuccess === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
-          checkSuccess === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : [],
-          ['rounded-b-none']
-        ]"
-      />
-      <label for="checkInput">Input</label>
-    </FloatLabel>
+  <div class="field">
+    <jelly-label
+      class="field-label"
+      for="checkInput"
+    >
+      Input
+    </jelly-label>
+    <jelly-input
+      id="checkInput"
+      v-model="checkInput"
+    />
   </div>
 
-  <div>
-    <FloatLabel variant="on">
-      <InputText
-        id="checkHash"
-        v-model="checkHash"
-        :class="[
-          checkSuccess === true ? ['bg-green-50', 'ring-green-500', 'text-green-900'] : [],
-          checkSuccess === false ? ['bg-red-50', 'ring-red-500', 'text-red-900'] : [],
-          ['rounded-t-none']
-        ]"
-        class="w-full rounded-t-none"
-      />
-      <label for="checkHash">Hash</label>
-    </FloatLabel>
+  <div class="field">
+    <jelly-label
+      class="field-label"
+      for="checkHash"
+    >
+      Hash
+    </jelly-label>
+    <jelly-input
+      id="checkHash"
+      v-model="checkHash"
+    />
   </div>
 
-  <Message
+  <jelly-alert
     v-if="checkSuccess === true"
-    :severity="'success'"
-    class="mt-4"
+    tone="success"
   >
     Matches
-  </Message>
+  </jelly-alert>
 
-  <Message
+  <jelly-alert
     v-if="checkSuccess === false"
-    :severity="'error'"
-    class="mt-4"
+    tone="danger"
   >
     Doesn't match!
-  </Message>
+  </jelly-alert>
 </template>

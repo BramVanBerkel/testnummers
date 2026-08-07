@@ -9,36 +9,44 @@ import { useGenerate } from '../../composables/useGenerate.ts'
 
 const UUID = ref<string>()
 const UUIDVersion = ref<string>(UUIDVersions[3].code)
-const { copySuccess, handleCopy } = useCopy(UUID)
+const { handleCopy } = useCopy(UUID)
 const { generateSuccess, generate } = useGenerate(() => {
   UUID.value = generateUUID(UUIDVersion.value)
 })
 
 watch(UUIDVersion, () => { void generate(false) })
+
+function onVersionChange (event: Event): void {
+  UUIDVersion.value = (event.target as HTMLInputElement).value
+}
 </script>
 
 <template>
-  <div class="flex gap-2">
-    <Select
-      v-model="UUIDVersion"
-      :options="UUIDVersions"
-      option-label="name"
-      option-value="code"
+  <div class="field-row">
+    <jelly-select
+      class="inline-select"
+      :value.attr="UUIDVersion"
+      label="UUID version"
+      @change="onVersionChange"
+    >
+      <jelly-option
+        v-for="version in UUIDVersions"
+        :key="version.code"
+        :value.attr="version.code"
+      >
+        {{ version.name }}
+      </jelly-option>
+    </jelly-select>
+    <jelly-input
+      :value.attr="UUID"
+      readonly
+      label="UUID"
+      @focus="select"
     />
-    <InputGroup>
-      <InputText
-        :value="UUID"
-        readonly
-        @focus="select"
-      />
-      <GenerateButton
-        :generate-success="generateSuccess"
-        :on-click="generate"
-      />
-      <CopyButton
-        :copy-success="copySuccess"
-        :on-click="handleCopy"
-      />
-    </InputGroup>
+    <GenerateButton
+      :generate-success="generateSuccess"
+      :on-click="generate"
+    />
+    <CopyButton :on-click="handleCopy" />
   </div>
 </template>

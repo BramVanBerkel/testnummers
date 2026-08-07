@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { type Component } from 'vue'
-import { useDark, useToggle } from '@vueuse/core'
 import { SunIcon, MoonIcon } from '@heroicons/vue/24/outline'
+import { useTheme } from './composables/useTheme.ts'
 import Footer from './components/Footer.vue'
 import BSN from './components/generators/BSN.vue'
 import IBAN from './components/generators/IBAN.vue'
@@ -13,8 +13,7 @@ import SHA256 from './components/generators/SHA256.vue'
 import LicencePlate from './components/generators/LicencePlate.vue'
 import DriversLicenceNumber from './components/generators/DriversLicenceNumber.vue'
 
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
+const { isDark, toggle } = useTheme()
 
 const cards: Array<{ title: string, component: Component }> = [
   { title: 'BSN', component: BSN },
@@ -30,46 +29,36 @@ const cards: Array<{ title: string, component: Component }> = [
 </script>
 
 <template>
-  <div class="bg-cyan-800 pb-32 z-50">
-    <nav>
-      <div class="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
-        <div class="relative flex h-16 items-center justify-between">
-          <div class="flex flex-1 px-2 lg:ml-6">
-            <span class="text-zinc-200 text-2xl title-font antialiased">Testnummers.dev</span>
-          </div>
-          <button
-            class="text-zinc-200 hover:text-white p-2"
-            @click="toggleDark()"
-          >
-            <MoonIcon
-              v-if="!isDark"
-              class="w-6 h-6"
-            />
-            <SunIcon
-              v-else
-              class="w-6 h-6"
-            />
-          </button>
-        </div>
-      </div>
-    </nav>
-  </div>
+  <nav class="nav">
+    <div class="nav-inner">
+      <span class="nav-title">Testnummers.dev</span>
+      <button
+        class="theme-toggle"
+        :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+        @click="toggle()"
+      >
+        <MoonIcon v-if="!isDark" />
+        <SunIcon v-else />
+      </button>
+    </div>
+  </nav>
 
-  <main class="-mt-32 pt-10 columns-1 lg:columns-2">
+  <main class="cards">
     <div
       v-for="card in cards"
       :key="card.title"
-      class="break-inside-avoid px-4 pb-12 lg:px-8"
+      class="card"
     >
-      <Card>
-        <template #title>
+      <jelly-card>
+        <h2 class="card-title">
           {{ card.title }}
-        </template>
-        <template #content>
-          <component :is="card.component" />
-        </template>
-      </Card>
+        </h2>
+        <component :is="card.component" />
+      </jelly-card>
     </div>
   </main>
+
   <Footer />
+
+  <jelly-toaster />
 </template>

@@ -1,8 +1,7 @@
-import { ref, type Ref } from 'vue'
+import { type Ref } from 'vue'
+import { jellyToast } from '../vendor/jelly/jelly.js'
 
-export function useCopy<T extends Ref<string | number | undefined>> (valueRef: T): { copySuccess: Ref<boolean, boolean>, handleCopy: () => Promise<void> } {
-  const copySuccess = ref<boolean>(false)
-
+export function useCopy<T extends Ref<string | number | undefined>> (valueRef: T): { handleCopy: () => Promise<void> } {
   async function handleCopy (): Promise<void> {
     if (valueRef.value === undefined) {
       return
@@ -10,15 +9,8 @@ export function useCopy<T extends Ref<string | number | undefined>> (valueRef: T
 
     await navigator.clipboard.writeText(valueRef.value.toString())
 
-    copySuccess.value = true
-
-    setTimeout(() => {
-      copySuccess.value = false
-    }, 2000)
+    jellyToast('Copied!', { tone: 'success' })
   }
 
-  return {
-    copySuccess,
-    handleCopy
-  }
+  return { handleCopy }
 }

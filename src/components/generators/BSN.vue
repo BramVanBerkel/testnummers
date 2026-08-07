@@ -8,26 +8,24 @@ import { useCopy } from '../../composables/useCopy.ts'
 import { useGenerate } from '../../composables/useGenerate.ts'
 
 const BSN = ref<string>()
-const { copySuccess, handleCopy } = useCopy(BSN)
+const { handleCopy } = useCopy(BSN)
 const { generateSuccess, generate } = useGenerate(() => {
   BSN.value = generateBSN()
 })
 </script>
 
 <template>
-  <InputGroup>
-    <InputText
-      :value="BSN"
+  <div class="field-row">
+    <jelly-input
+      :value.attr="BSN"
       readonly
+      label="BSN"
       @focus="select"
     />
     <GenerateButton
       :generate-success="generateSuccess"
       :on-click="generate"
     />
-    <CopyButton
-      :copy-success="copySuccess"
-      :on-click="handleCopy"
-    />
-  </InputGroup>
+    <CopyButton :on-click="handleCopy" />
+  </div>
 </template>

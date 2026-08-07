@@ -8,26 +8,24 @@ import { useGenerate } from '../../composables/useGenerate.ts'
 import { generateDriversLicenceNumber } from '../../generators/DriversLicenceNumberGenerator.ts'
 
 const driversLicenceNumber = ref<string>()
-const { copySuccess, handleCopy } = useCopy(driversLicenceNumber)
+const { handleCopy } = useCopy(driversLicenceNumber)
 const { generateSuccess, generate } = useGenerate(() => {
   driversLicenceNumber.value = generateDriversLicenceNumber()
 })
 </script>
 
 <template>
-  <InputGroup>
-    <InputText
-      :value="driversLicenceNumber"
+  <div class="field-row">
+    <jelly-input
+      :value.attr="driversLicenceNumber"
       readonly
+      label="Drivers licence number"
       @focus="select"
     />
     <GenerateButton
       :generate-success="generateSuccess"
       :on-click="generate"
     />
-    <CopyButton
-      :copy-success="copySuccess"
-      :on-click="handleCopy"
-    />
-  </InputGroup>
+    <CopyButton :on-click="handleCopy" />
+  </div>
 </template>

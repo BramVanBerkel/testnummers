@@ -7,7 +7,7 @@ import { useGenerate } from '../../composables/useGenerate.ts'
 
 const value = ref<string>()
 const hash = ref<string>()
-const { copySuccess, handleCopy } = useCopy(hash)
+const { handleCopy } = useCopy(hash)
 const { generate } = useGenerate(async () => {
   hash.value = await generateSHA256(value.value)
 })
@@ -16,32 +16,33 @@ watch(value, () => { void generate() })
 </script>
 
 <template>
-  <div class="pb-4">
-    <FloatLabel variant="on">
-      <InputText
-        id="sha256-input"
-        v-model="value"
-        class="w-full rounded-b-none"
-      />
-      <label for="sha256-input">Input</label>
-    </FloatLabel>
+  <div class="field">
+    <jelly-label
+      class="field-label"
+      for="sha256-input"
+    >
+      Input
+    </jelly-label>
+    <jelly-input
+      id="sha256-input"
+      v-model="value"
+    />
   </div>
 
-  <div>
-    <InputGroup>
-      <FloatLabel variant="on">
-        <InputText
-          id="sha256-hash"
-          v-model="hash"
-          readonly
-          class="w-full first:rounded-t-none"
-        />
-        <label for="sha256-hash">Hash</label>
-      </FloatLabel>
-      <CopyButton
-        :copy-success="copySuccess"
-        :on-click="handleCopy"
+  <div class="field">
+    <jelly-label
+      class="field-label"
+      for="sha256-hash"
+    >
+      Hash
+    </jelly-label>
+    <div class="field-row">
+      <jelly-input
+        id="sha256-hash"
+        :value.attr="hash"
+        readonly
       />
-    </InputGroup>
+      <CopyButton :on-click="handleCopy" />
+    </div>
   </div>
 </template>

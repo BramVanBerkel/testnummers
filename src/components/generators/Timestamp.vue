@@ -1,309 +1,136 @@
 <script setup lang="ts">
-
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { generateTimestamp } from '../../generators/UnixTimestampGenerator.ts'
 import { generateRelativeTime } from '../../generators/RelativeTimeGenerator.ts'
-import { ClipboardDocumentCheckIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/outline'
-import Tooltip from '../Tooltip.vue'
 import { useCopy } from '../../composables/useCopy.ts'
 import CopyButton from '../CopyButton.vue'
 
+const LOCALE_OPTIONS: Intl.DateTimeFormatOptions = {
+  hour12: false,
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit'
+}
+
 const now = new Date()
-const currentTimestamp = ref<number>()
-const timestamp = ref<number>(generateTimestamp(now))
+const currentTimestamp = ref<number>(generateTimestamp(now))
+
+// The single source of truth. Both editable fields are writable computeds over
+// it, so editing either one needs no re-entrancy guard.
 const date = ref<Date>(now)
-const year = ref<number>(now.getFullYear())
-const month = ref<number>(now.getMonth() + 1)
-const day = ref<number>(now.getDate())
-const hour = ref<number>(now.getHours())
-const minute = ref<number>(now.getMinutes())
-const second = ref<number>(now.getSeconds())
-const relative = ref<string>()
-const localeString = ref<string>()
-const localeStringUTC = ref<string>()
-const { copySuccess: currentTimestampCopySuccess, handleCopy: currentTimestampHandleCopy } = useCopy(currentTimestamp)
-const { copySuccess: timestampCopySuccess, handleCopy: timestampHandleCopy } = useCopy(timestamp)
-const daysInMonth = computed<number>(() => new Date(year.value, month.value, 0).getDate())
-let updatingFromTimestamp = false
-let updatingFromFields = false
 
-function updateUnixTimestamp (): void {
-  currentTimestamp.value = generateTimestamp(new Date())
-}
+const timestamp = computed<number>({
+  get: () => generateTimestamp(date.value),
+  set: (seconds) => { date.value = new Date(seconds * 1000) }
+})
 
-function updateRelativeTime (): void {
-  relative.value = generateRelativeTime(date.value)
-}
+const datetimeLocal = computed<string>({
+  get: () => toDatetimeLocal(date.value),
+  set: (value) => {
+    const parsed = new Date(value)
 
-function updateLocaleString (): void {
-  const options: Intl.DateTimeFormatOptions = {
-    hour12: false,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
+    if (!Number.isNaN(parsed.getTime())) {
+      date.value = parsed
+    }
   }
+})
 
-  localeString.value = date.value.toLocaleString('nl-NL', options)
-  localeStringUTC.value = date.value.toLocaleString('nl-NL', {
-    ...options,
-    timeZone: 'UTC'
-  })
+const localeString = computed<string>(() => date.value.toLocaleString('nl-NL', LOCALE_OPTIONS))
+const localeStringUTC = computed<string>(() => date.value.toLocaleString('nl-NL', { ...LOCALE_OPTIONS, timeZone: 'UTC' }))
+
+// Relative time depends on the wall clock as well as on `date`, so unlike the
+// two above it cannot be a pure computed.
+const relative = ref<string>(generateRelativeTime(now))
+
+const { handleCopy: copyCurrentTimestamp } = useCopy(currentTimestamp)
+const { handleCopy: copyTimestamp } = useCopy(timestamp)
+
+// A datetime-local input wants local wall-clock time, which toISOString() does
+// not give (it is always UTC).
+function toDatetimeLocal (value: Date): string {
+  const pad = (n: number): string => String(n).padStart(2, '0')
+
+  return `${value.getFullYear()}-${pad(value.getMonth() + 1)}-${pad(value.getDate())}T${pad(value.getHours())}:${pad(value.getMinutes())}:${pad(value.getSeconds())}`
 }
 
-let timestampInterval: ReturnType<typeof setInterval>
-let relativeTimeInterval: ReturnType<typeof setInterval>
+function onTimestampInput (event: Event): void {
+  const value = (event.target as HTMLInputElement).value
+
+  if (value !== '') {
+    timestamp.value = Number(value)
+  }
+}
+
+function onDatetimeInput (event: Event): void {
+  datetimeLocal.value = (event.target as HTMLInputElement).value
+}
+
+let tick: ReturnType<typeof setInterval>
 
 onMounted(() => {
-  updateLocaleString()
-  updateUnixTimestamp() // run the function immediately when the component is mounted
-  timestampInterval = setInterval(updateUnixTimestamp, 1000) // and update the value every second afterward
-  relative.value = generateRelativeTime(new Date())
+  tick = setInterval(() => {
+    currentTimestamp.value = generateTimestamp(new Date())
+    relative.value = generateRelativeTime(date.value)
+  }, 1000)
 })
 
-onMounted(() => {
-  updateRelativeTime()
-  relativeTimeInterval = setInterval(updateRelativeTime, 1000)
-})
+onUnmounted(() => { clearInterval(tick) })
 
-onUnmounted(() => {
-  clearInterval(timestampInterval)
-  clearInterval(relativeTimeInterval)
-})
-
-watch([year, month, day, hour, minute, second], () => {
-  if (updatingFromTimestamp) return
-  updatingFromFields = true
-  date.value = new Date(year.value, month.value - 1, day.value, hour.value, minute.value, second.value)
-  timestamp.value = generateTimestamp(date.value)
-  relative.value = generateRelativeTime(date.value)
-  updatingFromFields = false
-})
-
-watch(timestamp, () => {
-  if (updatingFromFields) return
-  updatingFromTimestamp = true
-  const date = new Date(timestamp.value * 1000)
-  year.value = date.getFullYear()
-  month.value = date.getMonth() + 1
-  day.value = date.getDate()
-  hour.value = date.getHours()
-  minute.value = date.getMinutes()
-  second.value = date.getSeconds()
-  updatingFromTimestamp = false
-})
-
-// Clamp the day when the month or year changes
-watch([year, month], () => {
-  if (day.value > daysInMonth.value) {
-    day.value = daysInMonth.value
-  }
-  if (day.value < 1) {
-    day.value = 1
-  }
-})
-
-watch(date, () => { updateLocaleString() })
-
+watch(date, () => { relative.value = generateRelativeTime(date.value) })
 </script>
 
 <template>
-  <div class="flex items-center justify-center">
-    <h2 class="text-xl pr-2">
-      Current timestamp: <span
-        class="font-semibold font-mono"
-        v-text="currentTimestamp"
-      />
+  <div class="field-row field current-timestamp-row">
+    <h2 class="current-timestamp">
+      Current timestamp: <span>{{ currentTimestamp }}</span>
     </h2>
-    <Tooltip
-      :show="currentTimestampCopySuccess"
-    >
-      <Button
-        severity="secondary"
-        size="small"
-        @click="currentTimestampHandleCopy"
-      >
-        <ClipboardDocumentListIcon
-          :class="{hidden: currentTimestampCopySuccess}"
-          class="-ml-0.5 w-6 h-6 text-gray-400 transition group-hover:rotate-[-6deg]"
-        />
-        <ClipboardDocumentCheckIcon
-          :class="{hidden: !currentTimestampCopySuccess}"
-          class="-ml-0.5 w-6 h-6 text-green-600 rotate-[-10deg]"
-        />
-      </Button>
-    </Tooltip>
+    <CopyButton :on-click="copyCurrentTimestamp" />
   </div>
 
-  <Divider />
+  <jelly-divider />
 
-  <div class="pb-4">
-    <label
+  <div class="field">
+    <jelly-label
+      class="field-label"
       for="unix"
-      class="block text-sm font-medium leading-6"
-    >Unix timestamp</label>
-    <div class="mt-1 lg:w-1/2">
-      <InputGroup>
-        <FloatLabel variant="on">
-          <InputNumber
-            v-model="timestamp"
-            :format="false"
-            :input-props="{ inputmode: 'tel' }"
-            input-id="unix"
-            show-buttons
-          />
-        </FloatLabel>
-        <CopyButton
-          :copy-success="timestampCopySuccess"
-          :on-click="timestampHandleCopy"
-        />
-      </InputGroup>
+    >
+      Unix timestamp
+    </jelly-label>
+    <div class="field-row">
+      <jelly-input
+        id="unix"
+        type="number"
+        :value.attr="timestamp"
+        @input="onTimestampInput"
+      />
+      <CopyButton :on-click="copyTimestamp" />
     </div>
   </div>
 
-  <div class="columns-3 pb-4 w-auto">
-    <div>
-      <label
-        for="year"
-        class="block text-sm font-medium leading-6"
-      >Year</label>
-      <div class="mt-1">
-        <InputNumber
-          v-model="year"
-          button-layout="vertical"
-          input-id="year"
-          :min="1970"
-          :max="9000"
-          :format="false"
-          :input-props="{ inputmode: 'tel' }"
-          show-buttons
-          class="w-full"
-        />
-      </div>
-    </div>
-
-    <div>
-      <label
-        for="month"
-        class="block text-sm font-medium leading-6"
-      >Month</label>
-      <div class="mt-1">
-        <InputNumber
-          v-model="month"
-          button-layout="vertical"
-          input-id="month"
-          :min="1"
-          :max="12"
-          :format="false"
-          :input-props="{ inputmode: 'tel' }"
-          show-buttons
-          class="w-full"
-        />
-      </div>
-    </div>
-
-    <div>
-      <label
-        for="day"
-        class="block text-sm font-medium leading-6"
-      >Day</label>
-      <div class="mt-1">
-        <InputNumber
-          v-model="day"
-          button-layout="vertical"
-          input-id="day"
-          :min="1"
-          :max="daysInMonth"
-          :format="false"
-          :input-props="{ inputmode: 'tel' }"
-          show-buttons
-          class="w-full"
-        />
-      </div>
-    </div>
+  <div class="field">
+    <label
+      class="field-label"
+      for="datetime"
+    >Date &amp; time</label>
+    <input
+      id="datetime"
+      class="plain-input"
+      type="datetime-local"
+      step="1"
+      :value="datetimeLocal"
+      @input="onDatetimeInput"
+    >
   </div>
 
-  <div class="columns-3">
-    <div>
-      <label
-        for="hour"
-        class="block text-sm font-medium leading-6"
-      >Hour</label>
-      <div class="mt-1">
-        <InputNumber
-          v-model="hour"
-          button-layout="vertical"
-          input-id="hour"
-          :min="0"
-          :max="23"
-          :format="false"
-          :input-props="{ inputmode: 'tel' }"
-          show-buttons
-          class="w-full"
-        />
-      </div>
-    </div>
-
-    <div>
-      <label
-        for="minute"
-        class="block text-sm font-medium leading-6"
-      >Minute</label>
-      <div class="mt-1">
-        <InputNumber
-          v-model="minute"
-          button-layout="vertical"
-          input-id="minute"
-          :min="0"
-          :max="59"
-          :format="false"
-          :input-props="{ inputmode: 'tel' }"
-          show-buttons
-          class="w-full"
-        />
-      </div>
-    </div>
-
-    <div>
-      <label
-        for="second"
-        class="block text-sm font-medium leading-6"
-      >Second</label>
-      <div class="mt-1">
-        <InputNumber
-          v-model="second"
-          button-layout="vertical"
-          input-id="second"
-          :min="0"
-          :max="59"
-          :format="false"
-          :input-props="{ inputmode: 'tel' }"
-          show-buttons
-          class="w-full"
-        />
-      </div>
-    </div>
-  </div>
-  <div class="mt-4 grid grid-cols-2 grid-rows-3 gap-y-2 w-2/3">
-    <div class="font-semibold">
-      Local time:
-    </div>
-    <div
-      v-text="localeString"
-    />
-    <div class="font-semibold">
-      UTC:
-    </div>
-    <div
-      v-text="localeStringUTC"
-    />
-    <div class="font-semibold">
-      Relative:
-    </div>
-    <div
-      v-text="relative"
-    />
-  </div>
+  <dl class="readout">
+    <dt>Local time:</dt>
+    <dd>{{ localeString }}</dd>
+    <dt>UTC:</dt>
+    <dd>{{ localeStringUTC }}</dd>
+    <dt>Relative:</dt>
+    <dd>{{ relative }}</dd>
+  </dl>
 </template>
