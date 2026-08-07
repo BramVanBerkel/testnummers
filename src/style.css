@@ -271,7 +271,10 @@ jelly-divider {
     font-size: 1.125rem;
 }
 
-.plain-input {
+/* Imitates jelly-input's box, which has no date variant to borrow. */
+.segmented-input {
+    display: flex;
+    align-items: center;
     width: 100%;
     min-width: 0;
     height: 56px;
@@ -283,27 +286,43 @@ jelly-divider {
     font: 500 16px/1.2 var(--jelly-font-mono);
 }
 
-/* iOS sizes the native date control to its value and ignores the width above,
-   so the field runs off the screen. -webkit-touch-callout scopes the reset to
-   iOS; other browsers keep their picker chrome, which they already lay out. */
-@supports (-webkit-touch-callout: none) {
-    .plain-input {
-        -webkit-appearance: none;
-        appearance: none;
-    }
-
-    /* The reset leaves the value block with the control's own centering. */
-    .plain-input::-webkit-date-and-time-value {
-        text-align: left;
-        margin: 0;
-    }
-}
-
-.plain-input:focus {
-    outline: none;
+/* The whole shell takes the ring, the way a single input would. */
+.segmented-input:focus-within {
     border-color: var(--jelly-color-background-accent);
     background: var(--jelly-color-background-surface);
     box-shadow: 0 0 0 var(--jelly-ring-width) var(--jelly-ring-color);
+}
+
+.segment {
+    padding: 2px 0;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: inherit;
+    /* Anything under 16px makes iOS zoom the page in on focus. */
+    font: inherit;
+    text-align: center;
+}
+
+.segment:focus {
+    outline: none;
+    background: var(--jelly-color-background-accent);
+    color: var(--jelly-color-foreground-on-accent);
+}
+
+/* Safari paints its own highlight over the focused segment's background. */
+.segment::selection {
+    background: transparent;
+    color: inherit;
+}
+
+.segment-separator {
+    padding: 0 2px;
+    color: var(--jelly-color-foreground-muted);
+}
+
+.segment-gap {
+    width: 1ch;
 }
 
 .current-timestamp-row {

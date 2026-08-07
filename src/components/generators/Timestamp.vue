@@ -4,6 +4,7 @@ import { generateTimestamp } from '../../generators/UnixTimestampGenerator.ts'
 import { generateRelativeTime } from '../../generators/RelativeTimeGenerator.ts'
 import { useCopy } from '../../composables/useCopy.ts'
 import CopyButton from '../CopyButton.vue'
+import DatetimeInput from '../DatetimeInput.vue'
 
 const LOCALE_OPTIONS: Intl.DateTimeFormatOptions = {
   hour12: false,
@@ -25,17 +26,6 @@ const timestamp = computed<number>({
   set: (seconds) => { date.value = new Date(seconds * 1000) }
 })
 
-const datetimeLocal = computed<string>({
-  get: () => toDatetimeLocal(date.value),
-  set: (value) => {
-    const parsed = new Date(value)
-
-    if (!Number.isNaN(parsed.getTime())) {
-      date.value = parsed
-    }
-  }
-})
-
 const localeString = computed<string>(() => date.value.toLocaleString('nl-NL', LOCALE_OPTIONS))
 const localeStringUTC = computed<string>(() => date.value.toLocaleString('nl-NL', { ...LOCALE_OPTIONS, timeZone: 'UTC' }))
 
@@ -45,23 +35,12 @@ const relative = ref<string>(generateRelativeTime(now))
 const { canCopy: canCopyCurrentTimestamp, handleCopy: copyCurrentTimestamp } = useCopy(currentTimestamp, 'current timestamp')
 const { canCopy: canCopyTimestamp, handleCopy: copyTimestamp } = useCopy(timestamp, 'unix timestamp')
 
-// datetime-local wants local wall-clock time; toISOString() is always UTC.
-function toDatetimeLocal (value: Date): string {
-  const pad = (n: number): string => String(n).padStart(2, '0')
-
-  return `${value.getFullYear()}-${pad(value.getMonth() + 1)}-${pad(value.getDate())}T${pad(value.getHours())}:${pad(value.getMinutes())}:${pad(value.getSeconds())}`
-}
-
 function onTimestampInput (event: Event): void {
   const value = (event.target as HTMLInputElement).value
 
   if (value !== '') {
     timestamp.value = Number(value)
   }
-}
-
-function onDatetimeInput (event: Event): void {
-  datetimeLocal.value = (event.target as HTMLInputElement).value
 }
 
 let tick: ReturnType<typeof setInterval>
@@ -115,18 +94,14 @@ watch(date, () => { relative.value = generateRelativeTime(date.value) })
   </div>
 
   <div class="field">
-    <label
+    <span
+      id="datetime-label"
       class="field-label"
-      for="datetime"
-    >Date &amp; time</label>
-    <input
-      id="datetime"
-      class="plain-input"
-      type="datetime-local"
-      step="1"
-      :value="datetimeLocal"
-      @input="onDatetimeInput"
-    >
+    >Date &amp; time</span>
+    <DatetimeInput
+      v-model="date"
+      aria-labelledby="datetime-label"
+    />
   </div>
 
   <dl class="readout">
