@@ -37,16 +37,20 @@ function onBankChange (event: Event): void {
         {{ bank.name }}
       </jelly-option>
     </jelly-select>
-    <jelly-input
-      :value.attr="IBAN"
-      readonly
-      label="IBAN"
-      @focus="select"
-    />
-    <GenerateButton
-      :generate-success="generateSuccess"
-      :on-click="generate"
-    />
-    <CopyButton :on-click="handleCopy" />
+    <div class="input-group">
+      <jelly-input
+        :value.attr="IBAN"
+        readonly
+        label="IBAN"
+        @focus="select"
+      />
+      <div class="input-group-actions">
+        <GenerateButton
+          :generate-success="generateSuccess"
+          :on-click="generate"
+        />
+        <CopyButton :on-click="handleCopy" />
+      </div>
+    </div>
   </div>
 </template>

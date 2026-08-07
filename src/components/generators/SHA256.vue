@@ -36,13 +36,15 @@ watch(value, () => { void generate() })
     >
       Hash
     </jelly-label>
-    <div class="field-row">
+    <div class="input-group">
       <jelly-input
         id="sha256-hash"
         :value.attr="hash"
         readonly
       />
-      <CopyButton :on-click="handleCopy" />
+      <div class="input-group-actions">
+        <CopyButton :on-click="handleCopy" />
+      </div>
     </div>
   </div>
 </template>

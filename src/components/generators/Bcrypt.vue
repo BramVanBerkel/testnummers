@@ -50,13 +50,15 @@ watch([checkInput, checkHash], debounce(check))
     >
       Hash
     </jelly-label>
-    <div class="field-row">
+    <div class="input-group">
       <jelly-input
         id="generateHash"
         :value.attr="generateHash"
         readonly
       />
-      <CopyButton :on-click="handleCopy" />
+      <div class="input-group-actions">
+        <CopyButton :on-click="handleCopy" />
+      </div>
     </div>
   </div>
 

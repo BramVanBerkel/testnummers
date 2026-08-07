@@ -37,18 +37,20 @@ function onToggle (key: keyof typeof charset, event: Event): void {
 </script>
 
 <template>
-  <div class="field-row field">
+  <div class="input-group field">
     <jelly-input
       :value.attr="password"
       readonly
       label="Password"
       @focus="select"
     />
-    <GenerateButton
-      :generate-success="generateSuccess"
-      :on-click="generate"
-    />
-    <CopyButton :on-click="handleCopy" />
+    <div class="input-group-actions">
+      <GenerateButton
+        :generate-success="generateSuccess"
+        :on-click="generate"
+      />
+      <CopyButton :on-click="handleCopy" />
+    </div>
   </div>
 
   <jelly-alert :tone="passwordScore?.severity">

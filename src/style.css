@@ -203,10 +203,48 @@ jelly-divider {
 
 /* Jelly inputs are 100% wide by default, which in a wrapping row would claim a
    line of their own. In a row they take whatever the buttons leave instead. */
-.field-row > jelly-input {
+.field-row > jelly-input,
+.field-row > .input-group {
     flex: 1 1 0;
     min-width: 0;
     width: auto;
+}
+
+/* A value field with its regenerate / copy buttons attached to it. Jelly paints
+   every surface on its own canvas, so two controls can never share one outline
+   the way an input group does; the buttons ride inside the field's trailing
+   edge instead, which reads as the same single control. */
+.input-group {
+    position: relative;
+    display: flex;
+}
+
+.input-group > jelly-input {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+}
+
+/* Every jelly surface is painted 3px inside its host so the wobble has room, so
+   the buttons sit 5px from the field's edge to land 8px in — clear of the focus
+   ring the input insets by 4px. The same 3px on both inner edges is what
+   separates the two buttons; they need no gap of their own. */
+.input-group-actions {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 5px;
+    display: flex;
+    align-items: center;
+}
+
+/* Keep the value clear of the buttons: one reserves its 40px plus the inset,
+   two reserve both. */
+.input-group > jelly-input::part(input) {
+    padding-inline-end: 52px;
+}
+
+.input-group:has(.input-group-actions > * + *) > jelly-input::part(input) {
+    padding-inline-end: 92px;
 }
 
 /* A picker for the value it drives (IBAN bank, UUID version). One column is too

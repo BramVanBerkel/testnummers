@@ -99,14 +99,16 @@ watch(date, () => { relative.value = generateRelativeTime(date.value) })
     >
       Unix timestamp
     </jelly-label>
-    <div class="field-row">
+    <div class="input-group">
       <jelly-input
         id="unix"
         type="number"
         :value.attr="timestamp"
         @input="onTimestampInput"
       />
-      <CopyButton :on-click="copyTimestamp" />
+      <div class="input-group-actions">
+        <CopyButton :on-click="copyTimestamp" />
+      </div>
     </div>
   </div>
 

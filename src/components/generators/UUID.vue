@@ -37,16 +37,20 @@ function onVersionChange (event: Event): void {
         {{ version.name }}
       </jelly-option>
     </jelly-select>
-    <jelly-input
-      :value.attr="UUID"
-      readonly
-      label="UUID"
-      @focus="select"
-    />
-    <GenerateButton
-      :generate-success="generateSuccess"
-      :on-click="generate"
-    />
-    <CopyButton :on-click="handleCopy" />
+    <div class="input-group">
+      <jelly-input
+        :value.attr="UUID"
+        readonly
+        label="UUID"
+        @focus="select"
+      />
+      <div class="input-group-actions">
+        <GenerateButton
+          :generate-success="generateSuccess"
+          :on-click="generate"
+        />
+        <CopyButton :on-click="handleCopy" />
+      </div>
+    </div>
   </div>
 </template>

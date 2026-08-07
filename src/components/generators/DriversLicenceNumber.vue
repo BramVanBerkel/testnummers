@@ -15,17 +15,19 @@ const { generateSuccess, generate } = useGenerate(() => {
 </script>
 
 <template>
-  <div class="field-row">
+  <div class="input-group">
     <jelly-input
       :value.attr="driversLicenceNumber"
       readonly
       label="Drivers licence number"
       @focus="select"
     />
-    <GenerateButton
-      :generate-success="generateSuccess"
-      :on-click="generate"
-    />
-    <CopyButton :on-click="handleCopy" />
+    <div class="input-group-actions">
+      <GenerateButton
+        :generate-success="generateSuccess"
+        :on-click="generate"
+      />
+      <CopyButton :on-click="handleCopy" />
+    </div>
   </div>
 </template>
