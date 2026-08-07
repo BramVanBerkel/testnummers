@@ -9,7 +9,7 @@ import { useGenerate } from '../../composables/useGenerate.ts'
 
 const IBAN = ref<string>()
 const bankCode = ref<string>(banks[1].code)
-const { handleCopy } = useCopy(IBAN)
+const { handleCopy } = useCopy(IBAN, 'IBAN')
 const { generateSuccess, generate } = useGenerate(() => {
   IBAN.value = generateIBAN(bankCode.value)
 })

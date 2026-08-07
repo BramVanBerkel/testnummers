@@ -8,7 +8,7 @@ import { useCopy } from '../../composables/useCopy.ts'
 import { useGenerate } from '../../composables/useGenerate.ts'
 
 const BSN = ref<string>()
-const { handleCopy } = useCopy(BSN)
+const { handleCopy } = useCopy(BSN, 'BSN')
 const { generateSuccess, generate } = useGenerate(() => {
   BSN.value = generateBSN()
 })

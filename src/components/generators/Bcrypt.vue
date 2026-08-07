@@ -10,7 +10,7 @@ const generateHash = ref<string>()
 const checkInput = ref<string>()
 const checkHash = ref<string>()
 const checkSuccess = ref<boolean>()
-const { handleCopy } = useCopy(generateHash)
+const { handleCopy } = useCopy(generateHash, 'hash')
 
 async function generate (): Promise<void> {
   generateHash.value = await generateBcrypt(generateInput.value)

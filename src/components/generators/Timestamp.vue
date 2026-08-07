@@ -45,8 +45,8 @@ const localeStringUTC = computed<string>(() => date.value.toLocaleString('nl-NL'
 // two above it cannot be a pure computed.
 const relative = ref<string>(generateRelativeTime(now))
 
-const { handleCopy: copyCurrentTimestamp } = useCopy(currentTimestamp)
-const { handleCopy: copyTimestamp } = useCopy(timestamp)
+const { handleCopy: copyCurrentTimestamp } = useCopy(currentTimestamp, 'current timestamp')
+const { handleCopy: copyTimestamp } = useCopy(timestamp, 'unix timestamp')
 
 // A datetime-local input wants local wall-clock time, which toISOString() does
 // not give (it is always UTC).

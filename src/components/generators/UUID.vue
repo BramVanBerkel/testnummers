@@ -9,7 +9,7 @@ import { useGenerate } from '../../composables/useGenerate.ts'
 
 const UUID = ref<string>()
 const UUIDVersion = ref<string>(UUIDVersions[3].code)
-const { handleCopy } = useCopy(UUID)
+const { handleCopy } = useCopy(UUID, 'UUID')
 const { generateSuccess, generate } = useGenerate(() => {
   UUID.value = generateUUID(UUIDVersion.value)
 })
