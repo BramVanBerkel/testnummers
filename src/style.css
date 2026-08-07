@@ -108,6 +108,22 @@ body {
     overflow: hidden;
 }
 
+/* A select's panel is absolutely positioned inside the select, so it is taller
+   than the card it drops out of. The clip above would cut it off — worse, the
+   card is a scrollport while it clips, so jelly scrolling the active option
+   into view scrolls the whole card out from under its own title. Neither
+   happens while no dropdown is open, which is when the balancer measures. */
+.card:has(jelly-select[open]) {
+    overflow: visible;
+    /* Jelly gives the open select z-index 9999, but that only orders it within
+       its own card. jelly-card leaves its host unstyled and puts z-index 1 on
+       the content inside its shadow, so every later card lands at 1 in the root
+       stacking context and paints over the panel; the open card has to clear
+       that 1 to sit above them. */
+    position: relative;
+    z-index: 2;
+}
+
 .card-title {
     margin: 0 0 1rem;
     font-size: 1.25rem;
@@ -260,11 +276,14 @@ jelly-divider {
 
 @media (min-width: 1024px) {
     /* Jelly sizes selects at a fixed 280px; shrink-wrapping to the current
-       selection leaves the rest of the row to the value. */
+       selection leaves the rest of the row to the value. The floor is not
+       cosmetic: jelly sizes the dropdown panel to match its trigger, so a
+       trigger narrow enough for "ASN" would truncate "Deutsche Bank" in the
+       list. 12rem clears the longest option in both selects. */
     .inline-select {
         flex: 0 0 auto;
         width: fit-content;
-        min-width: 6rem;
+        min-width: 12rem;
     }
 }
 
