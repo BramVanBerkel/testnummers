@@ -100,12 +100,21 @@ body {
 .card {
     break-inside: avoid;
     margin-bottom: 3rem;
+    /* Carries the z-index below. Harmless at rest: with z-index auto this is not
+       a stacking context, so the cards still paint in document order. */
+    position: relative;
     /* Jelly paints every surface on a canvas that overflows its host by ~48px
        so the wobble is never clipped. Chrome's multi-column balancer counts
        that overflow when sizing the column, which left ~330px of dead space
        under the shorter column. Clipping here hides it from the balancer; the
        card's own 24px padding still leaves the controls room to wobble. */
     overflow: hidden;
+    /* Jelly drops the open attribute the moment the select is dismissed but
+       springs the panel shut over ~175ms after that, so both properties have to
+       outlast the attribute or the card re-clips over the closing animation.
+       Zero duration, pure delay: they flip back once, late. */
+    transition: overflow 0s 250ms, z-index 0s 250ms;
+    transition-behavior: allow-discrete;
 }
 
 /* A select's panel is absolutely positioned inside the select, so it is taller
@@ -120,8 +129,11 @@ body {
        the content inside its shadow, so every later card lands at 1 in the root
        stacking context and paints over the panel; the open card has to clear
        that 1 to sit above them. */
-    position: relative;
     z-index: 2;
+    /* Opening is not animated, so it must take effect on this frame. Transition
+       properties come from the state being entered, which makes this delay
+       apply to opening only — closing keeps the delay declared above. */
+    transition-delay: 0s;
 }
 
 .card-title {
