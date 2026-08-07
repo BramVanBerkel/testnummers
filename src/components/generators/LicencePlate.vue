@@ -8,7 +8,7 @@ import { useCopy } from '../../composables/useCopy.ts'
 import { useGenerate } from '../../composables/useGenerate.ts'
 
 const licencePlate = ref<string>()
-const { handleCopy } = useCopy(licencePlate, 'licence plate')
+const { canCopy, handleCopy } = useCopy(licencePlate, 'licence plate')
 const { generateSuccess, generate } = useGenerate(() => {
   licencePlate.value = generateLicencePlate()
 })
@@ -27,7 +27,10 @@ const { generateSuccess, generate } = useGenerate(() => {
         :generate-success="generateSuccess"
         :on-click="generate"
       />
-      <CopyButton :on-click="handleCopy" />
+      <CopyButton
+        :on-click="handleCopy"
+        :disabled="!canCopy"
+      />
     </div>
   </div>
 </template>

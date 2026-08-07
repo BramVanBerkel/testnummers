@@ -9,7 +9,7 @@ import { useGenerate } from '../../composables/useGenerate.ts'
 
 const UUID = ref<string>()
 const UUIDVersion = ref<string>(UUIDVersions[3].code)
-const { handleCopy } = useCopy(UUID, 'UUID')
+const { canCopy, handleCopy } = useCopy(UUID, 'UUID')
 const { generateSuccess, generate } = useGenerate(() => {
   UUID.value = generateUUID(UUIDVersion.value)
 })
@@ -50,7 +50,10 @@ function onVersionChange (event: Event): void {
           :generate-success="generateSuccess"
           :on-click="generate"
         />
-        <CopyButton :on-click="handleCopy" />
+        <CopyButton
+          :on-click="handleCopy"
+          :disabled="!canCopy"
+        />
       </div>
     </div>
   </div>

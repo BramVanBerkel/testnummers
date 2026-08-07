@@ -11,7 +11,7 @@ const password = ref<string>()
 const length = ref<number>(12)
 const charset = reactive({ lowercase: true, uppercase: true, numbers: true, symbols: true })
 const passwordScore = ref<PasswordScore>()
-const { handleCopy } = useCopy(password, 'password')
+const { canCopy, handleCopy } = useCopy(password, 'password')
 const { generateSuccess, generate } = useGenerate(() => {
   const { password: generatedPassword, score } = generatePasswordAndScore(length.value, charset.lowercase, charset.uppercase, charset.numbers, charset.symbols)
   password.value = generatedPassword
@@ -49,7 +49,10 @@ function onToggle (key: keyof typeof charset, event: Event): void {
         :generate-success="generateSuccess"
         :on-click="generate"
       />
-      <CopyButton :on-click="handleCopy" />
+      <CopyButton
+        :on-click="handleCopy"
+        :disabled="!canCopy"
+      />
     </div>
   </div>
 

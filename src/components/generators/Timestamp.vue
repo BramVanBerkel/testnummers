@@ -42,8 +42,8 @@ const localeStringUTC = computed<string>(() => date.value.toLocaleString('nl-NL'
 // Depends on the wall clock as well as `date`, so it cannot be a computed.
 const relative = ref<string>(generateRelativeTime(now))
 
-const { handleCopy: copyCurrentTimestamp } = useCopy(currentTimestamp, 'current timestamp')
-const { handleCopy: copyTimestamp } = useCopy(timestamp, 'unix timestamp')
+const { canCopy: canCopyCurrentTimestamp, handleCopy: copyCurrentTimestamp } = useCopy(currentTimestamp, 'current timestamp')
+const { canCopy: canCopyTimestamp, handleCopy: copyTimestamp } = useCopy(timestamp, 'unix timestamp')
 
 // datetime-local wants local wall-clock time; toISOString() is always UTC.
 function toDatetimeLocal (value: Date): string {
@@ -83,7 +83,10 @@ watch(date, () => { relative.value = generateRelativeTime(date.value) })
     <h2 class="current-timestamp">
       Current timestamp: <span>{{ currentTimestamp }}</span>
     </h2>
-    <CopyButton :on-click="copyCurrentTimestamp" />
+    <CopyButton
+      :on-click="copyCurrentTimestamp"
+      :disabled="!canCopyCurrentTimestamp"
+    />
   </div>
 
   <jelly-divider />
@@ -103,7 +106,10 @@ watch(date, () => { relative.value = generateRelativeTime(date.value) })
         @input="onTimestampInput"
       />
       <div class="input-group-actions">
-        <CopyButton :on-click="copyTimestamp" />
+        <CopyButton
+          :on-click="copyTimestamp"
+          :disabled="!canCopyTimestamp"
+        />
       </div>
     </div>
   </div>

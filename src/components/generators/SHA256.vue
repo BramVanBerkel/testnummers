@@ -7,7 +7,7 @@ import { useGenerate } from '../../composables/useGenerate.ts'
 
 const value = ref<string>()
 const hash = ref<string>()
-const { handleCopy } = useCopy(hash, 'SHA256 hash')
+const { canCopy, handleCopy } = useCopy(hash, 'SHA256 hash')
 const { generate } = useGenerate(async () => {
   hash.value = await generateSHA256(value.value)
 })
@@ -43,7 +43,10 @@ watch(value, () => { void generate() })
         readonly
       />
       <div class="input-group-actions">
-        <CopyButton :on-click="handleCopy" />
+        <CopyButton
+          :on-click="handleCopy"
+          :disabled="!canCopy"
+        />
       </div>
     </div>
   </div>

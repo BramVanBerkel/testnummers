@@ -8,7 +8,7 @@ import { useGenerate } from '../../composables/useGenerate.ts'
 import { generateDriversLicenceNumber } from '../../generators/DriversLicenceNumberGenerator.ts'
 
 const driversLicenceNumber = ref<string>()
-const { handleCopy } = useCopy(driversLicenceNumber, 'drivers licence number')
+const { canCopy, handleCopy } = useCopy(driversLicenceNumber, 'drivers licence number')
 const { generateSuccess, generate } = useGenerate(() => {
   driversLicenceNumber.value = generateDriversLicenceNumber()
 })
@@ -27,7 +27,10 @@ const { generateSuccess, generate } = useGenerate(() => {
         :generate-success="generateSuccess"
         :on-click="generate"
       />
-      <CopyButton :on-click="handleCopy" />
+      <CopyButton
+        :on-click="handleCopy"
+        :disabled="!canCopy"
+      />
     </div>
   </div>
 </template>

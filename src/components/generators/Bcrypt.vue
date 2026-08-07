@@ -10,7 +10,7 @@ const generateHash = ref<string>()
 const checkInput = ref<string>()
 const checkHash = ref<string>()
 const checkSuccess = ref<boolean>()
-const { handleCopy } = useCopy(generateHash, 'bcrypt hash')
+const { canCopy, handleCopy } = useCopy(generateHash, 'bcrypt hash')
 
 async function generate (): Promise<void> {
   generateHash.value = await generateBcrypt(generateInput.value)
@@ -57,7 +57,10 @@ watch([checkInput, checkHash], debounce(check))
         readonly
       />
       <div class="input-group-actions">
-        <CopyButton :on-click="handleCopy" />
+        <CopyButton
+          :on-click="handleCopy"
+          :disabled="!canCopy"
+        />
       </div>
     </div>
   </div>
